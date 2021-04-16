@@ -70,7 +70,7 @@ app.on("activate", () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
+
 ipcMain.on("app_version", event => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
@@ -85,4 +85,4 @@ autoUpdater.on("update-downloaded", () => {
 ipcMain.on("restart_app", () => {
   autoUpdater.quitAndInstall();
 });
-*/
+
