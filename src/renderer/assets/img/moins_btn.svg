@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50.737" height="21.563" viewBox="0 0 50.737 21.563">
+  <g id="Groupe_395" data-name="Groupe 395" transform="translate(-262 -385.011)">
+    <g id="Groupe_381" data-name="Groupe 381" transform="translate(-21.201 -140)">
+      <rect id="Rectangle_92" data-name="Rectangle 92" width="37" height="9" transform="translate(293.201 534)" fill="#c97005"/>
+    </g>
+    <g id="Groupe_393" data-name="Groupe 393">
+      <path id="Tracé_814" data-name="Tracé 814" d="M10.953,40.328v3.61H3.734v-3.61ZM0,40.079H3.61V3.734H0ZM10.953,3.485V0H3.734V3.61S10.953,3.61,10.953,3.485Zm0,36.594h3.61V3.734h-3.61Z" transform="translate(268.799 406.574) rotate(-90)" fill="#c97005"/>
+      <g id="Groupe_306" data-name="Groupe 306" transform="translate(-28 -147)">
+        <g id="fleche" transform="translate(177.736 669.769) rotate(180)">
+          <path id="Tracé_814-2" data-name="Tracé 814" d="M22.5,51.415v3.922H14.657V51.415Zm-11.9-.27h3.922V11.657H10.6ZM22.5,11.386V7.6H14.657v3.922S22.5,11.522,22.5,11.386Zm0,39.758h3.922V11.657H22.5Z" transform="translate(-104.663 111.336) rotate(90)" fill="#fff222"/>
+        </g>
+        <rect id="Rectangle_92-2" data-name="Rectangle 92" width="40" height="9" transform="translate(294 535)" fill="#fff222"/>
+      </g>
+    </g>
+  </g>
+</svg>

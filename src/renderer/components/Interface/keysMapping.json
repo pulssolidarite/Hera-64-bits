@@ -1,0 +1,41 @@
+{
+    "Pacman": 
+        { 
+            "j_up": "Haut",
+            "j_down": "Bas",
+            "j_right": "Droite",
+            "j_left": "Gauche",
+            "x": "Rien",
+            "y": "Rien",
+            "a": "Rien",
+            "b": "Rien",
+            "l": "Rien",
+            "r": "Rien"
+        },
+    "Sonic": 
+        {
+            "j_up": "Haut",
+            "j_down": "Bas",
+            "j_right": "Droite",
+            "j_left": "Gauche",
+            "x": "Sauter",
+            "y": "Accelérer",
+            "a": "",
+            "b": "",
+            "l": "",
+            "r": ""
+        },
+    "Tetris": 
+        {
+            "j_up": "",
+            "j_down": "Accelérer",
+            "j_right": "Droite",
+            "j_left": "Gauche",
+            "x": "Valider",
+            "y": "Rotation",
+            "a": "",
+            "b": "",
+            "l": "",
+            "r": ""
+        }              
+}

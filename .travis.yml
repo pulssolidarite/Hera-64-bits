@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+ - 12.20.0
+
+os: 
+ - linux
+
+arch:
+  - arm64
