@@ -1,13 +1,13 @@
 {
   "name": "puls-arcade",
-  "version": "3.3.9",
+  "version": "3.4.0",
   "author": "Moncef HILALI, Yoann BOUGE, Fabien BLIN",
   "description": "A complete system to manage Arcade terminal capable of running retro games with donations management.",
   "license": "GNU AGPLv3",
   "main": "./dist/electron/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pulssolidarite/arcade-sys-v3.git"
+    "url": "https://github.com/pulssolidarite/Hera-64-bits.git"
   },
   "scripts": {
     "build": "node .electron-vue/build.js",
@@ -30,7 +30,7 @@
       {
         "provider": "github",
         "owner": "pulssolidarite",
-        "repo": "arcade-sys-v3"
+        "repo": "Hera-64-bits"
       }
     ],
     "directories": {
