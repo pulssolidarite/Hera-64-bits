@@ -1,6 +1,6 @@
 'use strict'
 
-process.env.NODE_ENV = 'dev'
+process.env.NODE_ENV = 'production'
 
 const { say } = require('cfonts')
 const chalk = require('chalk')

@@ -51,7 +51,8 @@ app.on("ready", () => {
 });
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+  console.log(process.platform);
+  if (process.platform !== "linux") {
     app.quit();
   }
 });
@@ -70,7 +71,7 @@ app.on("activate", () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-
+/*
 ipcMain.on("app_version", event => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
@@ -86,3 +87,4 @@ ipcMain.on("restart_app", () => {
   autoUpdater.quitAndInstall();
 });
 
+*/
