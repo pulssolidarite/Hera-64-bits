@@ -1,4 +1,4 @@
-# Installation Nouvelle Borne Arcade Puls Impact
+# Guide to Puls Arcade on AMD 64 with Ubuntu LTS
 
 This guide is made to help install all the software and configure the Debian for the Puls Impact arcade machine. If you have a SD card save of this config, you may use it and adapt the configurations for the specifics.
 
