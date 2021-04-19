@@ -235,6 +235,7 @@ export default {
       .get("terminal/mine/")
       .then((resp) => {
         this.terminal = resp.data.terminal;
+        this.session.terminal = this.terminal;
         this.campaigns = resp.data.campaigns;
         this.games = resp.data.games;
 
@@ -363,7 +364,7 @@ export default {
       this.$http
         .post("donator/", {})
         .then((resp) => {
-          this.session.terminal = this.terminal; // Binding the terminal to the session
+          // this.session.terminal = this.terminal; // Binding the terminal to the session
           this.session.start_global = new Date(); // Starting global timer for session
           this.session.donator = resp.data; // Binding the donator to the session
           this.loading = false;
