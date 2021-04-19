@@ -1,48 +1,48 @@
-# Guide to Puls Arcade on AMD 64 with Ubuntu LTS
+# Guide to Puls Arcade on AMD 64 with Ubuntu
 
-This guide is made to help install all the software and configure the Debian for the Puls Impact arcade machine. If you have a SD card save of this config, you may use it and adapt the configurations for the specifics.
+This guide is made to help install all the software and configure the Ubuntu 20.04 LTS for the Puls Arcade.
 
-## Installation nouvelle borne
+## Install the OS
 
-Download the raspberry OS **FULL** from [https://www.raspberrypi.org/downloads/raspberry-pi-os/](https://www.raspberrypi.org/downloads/raspberry-pi-os/)
+Download Ubunutu LTS from [https://www.ubuntu-fr.org/download/](https://www.ubuntu-fr.org/download/)
 
-Download the imager for your OS (Windows, Linux, Mac) from [https://www.raspberrypi.org/downloads/](https://www.raspberrypi.org/downloads/)
+Download an imager for your OS (Windows, Linux, Mac) and format a USB stick with the Ubunutu boot image
 
-Flash the SD card
+Install Ubuntu :
+- allow session to open without password
+- allow third party PPA
+- use entire disk
 
-When the SD card is pluged
+When installation is over, go in BIOS and :
+- allow Ubuntu to boot
+- under the chipset config allow boot on power
 
-> **Warning:** Keyboard is most probably in qwerty (GB) by default
+Configure Ubuntu :
+- share one ethernet port with other devices (for EMV)
+- empêcher l'écran de se mettre en veille
 
-Default login : pi
-
-Default password : raspberry
-
-## Configuration
-
-`$ sudo raspi-config`
-
-Go to **7 - Advanced Options**
-- **3 - Memory Split**
-- - replace 64 by 512 minimum and reboot
-
-## Update Linux
+## Install Software
 
 `$ sudo apt-get update`
 
 `$ sudo apt-get upgrade`
 
-`$ sudo apt-get install git snapd xscreensaver arp-scan xserver-xorg-input-joystick`
+arp-scan is a tool for EMV detection
+xserver-xorg-input-joystick allows mouse control with the gamepad
+AnyDesk ensures secure and reliable remote desktop connections for maintenace
 
-`$ sudo snap install core`
+`$ sudo apt-get install arp-scan xserver-xorg-input-joystick anydesk`
 
-`$ sudo reboot now`
+> arp-scan needs to have root permissions.
+> `# visudo`
+> add this permission : %sudo ALL = (ALL) NOPASSWD: /usr/sbin/arp-scan
+> test with `$ sudo arp-scan --localnet`
 
 ## Download & Install Retroarch
 
-Follow this link : https://gist.github.com/ematysek/fc01a47c7d34f0ca4dad41226c53ff6e
+Add the PPA and install retroarch for Ubuntu : https://www.retroarch.com/index.php?page=linux-instructions
 
-Go to **Online Updater**
+Open Retroarch and go to **Online Updater** :
 - Download Assets (optional)
 - Download Joypad Profiles
 - esc to exit
@@ -50,7 +50,7 @@ Go to **Online Updater**
 
 Go To **Notifications** and turn all off
 
-## Download and install Puls Impact Overlay
+## Install Mono for EMV's exectuable
 
 Install mono-complete : https://www.mono-project.com/download/stable/#download-lin-raspbian
 
@@ -62,13 +62,11 @@ Go to PayterPay repository and compile:
 
 Move PayterPay/bin/Release/ to home/ and rename it Payter/
 
-Download latest App Image release of arcade-sys-v3 and place it in home directory.
-
-`$ chmod a+x PULS-ARCADE.AppImage`
+## PULS-ARCADE.AppImage
 
 Add these two lines at the end of `/etc/environment` :
 
-> Warning : Make sure to create a new terminal (and activate it) on the Admin Panel and use the logins for following step.
+> Warning : Make sure to create a new terminal (and activate it) in the Admin Panel and use the logins for following step.
 
 `export PULS_LOGIN=???`
 
@@ -78,52 +76,27 @@ Add these two lines at the end of `/etc/environment` :
 
 `export PULS_SKIPPAYMENT=TRUE`
 
-`$ source /etc/environment`
+Download latest AppImage release of Hera and place it in home directory. Grant permissions.
 
-Test the overlay
+`$ chmod a+x PULS-ARCADE.AppImage`
+
+Test the GUI
 
 `$ ./PULS-ARCADE.AppImage`
 
-> Info : If the first screen stays white, restart the overlay
-
+> Tip : If the first screen stays white, restart the AppImage.
 
 ## Autostart AppImage 
 
-Go into autostart file in LXDE-pi directory :
+Use the meta screen of Ubuntu to find the "application" manager and add a application to the board.
+Write "~/PULS-ARCADE.AppImage" in the Command field and save with a name like "Puls-Arcade".
+On next boot the 
 
-`sudo nano /etc/xdg/lxsession/LXDE-pi/autostart`
+## Local Net & Internet
 
-And add at the end, the path to AppImage : 
-
-`@~/PULS-ARCADE.AppImage`
-
-WARNING : The version number need to be change for each update of the application. 
-
-You can comment the @lxpanel line to disable the toolbar on desktop
-
-You can comment the @pcmanfm line to disable desktop
-
-You can comment the @screensaver line to disable screensaver
-
-## Borne en connexion WIFI
-
-`sudo apt-get install network-manager network-manager-gnome`
-
-`sudo systemctl stop dhcpcd.service`
-
-`sudo systemctl disable dhcpcd.service`
-
-`sudo systemctl enable NetworkManager.service`
-
-`sudo systemctl start NetworkManager.service`
-
-Reboot
-
-Activer le wifi
-
-Click droit sur l'icone réseau dans la barre des tâches -> Modifier les réseaux -> Modifier connexion ethernet (cablée) -> IPV4 -> Partager avec d'autre appareils.
-
-Reboot toute la borne
+Le Wifi se configure simplement à l'installation de l'OS ou directement chez l'usager avec le gestionnaire réseau d'Ubuntu.
+Si ce n'est pas déjà fait, il faut partager un port ethernet aux autres ordinat
+Sur le barebone AsRock il y a deux ports Ethernet ce qui permet de partage le premier au réseau interne de la borne et le deuxième comme connexion directe. Ceci permêt des usages plus polyvalents pour l'usager (wifi + ethernet).
 
 Magie ça marche ! si tout est branché...
 
