@@ -30,6 +30,8 @@ Configure Ubuntu :
 arp-scan is a tool for EMV detection
 xserver-xorg-input-joystick allows mouse control with the gamepad
 
+`$ sudo apt-get --fix-broken install`
+
 `$ sudo apt-get install arp-scan xserver-xorg-input-joystick`
 
 Install AnyDesk from website https://anydesk.com/en/downloads/linux
