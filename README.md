@@ -59,6 +59,7 @@ The EMV binary can be found in the Payter repository under releases as a zip fil
 
 Install mono-xsp4 : https://www.mono-project.com/download/stable/#download-lin-ubuntu
 
+If for some obscure reason you need to recompile the Payter project, here is how is done using mono-complete:
 `git clone https://github.com/pulssolidarite/PayterPay.git`
 
 Go to PayterPay repository and compile:
