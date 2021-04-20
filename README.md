@@ -31,7 +31,7 @@ arp-scan is a tool for EMV detection
 xserver-xorg-input-joystick allows mouse control with the gamepad
 AnyDesk ensures secure and reliable remote desktop connections for maintenace
 
-`$ sudo apt-get install arp-scan xserver-xorg-input-joystick anydesk`
+`$ sudo apt-get install arp-scan xserver-xorg-input-joystick`
 
 > arp-scan needs to have root permissions.
 > `# visudo`
