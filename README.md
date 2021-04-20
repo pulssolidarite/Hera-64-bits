@@ -55,7 +55,7 @@ Go To **Notifications** and turn all off
 
 ## Install Mono for EMV's exectuable
 
-Install mono-complete : https://www.mono-project.com/download/stable/#download-lin-raspbian
+Install mono-complete : https://www.mono-project.com/download/stable/#download-lin-ubuntu
 
 `git clone https://github.com/pulssolidarite/PayterPay.git`
 
