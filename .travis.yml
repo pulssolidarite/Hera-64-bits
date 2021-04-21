@@ -6,4 +6,4 @@ os:
  - linux
 
 arch:
-  - arm64
+  - amd64
