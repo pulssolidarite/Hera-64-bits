@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/pulssolidarite/Hera-64-bits.git"
   },
+  "forceCodeSigning": true,
   "scripts": {
     "build": "node .electron-vue/build.js",
     "build:dir": "node .electron-vue/build.js",
