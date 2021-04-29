@@ -108,16 +108,6 @@
       </div>
       <div class="right-side">
         <div
-          class="B-but"
-          id="B-but"
-          v-gamepad:button-x="simulate_b"
-          @click="simulate_b"
-        >
-          <img src="@/assets/img/btn_footer.svg" alt="btn" />
-          <div class="g-btn">B</div>
-          <span class="txt-btn">Retour</span>
-        </div>
-        <div
           class="A-but"
           id="A-but"
           v-gamepad:button-b="simulate_a"
@@ -126,6 +116,16 @@
           <img src="@/assets/img/btn_footer.svg" alt="btn" />
           <span class="g-btn">A</span>
           <span class="txt-btn">Valider</span>
+        </div>
+        <div
+          class="B-but"
+          id="B-but"
+          v-gamepad:button-x="simulate_b"
+          @click="simulate_b"
+        >
+          <img src="@/assets/img/btn_footer.svg" alt="btn" />
+          <div class="g-btn">B</div>
+          <span class="txt-btn">Retour</span>
         </div>
       </div>
     </div>
