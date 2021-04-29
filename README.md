@@ -30,6 +30,7 @@ Configure Ubuntu :
 ### Autoupdate
 https://blog.behrouze.com/debian-auto-update-upgrade/
 
+### Softwares
 arp-scan is a tool for EMV detection
 xserver-xorg-input-joystick allows mouse control with the gamepad
 
