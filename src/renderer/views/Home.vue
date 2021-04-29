@@ -235,6 +235,8 @@ export default {
       .get("terminal/mine/")
       .then((resp) => {
         this.terminal = resp.data.terminal;
+        console.log(this.terminal);
+        
         this.session.terminal = this.terminal;
         this.campaigns = resp.data.campaigns;
         this.games = resp.data.games;
@@ -244,10 +246,11 @@ export default {
 
         // Core & Game management
         // Here we check if have all the required game files before turning the terminal on
+        // bioses go in the same dir as the games
         const pathGlobal = process.env.HOME + "/games/";
         const pathRoms = pathGlobal + "roms/";
         const pathCores = pathGlobal + "cores/";
-        const pathBios = pathGlobal + "bios/";
+        const pathBios = pathGlobal + "roms/";
 
         // Creating folders if they don't exist
         if (!fs.existsSync(pathGlobal)) {
