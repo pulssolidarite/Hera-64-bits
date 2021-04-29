@@ -100,7 +100,7 @@ Test the GUI
 
 Use the meta screen of Ubuntu to find the "application" manager and add a application to the board.
 Write "~/PULS-ARCADE.AppImage" in the Command field and save with a name like "Puls-Arcade".
-On next boot the 
+On next boot Hera will auto start.
 
 ## Local Net & Internet
 
