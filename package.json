@@ -64,7 +64,7 @@
     "popper.js": "^1.16.0",
     "request": "^2.88.2",
     "simple-keyboard": "^2.29.50",
-    "simple-keyboard-key-navigation": "^2.0.57",
+    "simple-keyboard-key-navigation": "^2.3.186",
     "vue": "^2.5.16",
     "vue-card-carousel": "^1.0.0",
     "vue-electron": "^1.0.6",
@@ -74,7 +74,7 @@
     "vue-router": "^3.0.1",
     "vue-simple-keyboard": "^2.0.1",
     "vue-youtube": "^1.4.0",
-    "vueperslides": "^2.8.6",
+    "vueperslides": "^2.15.0",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.0"
   },
