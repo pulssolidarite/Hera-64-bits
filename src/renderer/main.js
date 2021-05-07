@@ -78,5 +78,5 @@ new Vue({
 
 
 window.onload = function(){
-	document.body.style.cursor = "none";
+	// document.body.style.cursor = "none";
 }

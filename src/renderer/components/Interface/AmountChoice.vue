@@ -4,24 +4,17 @@
       <div class="s-title">
         <div class="title">CHOISIS TON MONTANT</div>
         <div class="subtitle">
-          <div class="animHorizontalText">
-            Vos dons sont reversés aux assosiations.
-          </div>
+          <div class="animHorizontalText">Vos dons sont reversés aux assosiations.</div>
         </div>
       </div>
 
       <div class="s-content">
         <div class="content-amount">
-          <img
-            id="mario_bloc"
-            class="amount-frame"
-            src="@/assets/img/amount-frame.svg"
-            alt="cadre"
-          />
+          <img id="mario_bloc" class="amount-frame" src="@/assets/img/amount-frame.svg" alt="cadre" />
           <span class="h2 amount">{{ session.amount }}€</span>
           <span class="h2 amount2">{{ session.amount }}€</span>
           <!-- <span class="h2 amount"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350" :begin="run_anim" :complete="stop_anim"/>€</span>
-            <span class="h2 amount2"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350"/>€</span> -->
+          <span class="h2 amount2"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350"/>€</span>-->
         </div>
 
         <div>
@@ -53,12 +46,12 @@
           </div>
           <!-- </div> -->
 
-          <span id="more-but" class="more-but" @click="simulate_right"
-            ><img src="@/assets/img/plus_btn.svg" alt="plus"
-          /></span>
-          <span id="less-but" class="less-but" @click="simulate_left"
-            ><img src="@/assets/img/moins_btn.svg" alt="moins"
-          /></span>
+          <span id="more-but" class="more-but" @click="simulate_right">
+            <img src="@/assets/img/plus_btn.svg" alt="plus" />
+          </span>
+          <span id="less-but" class="less-but" @click="simulate_left">
+            <img src="@/assets/img/moins_btn.svg" alt="moins" />
+          </span>
 
           <div class="content-line" id="content-line">
             <!-- <span class="line1" :style="{ width: (this.session.amount/30)*100 + '%' }"></span> -->
@@ -66,22 +59,43 @@
             <span
               class="line2"
             ></span>
-            <span class="line3" id="line3"></span> -->
+            <span class="line3" id="line3"></span>-->
           </div>
         </div>
         <!-- amount DETAILS -->
-        <div class="amount-detail">
-          <div class="amount-icon">
-            <img
+        <div class="container">
+          <div class="amount-detail row">
+            <div class="amount-icon col-sm">
+              <youtube
+                v-if="session.campaign.is_video == true"
+                v-show="session.campaign.is_video"
+                id="player-ytb"
+                :video-id="session.campaign.video"
+                :fitParent="true"
+                @ready="playerReady()"
+                @playing="playerPlaying()"
+                @ended="playVideo()"
+                style="height: 125px;"
+              ></youtube>
+
+              <img
+                v-else
+                :src="session.campaign.logo"
+                :alt="session.campaign.name"
+                height="125"
+                class="rounded"
+              />
+              <!-- <img
               :src="getActionPhoto(session.campaign, session.amount)"
               :alt="session.campaign.name"
               height="125"
               class="rounded"
-            />
+              />-->
+            </div>
+            <span
+              class="amount-description col-sm"
+            >{{ getAction(session.campaign, session.amount) }}</span>
           </div>
-          <span class="amount-description">
-            {{ getAction(session.campaign, session.amount) }}
-          </span>
         </div>
         <!-- \amount DETAILS -->
       </div>
@@ -111,6 +125,16 @@ export default {
       amounts: [1, 5, 10, 20, 30, 50],
       value: 1,
       max: 100,
+      duration: 0,
+      playerVars: {
+        autoplay: 1,
+        iv_load_policy: 3,
+        playsinline: 1,
+        controls: 0,
+        modestbranding: 1,
+        showinfo: 0,
+        rel: 0,
+      },
     };
   },
   mounted: function() {
@@ -126,6 +150,26 @@ export default {
     setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
+    playerReady: function() {
+      this.$refs[0].player.mute();
+      this.$refs[0].player.getDuration().then((resp) => {
+        this.duration = resp;
+      });
+    },
+    playerPlaying: async function() {
+      let currentTime = this.$refs["youtube"][0].player.getCurrentTime();
+      this.timer = (Math.ceil(currentTime) / this.duration) * 100;
+    },
+    playVideo() {
+      this.$refs["youtube"][0].player.playVideo();
+    },
+    videoSize() {
+      if (window.innerWidth / window.innerHeight < 1.4) {
+        var video = document.getElementById("player-ytb");
+        video.style.height = "315.3px";
+        video.style.width = "448.41px";
+      }
+    },
     // line_right() {
     //   var line3 = document.getElementById("line3");
     //   if (this.session.amount == 50) {
@@ -256,7 +300,7 @@ export default {
       this.choosenIndexOf = index;
       this.$emit("saveAmount", {
         amount: this.amounts[this.choosenIndexOf],
-        indexOf: this.choosenIndexOf + 1,
+        indexOf: this.choosenIndexOf + 1
       });
       // this.line_right();
       // this.line_left();
@@ -269,7 +313,7 @@ export default {
         this.$emit("error", {
           visible: true,
           title: "Aucun choix valide",
-          errors: {},
+          errors: {}
         });
       }
     },
@@ -283,12 +327,13 @@ export default {
       setTimeout(function() {
         icon.style.transform = "scale(1)";
       }, 150);
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
+
 .content-flags {
   position: relative;
 }
@@ -331,6 +376,9 @@ export default {
 }
 
 @media screen and (max-width: 1500px) {
+
+
+
   /*.amount-choice {*/
   .title {
     max-width: 70vw !important;
@@ -423,7 +471,7 @@ export default {
 }
 
 .amount-icon .rounded {
-  display: block;
+  /* display: block; */
   margin-left: auto;
   margin-right: auto;
 }

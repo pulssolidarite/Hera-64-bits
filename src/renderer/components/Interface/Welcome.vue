@@ -8,7 +8,6 @@
 
       <div class="w-content">
         <div class="w-description">1 Jeu, 1 Association, 1 Don</div>
-        <div class="total_donations">{{ this.session.total_donations}}</div>
         <div class="cadre">
           <div class="top"></div>
           <div class="bottom"></div>
