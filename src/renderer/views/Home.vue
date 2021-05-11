@@ -235,7 +235,7 @@ export default {
       .get("terminal/mine/")
       .then((resp) => {
         this.terminal = resp.data.terminal;
-        console.log(this.terminal);
+        // console.log(this.terminal);
         
         this.session.terminal = this.terminal;
         this.campaigns = resp.data.campaigns;

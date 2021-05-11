@@ -4,7 +4,7 @@
       <div class="s-title">
         <div class="title">CHOISIS TON MONTANT</div>
         <div class="subtitle">
-          <div class="animHorizontalText">Vos dons sont reversés aux assosiations.</div>
+          <div class="animVerticalText">Vos dons sont reversés aux associations.</div>
         </div>
       </div>
 
@@ -13,8 +13,6 @@
           <img id="mario_bloc" class="amount-frame" src="@/assets/img/amount-frame.svg" alt="cadre" />
           <span class="h2 amount">{{ session.amount }}€</span>
           <span class="h2 amount2">{{ session.amount }}€</span>
-          <!-- <span class="h2 amount"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350" :begin="run_anim" :complete="stop_anim"/>€</span>
-          <span class="h2 amount2"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350"/>€</span>-->
         </div>
 
         <div>
@@ -31,7 +29,6 @@
         </div>
 
         <div class="slider">
-          <!-- <div class="container mb-5 pb-3 mt-2 text-center" id="content-slidebar"> -->
           <div class="content-slidebar">
             <div class="progress" style="height: 30px;">
               <div
@@ -53,48 +50,35 @@
             <img src="@/assets/img/moins_btn.svg" alt="moins" />
           </span>
 
-          <div class="content-line" id="content-line">
-            <!-- <span class="line1" :style="{ width: (this.session.amount/30)*100 + '%' }"></span> -->
-            <!-- <span class="line1" id="line1"></span>
-            <span
-              class="line2"
-            ></span>
-            <span class="line3" id="line3"></span>-->
-          </div>
+          <div class="content-line" id="content-line"></div>
         </div>
         <!-- amount DETAILS -->
-        <div class="container">
-          <div class="amount-detail row">
-            <div class="amount-icon col-sm">
-              <youtube
-                v-if="session.campaign.is_video == true"
-                v-show="session.campaign.is_video"
-                id="player-ytb"
-                :video-id="session.campaign.video"
-                :fitParent="true"
-                @ready="playerReady()"
-                @playing="playerPlaying()"
-                @ended="playVideo()"
-                style="height: 125px;"
-              ></youtube>
-
-              <img
-                v-else
-                :src="session.campaign.logo"
-                :alt="session.campaign.name"
-                height="125"
-                class="rounded"
-              />
-              <!-- <img
-              :src="getActionPhoto(session.campaign, session.amount)"
-              :alt="session.campaign.name"
-              height="125"
-              class="rounded"
-              />-->
+        <div class="amount-detail container">
+          <div class="row">
+            <div class="amount-media col-md-3">
+              <div class="p-3">
+                <youtube
+                  v-if="session.campaign.is_video == true"
+                  v-show="session.campaign.is_video"
+                  id="player-ytb"
+                  :video-id="session.campaign.video"
+                  :fitParent="true"
+                  ref="youtube"
+                  @ready="playerReady()"
+                  @playing="playerPlaying()"
+                  @ended="playVideo()"
+                ></youtube>
+                <img v-else :src="session.campaign.logo" :alt="session.campaign.name" />
+              </div>
             </div>
-            <span
-              class="amount-description col-sm"
-            >{{ getAction(session.campaign, session.amount) }}</span>
+            <div class="col-md-9 descr">
+              <div class="p-3">
+                <div class="animVerticalText">{{ session.campaign.description }}</div>
+                <span
+                  class="campaign-description p-3 slide-description animVerticalText"
+                >{{ session.campaign.description }}</span>
+              </div>
+            </div>
           </div>
         </div>
         <!-- \amount DETAILS -->
@@ -125,16 +109,7 @@ export default {
       amounts: [1, 5, 10, 20, 30, 50],
       value: 1,
       max: 100,
-      duration: 0,
-      playerVars: {
-        autoplay: 1,
-        iv_load_policy: 3,
-        playsinline: 1,
-        controls: 0,
-        modestbranding: 1,
-        showinfo: 0,
-        rel: 0,
-      },
+      duration: 0
     };
   },
   mounted: function() {
@@ -147,21 +122,22 @@ export default {
         this.chooseAmount(2);
       }
     }
-    setTimeout(() => this.$emit("home"), 1000 * 60);
+    // this.overflowVerify();
+    // setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
     playerReady: function() {
-      this.$refs[0].player.mute();
-      this.$refs[0].player.getDuration().then((resp) => {
+      this.$refs.youtube.player.mute();
+      this.$refs.youtube.player.getDuration().then(resp => {
         this.duration = resp;
       });
     },
     playerPlaying: async function() {
-      let currentTime = this.$refs["youtube"][0].player.getCurrentTime();
+      let currentTime = this.$refs.youtube.player.getCurrentTime();
       this.timer = (Math.ceil(currentTime) / this.duration) * 100;
     },
     playVideo() {
-      this.$refs["youtube"][0].player.playVideo();
+      this.$refs.youtube.player.playVideo();
     },
     videoSize() {
       if (window.innerWidth / window.innerHeight < 1.4) {
@@ -170,34 +146,6 @@ export default {
         video.style.width = "448.41px";
       }
     },
-    // line_right() {
-    //   var line3 = document.getElementById("line3");
-    //   if (this.session.amount == 50) {
-    //     line3.style.width = "70vw"; //122%
-    //   } else {
-    //     line3.style.width = "0vw";
-    //   }
-    // },
-    // line_left() {
-    //   var line1 = document.getElementById("line1");
-    //   switch (this.session.amount) {
-    //     case 1:
-    //       line1.style.width = "30%";
-    //       line1.style.left = "2%";
-    //       break;
-    //     case 5:
-    //       line1.style.width = "20%";
-    //       line1.style.left = "9.8%";
-    //       break;
-    //     case 10:
-    //       line1.style.width = "10%";
-    //       line1.style.left = "19.8%";
-    //       break;
-    //     default:
-    //       line1.style.left = "40%";
-    //       break;
-    //   }
-    // },
     flags() {
       var flag1 = document.getElementById("flag1");
       var flag2 = document.getElementById("flag2");
@@ -256,54 +204,12 @@ export default {
         this.animateIcon("more");
       }
     },
-    getAction: function(campaign, amount) {
-      if (amount == 1) {
-        return campaign.text1;
-      }
-      if (amount == 5) {
-        return campaign.text5;
-      }
-      if (amount == 10) {
-        return campaign.text10;
-      }
-      if (amount == 20) {
-        return campaign.text20;
-      }
-      if (amount == 30) {
-        return campaign.text30;
-      }
-      if (amount == 50) {
-        return campaign.text50; //text50 when back ready
-      }
-    },
-    getActionPhoto: function(campaign, amount) {
-      if (amount == 1) {
-        return campaign.photo1;
-      }
-      if (amount == 5) {
-        return campaign.photo5;
-      }
-      if (amount == 10) {
-        return campaign.photo10;
-      }
-      if (amount == 20) {
-        return campaign.photo20;
-      }
-      if (amount == 30) {
-        return campaign.photo30;
-      }
-      if (amount == 50) {
-        return campaign.photo50; //photo50 when back ready
-      }
-    },
     chooseAmount: function(index) {
       this.choosenIndexOf = index;
       this.$emit("saveAmount", {
         amount: this.amounts[this.choosenIndexOf],
         indexOf: this.choosenIndexOf + 1
       });
-      // this.line_right();
-      // this.line_left();
       this.flags();
     },
     proceed: function() {
@@ -327,12 +233,40 @@ export default {
       setTimeout(function() {
         icon.style.transform = "scale(1)";
       }, 150);
+    },
+    overflowVerify: function() {
+      var texts = document.getElementsByClassName("slide-description");
+      var boxes = document.getElementsByClassName("descr");
+
+      console.log(texts);
+
+      var i = 0;
+      while (i < texts.length) {
+        if (texts[i].offsetHeight > boxes[i].offsetHeight) {
+          texts[i].classList.add("animVerticalText");
+        }
+        i++;
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+.descr {
+  height: 155px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  overflow: hidden;
+}
+
+.campaign-description {
+}
+
+.amount-media {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .content-flags {
   position: relative;
@@ -376,9 +310,6 @@ export default {
 }
 
 @media screen and (max-width: 1500px) {
-
-
-
   /*.amount-choice {*/
   .title {
     max-width: 70vw !important;
@@ -429,20 +360,22 @@ export default {
 }
 
 .amount-detail {
-  margin-left: 50%;
+  margin-left: auto;
   margin-top: -15vh;
-  transform: translateX(-50%);
   background-color: #512fb5;
   box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
     0px 5px #372491;
   /* border : solid 3px rgb(33, 29, 255); */
   /* border-radius: 15px; */
-  text-align: center;
-  width: 30vw;
-  z-index: 4;
+  /* text-align: left; */
+  width: 60vw;
+  height: 185px;
+  /* z-index: 4; */
+  overflow: hidden;
+  /* text-overflow: ellipsis; */
 }
 
-.time {
+.amount-detail .time {
   z-index: 5;
   position: absolute;
   left: 50%;
@@ -470,13 +403,7 @@ export default {
     0px 8px #372491;
 }
 
-.amount-icon .rounded {
-  /* display: block; */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.amount-description {
+.campaign-description {
   font-family: pixel3;
   color: white;
   font-size: 1.2rem;
@@ -485,58 +412,6 @@ export default {
 .progress {
   border-radius: 0;
 }
-
-/* .line1 {
-  position: relative;
-  top: 78.8%;
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
-}
-
-.line2 {
-  position: relative;
-  top: -25vh;
-  display: block;
-  box-sizing: border-box;
-  width: 10px;
-  height: 20vh;
-  overflow: hidden;
-}
-
-.line3 {
-  position: relative;
-  top: -101.5%;
-  left: 59.5%;
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
-}
-
-.line1:before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 4px;
-  background: #ffc107;
-}
-
-.line2:before {
-  content: "";
-  position: absolute;
-  left: -0.3%;
-  width: 4px;
-  height: 30vh;
-  background: #ffc107;
-}
-
-.line3:before {
-  content: "";
-  position: absolute;
-  width: 33.33%;
-  height: 4px;
-  background: #ffc107;
-} */
 
 .progress-bar,
 .line2,
