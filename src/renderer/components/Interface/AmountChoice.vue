@@ -4,7 +4,7 @@
       <div class="s-title">
         <div class="title">CHOISIS TON MONTANT</div>
         <div class="subtitle">
-          <div class="animVerticalText">Vos dons sont reversés aux associations.</div>
+          <div class="animHorizontalText">Vos dons sont reversés aux associations.</div>
         </div>
       </div>
 
@@ -62,6 +62,7 @@
                   v-show="session.campaign.is_video"
                   id="player-ytb"
                   :video-id="session.campaign.video"
+                  :player-vars="playerVars"
                   :fitParent="true"
                   ref="youtube"
                   @ready="playerReady()"
@@ -71,11 +72,10 @@
                 <img v-else :src="session.campaign.logo" :alt="session.campaign.name" />
               </div>
             </div>
-            <div class="col-md-9 descr">
-              <div class="p-3">
-                <div class="animVerticalText">{{ session.campaign.description }}</div>
+            <div class="col-md-9">
+              <div class="row p-3 campaign-description">
                 <span
-                  class="campaign-description p-3 slide-description animVerticalText"
+                  class="animVerticalText"
                 >{{ session.campaign.description }}</span>
               </div>
             </div>
@@ -109,7 +109,19 @@ export default {
       amounts: [1, 5, 10, 20, 30, 50],
       value: 1,
       max: 100,
-      duration: 0
+      duration: 0,
+      playerVars: {
+        autoplay: 1,
+        iv_load_policy: 3,
+        playsinline: 1,
+        controls: 0,
+        modestbranding: 1,
+        showinfo: 0,
+        rel: 0,
+        cc_load_policy: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+      },
     };
   },
   mounted: function() {
@@ -131,6 +143,7 @@ export default {
       this.$refs.youtube.player.getDuration().then(resp => {
         this.duration = resp;
       });
+      this.playVideo();
     },
     playerPlaying: async function() {
       let currentTime = this.$refs.youtube.player.getCurrentTime();
@@ -138,13 +151,6 @@ export default {
     },
     playVideo() {
       this.$refs.youtube.player.playVideo();
-    },
-    videoSize() {
-      if (window.innerWidth / window.innerHeight < 1.4) {
-        var video = document.getElementById("player-ytb");
-        video.style.height = "315.3px";
-        video.style.width = "448.41px";
-      }
     },
     flags() {
       var flag1 = document.getElementById("flag1");
@@ -235,15 +241,15 @@ export default {
       }, 150);
     },
     overflowVerify: function() {
-      let texts = document.getElementsByClassName("slide-description");
-      let boxes = document.getElementsByClassName("descr");
+      var texts = document.getElementsByClassName("slide-description");
+      var boxes = document.getElementsByClassName("descr");
 
 
       var i = 0;
       while (i < texts.length) {
-        if (texts[i].offsetHeight > boxes[i].offsetHeight) {
-      console.log(texts[i].offsetHeight +" "+ boxes[i].offsetHeight);
+        console.log(texts[i].offsetHeight +" "+ boxes[i].offsetHeight);
           texts[i].classList.add("animVerticalText");
+        if (texts[i].offsetHeight > boxes[i].offsetHeight) {
         }
         i++;
       }
@@ -253,14 +259,29 @@ export default {
 </script>
 
 <style scoped>
-.descr {
-  height: 155px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  overflow: hidden;
+
+@keyframes overflowVerticalText {
+  20% {
+    transform: translateY(0%);
+  }
+  98% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+.animVerticalText {
+  animation: overflowVerticalText 10s linear infinite;
 }
 
+/* .descr {
+  } */
+
 .campaign-description {
+  overflow: hidden;
+  height: 155px;
+  margin-top: 15px;
 }
 
 .amount-media {

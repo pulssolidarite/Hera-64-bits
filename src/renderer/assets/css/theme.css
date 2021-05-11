@@ -518,11 +518,6 @@ body {
   overflow: hidden;
 }
 
-.animHorizontalText {
-  width: fit-content;
-  animation: overflowHorizontalText 10s linear infinite;
-}
-
 @keyframes overflowHorizontalText {
   20% {
     transform: translateX(0%);
@@ -534,6 +529,12 @@ body {
     transform: translateX(0%);
   }
 }
+
+.animHorizontalText {
+  width: fit-content;
+  animation: overflowHorizontalText 10s linear infinite;
+}
+
 /* Responsive */
 @media screen and (max-width: 1500px) {
   .s-title .title {
