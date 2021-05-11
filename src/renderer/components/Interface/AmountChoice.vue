@@ -16,7 +16,7 @@
         </div>
 
         <div>
-          <span class="h2 time">10 min.</span>
+          <span class="h2 time">{{ session.terminal.play_timer }} min.</span>
         </div>
 
         <div class="content-flags">
@@ -122,7 +122,7 @@ export default {
         this.chooseAmount(2);
       }
     }
-    // this.overflowVerify();
+    this.overflowVerify();
     // setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
@@ -235,14 +235,14 @@ export default {
       }, 150);
     },
     overflowVerify: function() {
-      var texts = document.getElementsByClassName("slide-description");
-      var boxes = document.getElementsByClassName("descr");
+      let texts = document.getElementsByClassName("slide-description");
+      let boxes = document.getElementsByClassName("descr");
 
-      console.log(texts);
 
       var i = 0;
       while (i < texts.length) {
         if (texts[i].offsetHeight > boxes[i].offsetHeight) {
+      console.log(texts[i].offsetHeight +" "+ boxes[i].offsetHeight);
           texts[i].classList.add("animVerticalText");
         }
         i++;
