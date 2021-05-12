@@ -9,26 +9,22 @@
             v-gamepad:left-analog-left="simulate_left"
             v-gamepad:right-analog-left="simulate_left"
             @click="simulate_left"
-            ><img
-              class="arrow-left-ft"
-              src="@/assets/img/arrow_footer.svg"
-              alt="arrow footer"
-          /></span>
-          <span class="dot"
-            ><img src="@/assets/img/Joystick_footer.svg" alt="joystick"
-          /></span>
+          >
+            <img class="arrow-left-ft" src="@/assets/img/arrow_footer.svg" alt="arrow footer" />
+          </span>
+          <span class="dot">
+            <img src="@/assets/img/Joystick_footer.svg" alt="joystick" />
+          </span>
           <span
             class="right-gpio"
             v-gamepad:button-dpad-right="simulate_right"
             v-gamepad:left-analog-right="simulate_right"
             v-gamepad:right-analog-right="simulate_right"
             @click="simulate_right"
-            ><img
-              class="arrow-right-ft"
-              src="@/assets/img/arrow_footer.svg"
-              alt="arrow footer"
-          /></span>
-          <span class="gpio-help"> Se déplacer </span>
+          >
+            <img class="arrow-right-ft" src="@/assets/img/arrow_footer.svg" alt="arrow footer" />
+          </span>
+          <span class="gpio-help">Se déplacer</span>
         </div>
 
         <div class="gpio2" id="gpio2" style="display: none;">
@@ -38,53 +34,50 @@
             v-gamepad:right-analog-up="simulate_up"
             v-gamepad:left-analog-up="simulate_up"
             @click="simulate_up"
-            ><img
-              class="arrow-up-ft"
-              src="@/assets/img/arrow_footer.svg"
-              alt="arrow footer"
-          /></span>
+          >
+            <img class="arrow-up-ft" src="@/assets/img/arrow_footer.svg" alt="arrow footer" />
+          </span>
           <span
             class="dot"
             v-gamepad:button-dpad-down="simulate_down"
             v-gamepad:left-analog-down="simulate_down"
             v-gamepad:right-analog-down="simulate_down"
             @click="simulate_down"
-            ><img src="@/assets/img/Joystick_footer.svg" alt="joystick"
-          /></span>
+          >
+            <img src="@/assets/img/Joystick_footer.svg" alt="joystick" />
+          </span>
           <!-- <span class="down-gpio"  @click="simulate_down"><img class="arrow-down-ft" src='@/assets/img/arrow_footer.svg' alt='arrow footer'></span> -->
-          <span class="gpio-help"> Se déplacer </span>
+          <span class="gpio-help">Se déplacer</span>
         </div>
         <div class="gpio3" id="gpio3" style="display: none;">
+          <div @keydown="keyboradEventListener"></div>
           <span
             class="left-gpio"
             v-gamepad:button-dpad-left="simulate_left"
             v-gamepad:left-analog-left="simulate_left"
             v-gamepad:right-analog-left="simulate_left"
             @click="simulate_left"
-            ><img
-              class="arrow-left-ft"
-              src="@/assets/img/arrow_footer.svg"
-              alt="arrow footer"
-          /></span>
+          >
+            <img class="arrow-left-ft" src="@/assets/img/arrow_footer.svg" alt="arrow footer" />
+          </span>
           <span
             class="up-gpio"
             v-gamepad:button-dpad-up="simulate_up"
             v-gamepad:right-analog-up="simulate_up"
             v-gamepad:left-analog-up="simulate_up"
             @click="simulate_up"
-            ><img
-              class="arrow-up-ft"
-              src="@/assets/img/arrow_footer.svg"
-              alt="arrow footer"
-          /></span>
+          >
+            <img class="arrow-up-ft" src="@/assets/img/arrow_footer.svg" alt="arrow footer" />
+          </span>
           <span
             class="dot"
             v-gamepad:button-dpad-down="simulate_down"
             v-gamepad:left-analog-down="simulate_down"
             v-gamepad:right-analog-down="simulate_down"
             @click="simulate_down"
-            ><img src="@/assets/img/Joystick_footer.svg" alt="joystick"
-          /></span>
+          >
+            <img src="@/assets/img/Joystick_footer.svg" alt="joystick" />
+          </span>
           <!-- <span class="down-gpio"  @click="simulate_down"><img class="arrow-down-ft" src='@/assets/img/arrow_footer.svg' alt='arrow footer'></span> -->
           <span
             class="right-gpio"
@@ -92,37 +85,25 @@
             v-gamepad:left-analog-right="simulate_right"
             v-gamepad:right-analog-right="simulate_right"
             @click="simulate_right"
-            ><img
-              class="arrow-right-ft"
-              src="@/assets/img/arrow_footer.svg"
-              alt="arrow footer"
-          /></span>
-          <span class="gpio-help"> Se déplacer </span>
+          >
+            <img class="arrow-right-ft" src="@/assets/img/arrow_footer.svg" alt="arrow footer" />
+          </span>
+          <span class="gpio-help">Se déplacer</span>
         </div>
         <div class="no-gpio" id="no-gpio" style="display: none;">
-          <span class="dot"
-            ><img src="@/assets/img/Joystick_footer.svg" alt="joystick"
-          /></span>
-          <span class="gpio-help"> Se déplacer </span>
+          <span class="dot">
+            <img src="@/assets/img/Joystick_footer.svg" alt="joystick" />
+          </span>
+          <span class="gpio-help">Se déplacer</span>
         </div>
       </div>
       <div class="right-side">
-        <div
-          class="A-but"
-          id="A-but"
-          v-gamepad:button-b="simulate_a"
-          @click="simulate_a"
-        >
+        <div class="A-but" id="A-but" v-gamepad:button-b="simulate_a" @click="simulate_a">
           <img src="@/assets/img/btn_footer.svg" alt="btn" />
           <span class="g-btn">A</span>
           <span class="txt-btn">Valider</span>
         </div>
-        <div
-          class="B-but"
-          id="B-but"
-          v-gamepad:button-x="simulate_b"
-          @click="simulate_b"
-        >
+        <div class="B-but" id="B-but" v-gamepad:button-x="simulate_b" @click="simulate_b">
           <img src="@/assets/img/btn_footer.svg" alt="btn" />
           <div class="g-btn">B</div>
           <span class="txt-btn">Retour</span>
@@ -138,29 +119,72 @@ export default {
   props: {
     gpio_help: { type: Number, default: 1 },
     A_but: { type: Boolean, default: true },
-    B_but: { type: Boolean, default: true },
+    B_but: { type: Boolean, default: true }
+  },
+  data() {
+    return {
+      // keyborad: this.keyboradEventListener()
+    };
   },
   mounted() {
     this.select_ath(this.gpio_help, this.A_but, this.B_but);
   },
+  created() {
+    window.addEventListener("keydown", this.keyboradEventListener);
+  },
+  destroyed() {
+    window.removeEventListener("keydown", this.keyboradEventListener);
+  },
   methods: {
-    simulate_a() {
+    keyboradEventListener: function(key) {
+      // return window.addEventListener("keydown", function(key){
+      var k = key.key;
+      var c = key.keyCode;
+
+      if (k == "a" || k == "A") {
+        console.log("a");
+        this.$emit("simulate_a");
+      } else if (k == "b" || k == "B") {
+        console.log("b");
+        this.$emit("simulate_b");
+      } else if (c == 39) {
+        console.log("right");
+        this.$emit("simulate_right");
+      } else if (c == 37) {
+        console.log("left");
+        this.$emit("simulate_left");
+      } else if (c == 38) {
+        console.log("up");
+        this.$emit("simulate_up");
+      } else if (c == 40) {
+        console.log("down");
+        this.$emit("simulate_down");
+      }
+      // })
+    },
+    simulate_a: function() {
       this.$emit("simulate_a");
+      // console.log("a");
     },
-    simulate_b() {
+    simulate_b: function() {
       this.$emit("simulate_b");
+      // console.log("b");
     },
-    simulate_left() {
+    simulate_left: function() {
       this.$emit("simulate_left");
+      // console.log("left");
     },
-    simulate_right() {
+    simulate_right: function() {
       this.$emit("simulate_right");
+      // console.log("right");
     },
-    simulate_up() {
+    simulate_up: function() {
       this.$emit("simulate_up");
+      // console.log("up");
     },
-    simulate_down() {
+    simulate_down: function() {
       this.$emit("simulate_down");
+      // console.log("down");
     },
     select_ath(gpio_help, A_but, B_but) {
       let gpio1 = document.getElementById("gpio1"); // 1 : gpio left-right
@@ -184,7 +208,7 @@ export default {
           this.$emit("error", {
             visible: true,
             title: "Aucun helpGamepad valide",
-            errors: {},
+            errors: {}
           });
           break;
       }
@@ -196,8 +220,8 @@ export default {
         let Element_B = document.getElementById("B-but");
         Element_B.style.display = "none";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

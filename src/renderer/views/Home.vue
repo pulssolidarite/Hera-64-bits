@@ -19,7 +19,17 @@
     <vue-element-loading :active="loading" is-full-screen />
     <div class="w-100 h-100" v-if="!loading">
       <transition name="mytr" mode="out-in">
-        
+        <!-- 4TH VIEW -->
+        <!-- THIRD VIEW -->
+        <AmountChoice
+          :session="session"
+          @saveAmount="saveAmount"
+          @error="handleError"
+          @nextView="nextView"
+          @lastView="lastView"
+          @home="homeView"
+          v-if="viewIndex == -1"
+        ></AmountChoice>
         <!-- SCREENSAVER -->
         <Welcome
           @error="handleError"

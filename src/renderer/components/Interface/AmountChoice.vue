@@ -2,6 +2,7 @@
   <div class="component">
     <div class="view amount-choice">
       <div class="container">
+        <!-- title -->
         <div class="row">
           <div class="s-title">
             <div class="title">CHOISIS TON MONTANT</div>
@@ -10,16 +11,11 @@
             </div>
           </div>
         </div>
-        <!-- <div class="content-amount">
-          <img id="mario_bloc" class="amount-frame" src="@/assets/img/amount-frame.svg" alt="cadre" />
-          <span class="h2 amount">{{ session.amount }}€</span>
-          <span class="h2 amount2">{{ session.amount }}€</span>
-        </div>-->
-
+        <!-- time -->
         <div class="row">
           <div class="time">{{ session.terminal.play_timer }} min.</div>
         </div>
-
+        <!-- payment-tool -->
         <div class="row">
           <div class="payment-tool"></div>
           <div class="boxes">
@@ -40,39 +36,7 @@
             </div>
           </div>
         </div>
-        <!-- <div class="content-flags">
-          <div id="flag1" class="full-flag"></div>
-          <div id="flag2" class="full-flag"></div>
-          <div id="flag3" class="full-flag"></div>
-          <div id="flag4" class="empty-flag"></div>
-          <div id="flag5" class="empty-flag"></div>
-          <div id="flag6" class="empty-flag"></div>
-        </div>
-
-        <div class="slider">
-          <div class="content-slidebar">
-            <div class="progress" style="height: 30px;">
-              <div
-                class="progress-bar bg-warning"
-                role="progressbar"
-                :style="{ width: (this.session.amount / 50) * 100 + '%' }"
-                :aria-valuenow="this.session.amount"
-                aria-valuemin="0"
-                :aria-valuemax="50"
-              ></div>
-            </div>
-          </div>
-
-          <span id="more-but" class="more-but" @click="simulate_right">
-            <img src="@/assets/img/plus_btn.svg" alt="plus" />
-          </span>
-          <span id="less-but" class="less-but" @click="simulate_left">
-            <img src="@/assets/img/moins_btn.svg" alt="moins" />
-          </span>
-
-          <div class="content-line" id="content-line"></div>
-        </div>-->
-        <!-- Campaign DETAILS -->
+        <!-- campaing -->
         <div class="row campaign-row">
           <div class="row amount-detail">
             <div class="amount-media col-md-3">
@@ -99,14 +63,16 @@
             </div>
           </div>
         </div>
-        <!-- \Campaign DETAILS -->
-
+        <!-- footer -->
         <div class="row">
           <helpGamepad
+            :gpio_help="3"
             @simulate_a="simulate_a"
             @simulate_b="simulate_b"
             @simulate_left="simulate_left"
             @simulate_right="simulate_right"
+            @simulate_up="simulate_up"
+            @simulate_down="simulate_down"
           />
         </div>
       </div>
@@ -127,7 +93,7 @@ export default {
   data: function() {
     return {
       choosenIndexOf: 2,
-      amounts: [1, 5, 10, 20, 30, 50],
+      boxes: document.getElementsByClassName(""),
       value: 1,
       max: 100,
       duration: 0,
@@ -148,8 +114,7 @@ export default {
   mounted: function() {
     if (!this.session.position_asso) {
       this.$emit("lastView");
-    }
-    else {
+    } else {
       if (this.session.position_amount) {
         this.chooseBox(this.session.position_amount - 1);
       } else {
@@ -176,23 +141,34 @@ export default {
     },
     simulate_a() {
       this.proceed();
+      // console.log("a");
     },
     simulate_b() {
       this.next();
+      // console.log("b");
     },
     simulate_left() {
       if (this.boxes[this.choosenIndexOf - 1]) {
         this.chooseBox(this.choosenIndexOf - 1);
         this.animateIcon("less");
       }
+      // console.log("left");
     },
     simulate_right() {
       if (this.boxes[this.choosenIndexOf + 1]) {
         this.chooseBox(this.choosenIndexOf + 1);
         this.animateIcon("more");
       }
+      // console.log("right");
     },
-    chooseBox: function(index) { // a réécrire ?
+    simulate_up: function() {
+      // console.log("up");
+    },
+    simulate_down: function() {
+      // console.log("down");
+    },
+    chooseBox: function(index) {
+      // a réécrire ?
       this.choosenIndexOf = index;
       this.$emit("saveAmount", {
         amount: this.amounts[this.choosenIndexOf],
@@ -287,12 +263,12 @@ export default {
 
 #up-arrow {
   margin-top: -335%;
-  animation: topArrow 1s ease-in-out infinite
+  animation: topArrow 1s ease-in-out infinite;
 }
 
 #down-arrow {
   margin-top: -265%;
-  animation: botArrow 1s ease-in-out infinite
+  animation: botArrow 1s ease-in-out infinite;
 }
 
 .boxes {
@@ -358,7 +334,7 @@ export default {
 }
 
 .campaign-row {
-  margin-top:10vh;
+  margin-top: 10vh;
 }
 
 .campaign-description {
@@ -406,7 +382,6 @@ export default {
   color: white;
 }
 
-
 .content-line {
   height: 25vh;
   top: 19vw;
@@ -422,5 +397,4 @@ export default {
   color: white;
   font-size: 1.2rem;
 }
-
 </style>
