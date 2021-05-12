@@ -19,6 +19,7 @@
     <vue-element-loading :active="loading" is-full-screen />
     <div class="w-100 h-100" v-if="!loading">
       <transition name="mytr" mode="out-in">
+        
         <!-- SCREENSAVER -->
         <Welcome
           @error="handleError"

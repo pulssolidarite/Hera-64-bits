@@ -1,25 +1,46 @@
 <template>
   <div class="component">
     <div class="view amount-choice">
-      <div class="s-title">
-        <div class="title">CHOISIS TON MONTANT</div>
-        <div class="subtitle">
-          <div class="animHorizontalText">Vos dons sont reversés aux associations.</div>
+      <div class="container">
+        <div class="row">
+          <div class="s-title">
+            <div class="title">CHOISIS TON MONTANT</div>
+            <div class="subtitle">
+              <div class="animHorizontalText">Vos dons sont reversés aux associations.</div>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="s-content">
-        <div class="content-amount">
+        <!-- <div class="content-amount">
           <img id="mario_bloc" class="amount-frame" src="@/assets/img/amount-frame.svg" alt="cadre" />
           <span class="h2 amount">{{ session.amount }}€</span>
           <span class="h2 amount2">{{ session.amount }}€</span>
+        </div>-->
+
+        <div class="row">
+          <div class="time">{{ session.terminal.play_timer }} min.</div>
         </div>
 
-        <div>
-          <span class="h2 time">{{ session.terminal.play_timer }} min.</span>
+        <div class="row">
+          <div class="payment-tool"></div>
+          <div class="boxes">
+            <div class="number-box active">
+              <div class="value">0</div>
+              <div class="arrow_marker">
+                <img id="up-arrow" src="@/assets/img/up-arrow.svg" />
+                <img id="down-arrow" src="@/assets/img/down-arrow.svg" />
+              </div>
+            </div>
+            <div class="number-box">
+              <div class="value">1</div>
+              <div class="arrow_marker"></div>
+            </div>
+            <div class="euro">
+              €
+              <div class="arrow_marker"></div>
+            </div>
+          </div>
         </div>
-
-        <div class="content-flags">
+        <!-- <div class="content-flags">
           <div id="flag1" class="full-flag"></div>
           <div id="flag2" class="full-flag"></div>
           <div id="flag3" class="full-flag"></div>
@@ -41,7 +62,6 @@
               ></div>
             </div>
           </div>
-          <!-- </div> -->
 
           <span id="more-but" class="more-but" @click="simulate_right">
             <img src="@/assets/img/plus_btn.svg" alt="plus" />
@@ -51,10 +71,10 @@
           </span>
 
           <div class="content-line" id="content-line"></div>
-        </div>
-        <!-- amount DETAILS -->
-        <div class="amount-detail container">
-          <div class="row">
+        </div>-->
+        <!-- Campaign DETAILS -->
+        <div class="row campaign-row">
+          <div class="row amount-detail">
             <div class="amount-media col-md-3">
               <div class="p-3">
                 <youtube
@@ -74,23 +94,24 @@
             </div>
             <div class="col-md-9">
               <div class="row p-3 campaign-description">
-                <span
-                  class="animVerticalText"
-                >{{ session.campaign.description }}</span>
+                <span class="animVerticalText">{{ session.campaign.description }}</span>
               </div>
             </div>
           </div>
         </div>
-        <!-- \amount DETAILS -->
+        <!-- \Campaign DETAILS -->
+
+        <div class="row">
+          <helpGamepad
+            @simulate_a="simulate_a"
+            @simulate_b="simulate_b"
+            @simulate_left="simulate_left"
+            @simulate_right="simulate_right"
+          />
+        </div>
       </div>
 
       <!-- GAMEPAD -->
-      <helpGamepad
-        @simulate_a="simulate_a"
-        @simulate_b="simulate_b"
-        @simulate_left="simulate_left"
-        @simulate_right="simulate_right"
-      />
     </div>
   </div>
 </template>
@@ -120,18 +141,19 @@ export default {
         rel: 0,
         cc_load_policy: 0,
         iv_load_policy: 3,
-        modestbranding: 1,
-      },
+        modestbranding: 1
+      }
     };
   },
   mounted: function() {
     if (!this.session.position_asso) {
       this.$emit("lastView");
-    } else {
+    }
+    else {
       if (this.session.position_amount) {
-        this.chooseAmount(this.session.position_amount - 1);
+        this.chooseBox(this.session.position_amount - 1);
       } else {
-        this.chooseAmount(2);
+        this.chooseBox(2);
       }
     }
     this.overflowVerify();
@@ -152,65 +174,25 @@ export default {
     playVideo() {
       this.$refs.youtube.player.playVideo();
     },
-    flags() {
-      var flag1 = document.getElementById("flag1");
-      var flag2 = document.getElementById("flag2");
-      var flag3 = document.getElementById("flag3");
-      var flag4 = document.getElementById("flag4");
-      var flag5 = document.getElementById("flag5");
-      var flag6 = document.getElementById("flag6");
-      switch (this.session.amount) {
-        case 1:
-          flag2.className = "empty-flag";
-          break;
-        case 5:
-          flag2.className = "full-flag";
-          flag3.className = "empty-flag";
-          break;
-        case 10:
-          flag3.className = "full-flag";
-          flag4.className = "empty-flag";
-          break;
-        case 20:
-          flag4.className = "full-flag";
-          flag5.className = "empty-flag";
-          break;
-        case 30:
-          flag5.className = "full-flag";
-          flag6.className = "empty-flag";
-          break;
-        case 50:
-          flag6.className = "full-flag";
-          break;
-      }
-    },
-    run_anim() {
-      var mario = document.getElementById("mario_bloc");
-      mario.className = "amount-frame shake-vertical";
-    },
-    stop_anim() {
-      var mario = document.getElementById("mario_bloc");
-      mario.className = "amount-frame";
-    },
     simulate_a() {
       this.proceed();
     },
     simulate_b() {
-      this.$emit("lastView");
+      this.next();
     },
     simulate_left() {
-      if (this.amounts[this.choosenIndexOf - 1]) {
-        this.chooseAmount(this.choosenIndexOf - 1);
+      if (this.boxes[this.choosenIndexOf - 1]) {
+        this.chooseBox(this.choosenIndexOf - 1);
         this.animateIcon("less");
       }
     },
     simulate_right() {
-      if (this.amounts[this.choosenIndexOf + 1]) {
-        this.chooseAmount(this.choosenIndexOf + 1);
+      if (this.boxes[this.choosenIndexOf + 1]) {
+        this.chooseBox(this.choosenIndexOf + 1);
         this.animateIcon("more");
       }
     },
-    chooseAmount: function(index) {
+    chooseBox: function(index) { // a réécrire ?
       this.choosenIndexOf = index;
       this.$emit("saveAmount", {
         amount: this.amounts[this.choosenIndexOf],
@@ -219,9 +201,11 @@ export default {
       this.flags();
     },
     proceed: function() {
-      if (this.choosenIndexOf != null) {
+      if (0) {
+        // if € box is active
         this.$emit("nextView");
       } else {
+        // next box with A and right
         this.$emit("error", {
           visible: true,
           title: "Aucun choix valide",
@@ -229,26 +213,29 @@ export default {
         });
       }
     },
-    animateIcon(dir) {
-      if (dir == "less") {
-        var icon = document.getElementById("less-but");
-      } else {
-        var icon = document.getElementById("more-but");
-      }
-      icon.style.transform = "scale(1.4)";
-      setTimeout(function() {
-        icon.style.transform = "scale(1)";
-      }, 150);
+    next: function() {
+      // on press B or left, if first block is active go to prev. screen
+      this.$emit("lastView");
     },
+    // animateIcon(dir) {
+    //   if (dir == "less") {
+    //     var icon = document.getElementById("less-but");
+    //   } else {
+    //     var icon = document.getElementById("more-but");
+    //   }
+    //   icon.style.transform = "scale(1.4)";
+    //   setTimeout(function() {
+    //     icon.style.transform = "scale(1)";
+    //   }, 150);
+    // },
     overflowVerify: function() {
       var texts = document.getElementsByClassName("slide-description");
       var boxes = document.getElementsByClassName("descr");
 
-
       var i = 0;
       while (i < texts.length) {
-        console.log(texts[i].offsetHeight +" "+ boxes[i].offsetHeight);
-          texts[i].classList.add("animVerticalText");
+        console.log(texts[i].offsetHeight + " " + boxes[i].offsetHeight);
+        texts[i].classList.add("animVerticalText");
         if (texts[i].offsetHeight > boxes[i].offsetHeight) {
         }
         i++;
@@ -259,6 +246,90 @@ export default {
 </script>
 
 <style scoped>
+.row {
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+.s-title {
+  position: relative;
+}
+
+.title,
+.subtitle,
+.time {
+  margin-left: unset;
+  margin: unset;
+  text-align: center;
+  font-family: pixel2;
+  color: white;
+}
+
+.time {
+  text-shadow: 5px 5px #ff9900;
+  font-size: 6em;
+}
+
+.s-title .title {
+  margin-left: 0;
+}
+
+.subtitle {
+  font-size: 2em;
+}
+
+.payment-tool {
+  width: 60vw;
+  margin-top: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#up-arrow {
+  margin-top: -335%;
+  animation: topArrow 1s ease-in-out infinite
+}
+
+#down-arrow {
+  margin-top: -265%;
+  animation: botArrow 1s ease-in-out infinite
+}
+
+.boxes {
+  /* padding-left: calc(50% - 60vw / 2); */
+  /* justify-content: center; */
+  display: flex;
+  justify-content: center;
+}
+
+.number-box,
+.euro {
+  /* display: block; */
+  margin: 15px;
+  height: 20vh;
+  width: 20vh;
+  line-height: 20vh; /* text centering vertically */
+  text-align: center; /* text centering vertically */
+  background-color: #ffff60;
+  box-shadow: 3px 8px #ff9900, 0 0 0, 5px 8px #ff9900, 0 0 0;
+  font-family: pixel;
+  font-size: 10rem;
+  color: white;
+  text-shadow: 5px 5px #ff9900;
+}
+.euro {
+  font-family: pixel2;
+}
+
+.active {
+  line-height: calc(20vh + 20px); /* text centering vertically */
+  background-color: #ffff08;
+  box-shadow: 5px 10px #ffac30, 0 0 0, 7px 10px #ffac30, 0 0 0;
+  margin: 5px;
+  height: calc(20vh + 20px);
+  width: calc(20vh + 20px);
+  font-size: 12rem;
+}
 
 @keyframes overflowVerticalText {
   20% {
@@ -275,8 +346,20 @@ export default {
   animation: overflowVerticalText 10s linear infinite;
 }
 
-/* .descr {
-  } */
+@keyframes topArrow {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes botArrow {
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.campaign-row {
+  margin-top:10vh;
+}
 
 .campaign-description {
   overflow: hidden;
@@ -289,47 +372,6 @@ export default {
   margin-right: auto;
 }
 
-.content-flags {
-  position: relative;
-}
-
-.full-flag,
-.empty-flag {
-  position: absolute;
-  width: 80px;
-  height: 100px;
-  top: 18vh;
-  transform: scale(0.8);
-}
-
-.full-flag {
-  background: no-repeat url("../../assets/img/drap_plein.svg");
-  z-index: 5;
-}
-
-.empty-flag {
-  background: no-repeat url("../../assets/img/drap_vide.svg");
-}
-
-#flag1 {
-  left: 21.4vw;
-}
-#flag2 {
-  left: 26.1vw;
-}
-#flag3 {
-  left: 31.9vw; /* -0.2 en media < 1500px*/
-}
-#flag4 {
-  left: 43.5vw;
-}
-#flag5 {
-  left: 55.05vw;
-}
-#flag6 {
-  left: 78.26vw;
-}
-
 @media screen and (max-width: 1500px) {
   /*.amount-choice {*/
   .title {
@@ -337,52 +379,13 @@ export default {
     margin-left: 15vw !important;
     font-size: 2.4rem !important;
   }
-  /* } */
-  .empty-flag,
-  .full-flag {
-    margin-left: -4px;
-  }
   .less-but {
     left: -5.5vw !important;
   }
 }
 
-.content-amount {
-  width: 150px;
-  margin-left: 50%;
-  height: 50px;
-  margin-top: 25vh;
-}
-
-.amount {
-  z-index: 5;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 3.1vh;
-  font-family: pixel2;
-  font-size: 3rem;
-  color: white;
-}
-
-.amount2 {
-  z-index: 2;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-47%);
-  margin-top: 3.4vh;
-  font-family: pixel2;
-  font-size: 3rem;
-  color: black;
-}
-
-.amount-frame {
-  transform: translateX(-50%);
-}
-
 .amount-detail {
   margin-left: auto;
-  margin-top: -15vh;
   background-color: #512fb5;
   box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
     0px 5px #372491;
@@ -394,25 +397,15 @@ export default {
   /* z-index: 4; */
   overflow: hidden;
   /* text-overflow: ellipsis; */
-}
-
-.amount-detail .time {
   z-index: 5;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: 8vh;
   font-family: pixel2;
   font-size: 2.5rem;
   color: white;
 }
 
-.slider {
-  position: relative;
-  width: 58%;
-  margin-left: 21%;
-  margin-top: 25vh;
-}
 
 .content-line {
   height: 25vh;
@@ -430,197 +423,4 @@ export default {
   font-size: 1.2rem;
 }
 
-.progress {
-  border-radius: 0;
-}
-
-.progress-bar,
-.line2,
-.line1,
-.line3 {
-  transition: all 0.35s ease-in-out;
-}
-
-.more-but {
-  font-size: 3rem;
-  color: white;
-  width: 30px;
-  position: absolute;
-  text-align: center;
-  top: -9%;
-  left: 60vw;
-  transition: 0.15s ease;
-}
-
-.less-but {
-  font-size: 3rem;
-  color: white;
-  width: 30px;
-  position: absolute;
-  text-align: center;
-  top: -9%;
-  left: -4.5vw;
-  transition: 0.15s ease;
-}
-
-@keyframes shake-vertical {
-  2% {
-    transform: translate(-50%, -3px) rotate(0);
-  }
-  4% {
-    transform: translate(-50%, -9px) rotate(0);
-  }
-  6% {
-    transform: translate(-50%, 1px) rotate(0);
-  }
-  8% {
-    transform: translate(-50%, -5px) rotate(0);
-  }
-  10% {
-    transform: translate(-50%, 1px) rotate(0);
-  }
-  12% {
-    transform: translate(-50%, -1px) rotate(0);
-  }
-  14% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  16% {
-    transform: translate(-50%, 0px) rotate(0);
-  }
-  18% {
-    transform: translate(-50%, 0px) rotate(0);
-  }
-  20% {
-    transform: translate(-50%, 2px) rotate(0);
-  }
-  22% {
-    transform: translate(-50%, 10px) rotate(0);
-  }
-  24% {
-    transform: translate(-50%, 5px) rotate(0);
-  }
-  26% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  28% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  30% {
-    transform: translate(-50%, 5px) rotate(0);
-  }
-  32% {
-    transform: translate(-50%, 5px) rotate(0);
-  }
-  34% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  36% {
-    transform: translate(-50%, 6px) rotate(0);
-  }
-  38% {
-    transform: translate(-50%, -9px) rotate(0);
-  }
-  40% {
-    transform: translate(-50%, 6px) rotate(0);
-  }
-  42% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  44% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  46% {
-    transform: translate(-50%, 6px) rotate(0);
-  }
-  48% {
-    transform: translate(-50%, -9px) rotate(0);
-  }
-  50% {
-    transform: translate(-50%, 7px) rotate(0);
-  }
-  52% {
-    transform: translate(-50%, 9px) rotate(0);
-  }
-  54% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  56% {
-    transform: translate(-50%, -1px) rotate(0);
-  }
-  58% {
-    transform: translate(-50%, -2px) rotate(0);
-  }
-  60% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  62% {
-    transform: translate(-50%, -5px) rotate(0);
-  }
-  64% {
-    transform: translate(-50%, 4px) rotate(0);
-  }
-  66% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  68% {
-    transform: translate(-50%, -2px) rotate(0);
-  }
-  70% {
-    transform: translate(-50%, -8px) rotate(0);
-  }
-  72% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  74% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  76% {
-    transform: translate(-50%, 0px) rotate(0);
-  }
-  78% {
-    transform: translate(-50%, 7px) rotate(0);
-  }
-  80% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  82% {
-    transform: translate(-50%, 10px) rotate(0);
-  }
-  84% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  86% {
-    transform: translate(-50%, 10px) rotate(0);
-  }
-  88% {
-    transform: translate(-50%, -1px) rotate(0);
-  }
-  90% {
-    transform: translate(-50%, 1px) rotate(0);
-  }
-  92% {
-    transform: translate(-50%, 9px) rotate(0);
-  }
-  94% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  96% {
-    transform: translate(-50%, -8px) rotate(0);
-  }
-  98% {
-    transform: translate(-50%, 4px) rotate(0);
-  }
-  0%,
-  100% {
-    transform: translate(-50%, 0) rotate(0);
-  }
-}
-
-.shake-vertical {
-  animation-name: shake-vertical;
-  animation-duration: 100ms;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
 </style>

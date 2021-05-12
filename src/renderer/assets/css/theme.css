@@ -185,6 +185,14 @@ body {
   background-image: url("../img/left-arrow.svg");
 }
 
+.up-arrow {
+  background-image: url("../img/up-arrow.svg");
+}
+
+.down-arrow {
+  background-image: url("../img/down-arrow.svg");
+}
+
 .c-line {
   width: 100%;
   margin-top: 5px;
@@ -319,7 +327,9 @@ body {
   float: left;
   cursor: pointer;
 }
-
+.A-but {
+  margin-right:15px;
+}
 .arrow-up-ft {
   transform: rotate(90deg);
   position: absolute;
@@ -380,9 +390,9 @@ body {
 }
 
 .gpio-help {
-  position: absolute;
-  margin-top: -4.3vh;
-  margin-left: 6vw;
+  /* position: absolute; */
+  /* margin-top: -4.3vh; */
+  /* margin-left: 6vw; */
   color: white;
 }
 
