@@ -12,34 +12,29 @@
           </div>
         </div>
         <!-- time -->
-        <div class="row">
+        <div id="time" class="row">
           <div class="time">{{ session.terminal.play_timer }} min.</div>
         </div>
         <!-- payment-tool -->
-        <div class="row">
-          <div class="payment-tool"></div>
+        <div id="payment-tool" class="row">
+          <div id="arrows">
+            <img id="up-arrow" class="arrow" src="@/assets/img/up-arrow.svg" />
+            <div class="invisible-box"></div>
+            <img id="down-arrow" class="arrow" src="@/assets/img/down-arrow.svg" />
+          </div>
           <div class="boxes">
-            <div class="number-box active">
-              <div class="value">0</div>
-              <div class="arrow_marker">
-                <img id="up-arrow" src="@/assets/img/up-arrow.svg" />
-                <img id="down-arrow" src="@/assets/img/down-arrow.svg" />
-              </div>
-            </div>
-            <div class="number-box">
-              <div class="value">1</div>
-              <div class="arrow_marker"></div>
-            </div>
-            <div class="euro">
-              €
-              <div class="arrow_marker"></div>
-            </div>
+            <div class="number-box active">{{ amount[0].n }}</div>
+            <div class="number-box">{{ amount[1].n }}</div>
+            <div class="comma">,</div>
+            <div class="number-box">{{ amount[2].n }}</div>
+            <div class="number-box">{{ amount[3].n }}</div>
+            <div class="euro number-box">€</div>
           </div>
         </div>
         <!-- campaing -->
         <div class="row campaign-row">
           <div class="row amount-detail">
-            <div class="amount-media col-md-3">
+            <div class="amount-media col-md-4">
               <div class="p-3">
                 <youtube
                   v-if="session.campaign.is_video == true"
@@ -56,7 +51,7 @@
                 <img v-else :src="session.campaign.logo" :alt="session.campaign.name" />
               </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
               <div class="row p-3 campaign-description">
                 <span class="animVerticalText">{{ session.campaign.description }}</span>
               </div>
@@ -92,8 +87,9 @@ export default {
   props: ["session"],
   data: function() {
     return {
-      choosenIndexOf: 2,
-      boxes: document.getElementsByClassName(""),
+      active_box: 0,
+      boxes: "",
+      arrows: "",
       value: 1,
       max: 100,
       duration: 0,
@@ -108,20 +104,21 @@ export default {
         cc_load_policy: 0,
         iv_load_policy: 3,
         modestbranding: 1
-      }
+      },
+      amount: [{ n: 0 }, { n: 1 }, { n: 0 }, { n: 0 }]
     };
   },
   mounted: function() {
     if (!this.session.position_asso) {
       this.$emit("lastView");
-    } else {
-      if (this.session.position_amount) {
-        this.chooseBox(this.session.position_amount - 1);
-      } else {
-        this.chooseBox(2);
-      }
     }
+
+    this.boxes = document.getElementsByClassName("number-box");
+    this.arrows = document.getElementById("arrows");
+    // var reversed = boxes.reverse();
+
     this.overflowVerify();
+    this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
     // setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
@@ -139,6 +136,43 @@ export default {
     playVideo() {
       this.$refs.youtube.player.playVideo();
     },
+    nextBox(direction = 1) {
+      // direction = 1 or -1
+
+      if (
+        (direction != 1 && direction != -1) ||
+        (this.active_box <= 0 && direction == -1) ||
+        (this.active_box >= this.boxes.length - 1 && direction == 1)
+      )
+        return;
+
+      console.log(this.active_box);
+      // console.log("this.boxes[this.active_box"+direction+"].offsetLeft = "+this.boxes[this.active_box + direction].offsetLeft);
+
+      this.boxes[this.active_box].classList.toggle("active");
+      this.boxes[this.active_box + direction].classList.toggle("active");
+
+      if (
+        (direction == 1 && this.active_box <= 2) ||
+        (direction == -1 && this.active_box <= 3)
+      ) {
+        this.arrows.style.left =
+          this.boxes[this.active_box + direction].offsetLeft + "px";
+      }
+
+      this.active_box += direction;
+    },
+    incrementNum(incr = 1) {
+      // incr is direction 1 or -1
+      if (incr != 1 && incr != -1) return;
+      console.log(this.active_box);
+
+      if (this.amount[this.active_box].n == 0 && incr == -1)
+        this.amount[this.active_box].n = 9;
+      else
+        this.amount[this.active_box].n =
+          (this.amount[this.active_box].n + incr) % 10;
+    },
     simulate_a() {
       this.proceed();
       // console.log("a");
@@ -148,62 +182,26 @@ export default {
       // console.log("b");
     },
     simulate_left() {
-      if (this.boxes[this.choosenIndexOf - 1]) {
-        this.chooseBox(this.choosenIndexOf - 1);
-        this.animateIcon("less");
-      }
-      // console.log("left");
+      this.nextBox(-1);
     },
     simulate_right() {
-      if (this.boxes[this.choosenIndexOf + 1]) {
-        this.chooseBox(this.choosenIndexOf + 1);
-        this.animateIcon("more");
-      }
-      // console.log("right");
+      this.nextBox(1);
     },
     simulate_up: function() {
-      // console.log("up");
+      this.incrementNum(1);
     },
     simulate_down: function() {
-      // console.log("down");
-    },
-    chooseBox: function(index) {
-      // a réécrire ?
-      this.choosenIndexOf = index;
-      this.$emit("saveAmount", {
-        amount: this.amounts[this.choosenIndexOf],
-        indexOf: this.choosenIndexOf + 1
-      });
-      this.flags();
+      this.incrementNum(-1);
     },
     proceed: function() {
-      if (0) {
-        // if € box is active
-        this.$emit("nextView");
-      } else {
-        // next box with A and right
-        this.$emit("error", {
-          visible: true,
-          title: "Aucun choix valide",
-          errors: {}
-        });
-      }
+      console.log("proceed");
+
+      this.$emit("nextView");
     },
-    next: function() {
+    previous: function() {
       // on press B or left, if first block is active go to prev. screen
       this.$emit("lastView");
     },
-    // animateIcon(dir) {
-    //   if (dir == "less") {
-    //     var icon = document.getElementById("less-but");
-    //   } else {
-    //     var icon = document.getElementById("more-but");
-    //   }
-    //   icon.style.transform = "scale(1.4)";
-    //   setTimeout(function() {
-    //     icon.style.transform = "scale(1)";
-    //   }, 150);
-    // },
     overflowVerify: function() {
       var texts = document.getElementsByClassName("slide-description");
       var boxes = document.getElementsByClassName("descr");
@@ -225,6 +223,17 @@ export default {
 .row {
   justify-content: center;
   margin-top: 3vh;
+}
+#payment-tool {
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+}
+#arrows {
+  line-height: 15vh;
+  position: absolute;
+}
+
+#time {
 }
 
 .s-title {
@@ -256,21 +265,27 @@ export default {
 
 .payment-tool {
   width: 60vw;
-  margin-top: 5vh;
   margin-left: auto;
   margin-right: auto;
 }
 
+#arrows {
+  margin-top: -48px;
+}
+
 #up-arrow {
-  margin-top: -335%;
+  /* margin-top: -335%; */
   animation: topArrow 1s ease-in-out infinite;
 }
 
 #down-arrow {
-  margin-top: -265%;
+  margin-top: 15px;
   animation: botArrow 1s ease-in-out infinite;
 }
 
+.arrow {
+  display: block;
+}
 .boxes {
   /* padding-left: calc(50% - 60vw / 2); */
   /* justify-content: center; */
@@ -279,13 +294,29 @@ export default {
 }
 
 .number-box,
-.euro {
+.euro,
+.comma,
+.invisible-box {
   /* display: block; */
   margin: 15px;
-  height: 20vh;
-  width: 20vh;
-  line-height: 20vh; /* text centering vertically */
+  height: 15vh;
+  width: 15vh;
+  line-height: 15vh; /* text centering vertically */
   text-align: center; /* text centering vertically */
+}
+
+.invisible-box {
+  /* background-color: #3624915e; */
+  margin: 5px;
+  height: calc(15vh + 20px);
+  width: calc(15vh + 20px);
+  justify-content: center;
+}
+.arrow {
+  margin-left: calc((15vh / 2) - 20px);
+}
+.number-box,
+.euro {
   background-color: #ffff60;
   box-shadow: 3px 8px #ff9900, 0 0 0, 5px 8px #ff9900, 0 0 0;
   font-family: pixel;
@@ -293,17 +324,28 @@ export default {
   color: white;
   text-shadow: 5px 5px #ff9900;
 }
+
 .euro {
   font-family: pixel2;
 }
+.comma {
+  text-align: left;
+  width: 5vh;
+  background-color: transparent;
+  box-shadow: none;
+  color: white;
+  text-shadow: 5px 5px #ff9900;
+  font-family: pixel2;
+  font-size: 10rem;
+}
 
 .active {
-  line-height: calc(20vh + 20px); /* text centering vertically */
+  line-height: calc(15vh + 20px); /* text centering vertically */
   background-color: #ffff08;
   box-shadow: 5px 10px #ffac30, 0 0 0, 7px 10px #ffac30, 0 0 0;
   margin: 5px;
-  height: calc(20vh + 20px);
-  width: calc(20vh + 20px);
+  height: calc(15vh + 20px);
+  width: calc(15vh + 20px);
   font-size: 12rem;
 }
 
@@ -333,13 +375,9 @@ export default {
   }
 }
 
-.campaign-row {
-  margin-top: 10vh;
-}
-
 .campaign-description {
   overflow: hidden;
-  height: 155px;
+  height: 255px;
   margin-top: 15px;
 }
 
@@ -368,8 +406,8 @@ export default {
   /* border : solid 3px rgb(33, 29, 255); */
   /* border-radius: 15px; */
   /* text-align: left; */
-  width: 60vw;
-  height: 185px;
+  width: 70vw;
+  height: 25vh;
   /* z-index: 4; */
   overflow: hidden;
   /* text-overflow: ellipsis; */

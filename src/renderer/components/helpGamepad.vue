@@ -139,25 +139,25 @@ export default {
     keyboradEventListener: function(key) {
       // return window.addEventListener("keydown", function(key){
       var k = key.key;
-      var c = key.keyCode;
+      var c = key.keyCode; // for directional arrows
 
       if (k == "a" || k == "A") {
-        console.log("a");
+        // console.log("a");
         this.$emit("simulate_a");
       } else if (k == "b" || k == "B") {
-        console.log("b");
+        // console.log("b");
         this.$emit("simulate_b");
       } else if (c == 39) {
-        console.log("right");
+        // console.log("right");
         this.$emit("simulate_right");
       } else if (c == 37) {
-        console.log("left");
+        // console.log("left");
         this.$emit("simulate_left");
       } else if (c == 38) {
-        console.log("up");
+        // console.log("up");
         this.$emit("simulate_up");
       } else if (c == 40) {
-        console.log("down");
+        // console.log("down");
         this.$emit("simulate_down");
       }
       // })
