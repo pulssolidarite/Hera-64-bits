@@ -234,7 +234,8 @@ export default {
     simulate_a() {
       if (this.active_box < this.boxes.length - 1) {
         this.nextBox(1);
-      } else if (this.active_box == this.boxes.length - 1) {
+      } else if (this.active_box == this.boxes.length - 1 &&
+                 this.eurobox == "start") {
         this.$emit("saveAmount", {
           amount: this.countAmount()
         });
