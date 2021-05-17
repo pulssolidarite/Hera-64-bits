@@ -100,8 +100,6 @@ export default {
       active_box: 0,
       boxes: "",
       arrows: "",
-      value: 1,
-      max: 100,
       duration: 0,
       playerVars: {
         autoplay: 1,
@@ -157,12 +155,11 @@ export default {
         count += a.n * 10 ** e;
         e--;
       });
-      count = parseInt(count * 100);
 
       return count;
     },
     updateEurobox() {
-      var count = this.countAmount() / 100;
+      var count = this.countAmount();
 
       if (count < this.min_amount) {
         this.eurobox = "minlimit";
@@ -238,6 +235,9 @@ export default {
       if (this.active_box < this.boxes.length - 1) {
         this.nextBox(1);
       } else if (this.active_box == this.boxes.length - 1) {
+        this.$emit("saveAmount", {
+          amount: this.countAmount()
+        });
         this.$emit("nextView");
       }
     },

@@ -200,7 +200,6 @@ export default {
         end_time: null,
         position_asso: null,
         position_game: null,
-        position_amount: null,
       },
       campaigns: {},
       games: {},
@@ -219,7 +218,6 @@ export default {
       end_time: null,
       position_asso: null,
       position_game: null,
-      position_amount: null,
     };
     this.loading = true;
     // First checking if logged in
@@ -338,7 +336,6 @@ export default {
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;
-      this.session.position_amount = payload.indexOf;
     },
     savePayment: function(payload) {
       // Saving the payment right away, avoiding to loose sensitive data
