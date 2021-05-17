@@ -7,7 +7,7 @@
           <div class="s-title">
             <div class="title">CHOISIS TON MONTANT</div>
             <div class="subtitle">
-              <div class="animHorizontalText">Vos dons sont reversés aux associations.</div>
+              <div class="">Vos dons sont reversés aux associations.</div>
             </div>
           </div>
         </div>
@@ -25,10 +25,20 @@
           <div class="boxes">
             <div class="number-box active">{{ amount[0].n }}</div>
             <div class="number-box">{{ amount[1].n }}</div>
-            <div class="comma">,</div>
-            <div class="number-box">{{ amount[2].n }}</div>
-            <div class="number-box">{{ amount[3].n }}</div>
-            <div class="euro number-box">€</div>
+            <div class="euro number-box">
+              <div id="maxlimit" v-if="eurobox=='maxlimit'">
+                Max.
+                <br />
+                {{ max_amount }}€
+              </div>
+              <div id="minlimit" v-if="eurobox=='minlimit'">
+                Min.
+                <br />
+                {{ min_amount }}€
+              </div>
+              <div id="default" v-if="eurobox=='default'">€</div>
+              <div id="start" v-if="eurobox=='start'">Start</div>
+            </div>
           </div>
         </div>
         <!-- campaing -->
@@ -53,7 +63,7 @@
             </div>
             <div class="col-md-8">
               <div class="row p-3 campaign-description">
-                <span class="animVerticalText">{{ session.campaign.description }}</span>
+                <span class="descr">{{ session.campaign.description }}</span>
               </div>
             </div>
           </div>
@@ -105,7 +115,10 @@ export default {
         iv_load_policy: 3,
         modestbranding: 1
       },
-      amount: [{ n: 0 }, { n: 1 }, { n: 0 }, { n: 0 }]
+      amount: [{ n: 0 }, { n: 1 }],
+      max_amount: 50,
+      min_amount: 1,
+      eurobox: "default"
     };
   },
   mounted: function() {
@@ -119,7 +132,7 @@ export default {
 
     this.overflowVerify();
     this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
-    // setTimeout(() => this.$emit("home"), 1000 * 60);
+    setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
     playerReady: function() {
@@ -136,6 +149,33 @@ export default {
     playVideo() {
       this.$refs.youtube.player.playVideo();
     },
+    countAmount() {
+      // return in cents : 1€ = 100
+      var count = 0;
+      var e = 1;
+      this.amount.forEach(a => {
+        count += a.n * 10 ** e;
+        e--;
+      });
+      count = parseInt(count * 100);
+
+      return count;
+    },
+    updateEurobox() {
+      var count = this.countAmount() / 100;
+
+      if (count < this.min_amount) {
+        this.eurobox = "minlimit";
+        document.getElementsByClassName("euro")[0].style.background = "red";
+      } else if (count > this.max_amount) {
+        this.eurobox = "maxlimit";
+        document.getElementsByClassName("euro")[0].style.background = "red";
+      } else {
+        this.eurobox = "default";
+        document.getElementsByClassName("euro")[0].style.background = "yellow";
+      }
+      console.log(this.eurobox);
+    },
     nextBox(direction = 1) {
       // direction = 1 or -1
 
@@ -146,25 +186,42 @@ export default {
       )
         return;
 
+      this.active_box += direction;
       console.log(this.active_box);
-      // console.log("this.boxes[this.active_box"+direction+"].offsetLeft = "+this.boxes[this.active_box + direction].offsetLeft);
 
       this.boxes[this.active_box].classList.toggle("active");
-      this.boxes[this.active_box + direction].classList.toggle("active");
-
-      if (
-        (direction == 1 && this.active_box <= 2) ||
-        (direction == -1 && this.active_box <= 3)
-      ) {
-        this.arrows.style.left =
-          this.boxes[this.active_box + direction].offsetLeft + "px";
+      this.boxes[this.active_box - direction].classList.toggle("active");
+      this.moveArrows(direction);
+    },
+    moveArrows(direction = 1) {
+      // console.log("this.boxes[this.active_box"+direction+"].offsetLeft = "+this.boxes[this.active_box + direction].offsetLeft);
+      if (this.active_box < this.boxes.length - 1) {
+        this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
       }
-
-      this.active_box += direction;
+      if (
+        this.eurobox == "default" &&
+        this.active_box == this.boxes.length - 1
+      ) {
+        this.eurobox = "start";
+        this.arrows.style.display = "none";
+        this.boxes[this.boxes.length - 1].classList.toggle("start");
+        this.boxes[this.boxes.length - 1].classList.toggle("default");
+        document.getElementsByClassName("euro")[0].style.background = "#99c961";
+      } else if (
+        this.eurobox == "start" &&
+        this.active_box < this.boxes.length
+      ) {
+        this.eurobox = "default";
+        this.arrows.style.display = "block";
+        this.boxes[this.boxes.length - 1].classList.toggle("start");
+        this.boxes[this.boxes.length - 1].classList.toggle("default");
+        document.getElementsByClassName("euro")[0].style.background = "#ffff60";
+      }
     },
     incrementNum(incr = 1) {
       // incr is direction 1 or -1
-      if (incr != 1 && incr != -1) return;
+      if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1)
+        return;
       console.log(this.active_box);
 
       if (this.amount[this.active_box].n == 0 && incr == -1)
@@ -172,14 +229,24 @@ export default {
       else
         this.amount[this.active_box].n =
           (this.amount[this.active_box].n + incr) % 10;
+
+      this.updateEurobox();
+
+      console.log("countAmount() = " + this.countAmount());
     },
     simulate_a() {
-      this.proceed();
-      // console.log("a");
+      if (this.active_box < this.boxes.length - 1) {
+        this.nextBox(1);
+      } else if (this.active_box == this.boxes.length - 1) {
+        this.$emit("nextView");
+      }
     },
     simulate_b() {
-      this.next();
-      // console.log("b");
+      if (this.active_box == 0) {
+        this.$emit("lastView");
+      } else if (this.active_box < this.boxes.length) {
+        this.nextBox(-1);
+      }
     },
     simulate_left() {
       this.nextBox(-1);
@@ -203,41 +270,61 @@ export default {
       this.$emit("lastView");
     },
     overflowVerify: function() {
-      var texts = document.getElementsByClassName("slide-description");
-      var boxes = document.getElementsByClassName("descr");
+      var box = document.getElementsByClassName("campaign-description")[0];
+      var text = document.getElementsByClassName("descr")[0];
 
-      var i = 0;
-      while (i < texts.length) {
-        console.log(texts[i].offsetHeight + " " + boxes[i].offsetHeight);
-        texts[i].classList.add("animVerticalText");
-        if (texts[i].offsetHeight > boxes[i].offsetHeight) {
-        }
-        i++;
-      }
+      console.log(text.offsetHeight + " " + box.offsetHeight);
+
+      if (text.offsetHeight > box.offsetHeight)
+        text.classList.add("animVerticalText");
     }
   }
 };
 </script>
 
 <style scoped>
+#start {
+  font-size: 5vh;
+}
+#maxlimit,
+#minlimit {
+  font-size: 5vh;
+  line-height: calc(18vh / 2);
+}
 .row {
   justify-content: center;
   margin-top: 3vh;
 }
 #payment-tool {
-  margin-top: 10vh;
+  margin-top: 5vh;
   margin-bottom: 5vh;
 }
 #arrows {
-  line-height: 15vh;
+  line-height: 18vh;
   position: absolute;
-}
-
-#time {
+  transition-duration: 0.3s;
 }
 
 .s-title {
   position: relative;
+}
+
+.s-title .subtitle {
+  font-family: Pixel2;
+  font-size: 3.5vh;
+  margin-left: 0;
+  max-width: 70vw;
+  color: #c97005;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.s-title .title {
+  margin-left: 0;
+}
+
+.subtitle {
+  font-size: 2em;
 }
 
 .title,
@@ -255,14 +342,6 @@ export default {
   font-size: 6em;
 }
 
-.s-title .title {
-  margin-left: 0;
-}
-
-.subtitle {
-  font-size: 2em;
-}
-
 .payment-tool {
   width: 60vw;
   margin-left: auto;
@@ -274,7 +353,6 @@ export default {
 }
 
 #up-arrow {
-  /* margin-top: -335%; */
   animation: topArrow 1s ease-in-out infinite;
 }
 
@@ -285,68 +363,54 @@ export default {
 
 .arrow {
   display: block;
+  margin-left: calc((18vh / 2) - 20px);
 }
 .boxes {
-  /* padding-left: calc(50% - 60vw / 2); */
-  /* justify-content: center; */
   display: flex;
   justify-content: center;
 }
 
 .number-box,
 .euro,
-.comma,
 .invisible-box {
-  /* display: block; */
+  transition-duration: 0.1s;
   margin: 15px;
-  height: 15vh;
-  width: 15vh;
-  line-height: 15vh; /* text centering vertically */
+  height: 18vh;
+  width: 18vh;
+  line-height: 18vh; /* text centering vertically */
   text-align: center; /* text centering vertically */
 }
 
 .invisible-box {
-  /* background-color: #3624915e; */
   margin: 5px;
-  height: calc(15vh + 20px);
-  width: calc(15vh + 20px);
+  height: calc(18vh + 20px);
+  width: calc(18vh + 20px);
   justify-content: center;
 }
-.arrow {
-  margin-left: calc((15vh / 2) - 20px);
-}
+
 .number-box,
 .euro {
   background-color: #ffff60;
   box-shadow: 3px 8px #ff9900, 0 0 0, 5px 8px #ff9900, 0 0 0;
   font-family: pixel;
-  font-size: 10rem;
+  font-size: 9rem;
   color: white;
   text-shadow: 5px 5px #ff9900;
 }
 
 .euro {
   font-family: pixel2;
-}
-.comma {
-  text-align: left;
-  width: 5vh;
-  background-color: transparent;
-  box-shadow: none;
-  color: white;
-  text-shadow: 5px 5px #ff9900;
-  font-family: pixel2;
-  font-size: 10rem;
+  font-weight: bold;
 }
 
 .active {
-  line-height: calc(15vh + 20px); /* text centering vertically */
+  line-height: calc(18vh + 20px); /* text centering vertically */
   background-color: #ffff08;
   box-shadow: 5px 10px #ffac30, 0 0 0, 7px 10px #ffac30, 0 0 0;
   margin: 5px;
-  height: calc(15vh + 20px);
-  width: calc(15vh + 20px);
-  font-size: 12rem;
+  height: calc(18vh + 20px);
+  width: calc(18vh + 20px);
+  font-size: 11rem;
 }
 
 @keyframes overflowVerticalText {
@@ -377,8 +441,8 @@ export default {
 
 .campaign-description {
   overflow: hidden;
-  height: 255px;
-  margin-top: 15px;
+  height: 18vh;
+  margin-top: 2vh;
 }
 
 .amount-media {
@@ -387,7 +451,6 @@ export default {
 }
 
 @media screen and (max-width: 1500px) {
-  /*.amount-choice {*/
   .title {
     max-width: 70vw !important;
     margin-left: 15vw !important;
@@ -399,22 +462,11 @@ export default {
 }
 
 .amount-detail {
-  margin-left: auto;
   background-color: #512fb5;
-  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
-    0px 5px #372491;
-  /* border : solid 3px rgb(33, 29, 255); */
-  /* border-radius: 15px; */
-  /* text-align: left; */
+  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491;
   width: 70vw;
-  height: 25vh;
-  /* z-index: 4; */
+  height: 22vh;
   overflow: hidden;
-  /* text-overflow: ellipsis; */
-  z-index: 5;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   font-family: pixel2;
   font-size: 2.5rem;
   color: white;
@@ -426,8 +478,7 @@ export default {
 }
 
 .content-slidebar {
-  box-shadow: -8px 0px #775ce4, 0px -8px #775ce4, 8px 0px #372491,
-    0px 8px #372491;
+  box-shadow: -8px 0px #775ce4, 0px -8px #775ce4, 8px 0px #372491, 0px 8px #372491;
 }
 
 .campaign-description {
