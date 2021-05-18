@@ -171,7 +171,7 @@ export default {
         this.eurobox = "default";
         document.getElementsByClassName("euro")[0].style.background = "yellow";
       }
-      console.log(this.eurobox);
+      // console.log(this.eurobox);
     },
     nextBox(direction = 1) {
       // direction = 1 or -1
@@ -184,7 +184,7 @@ export default {
         return;
 
       this.active_box += direction;
-      console.log(this.active_box);
+      // console.log(this.active_box);
 
       this.boxes[this.active_box].classList.toggle("active");
       this.boxes[this.active_box - direction].classList.toggle("active");
@@ -219,7 +219,7 @@ export default {
       // incr is direction 1 or -1
       if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1)
         return;
-      console.log(this.active_box);
+      // console.log(this.active_box);
 
       if (this.amount[this.active_box].n == 0 && incr == -1)
         this.amount[this.active_box].n = 9;
@@ -229,7 +229,7 @@ export default {
 
       this.updateEurobox();
 
-      console.log("countAmount() = " + this.countAmount());
+      // console.log("countAmount() = " + this.countAmount());
     },
     simulate_a() {
       if (this.active_box < this.boxes.length - 1) {
@@ -261,20 +261,11 @@ export default {
     simulate_down: function() {
       this.incrementNum(-1);
     },
-    proceed: function() {
-      console.log("proceed");
-
-      this.$emit("nextView");
-    },
-    previous: function() {
-      // on press B or left, if first block is active go to prev. screen
-      this.$emit("lastView");
-    },
     overflowVerify: function() {
       var box = document.getElementsByClassName("campaign-description")[0];
       var text = document.getElementsByClassName("descr")[0];
 
-      console.log(text.offsetHeight + " " + box.offsetHeight);
+      // console.log(text.offsetHeight + " " + box.offsetHeight);
 
       if (text.offsetHeight > box.offsetHeight)
         text.classList.add("animVerticalText");
