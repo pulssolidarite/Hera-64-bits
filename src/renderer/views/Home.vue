@@ -238,6 +238,8 @@ export default {
         
         this.session.terminal = this.terminal;
         this.campaigns = resp.data.campaigns;
+        // console.log(resp.data.campaigns);
+        
         this.games = resp.data.games;
 
         // TEST-ONLY : we get the subscription type here

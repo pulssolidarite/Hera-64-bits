@@ -7,7 +7,7 @@
           <div class="s-title">
             <div class="title">CHOISIS TON MONTANT</div>
             <div class="subtitle">
-              <div class="">Vos dons sont reversés aux associations.</div>
+              <div class>Vos dons sont reversés aux associations.</div>
             </div>
           </div>
         </div>
@@ -45,8 +45,8 @@
         <div class="row campaign-row">
           <div class="row amount-detail">
             <div class="amount-media col-md-4">
-              <div class="p-3">
-                <youtube
+              <!-- <div class="p-3"> -->
+              <!-- <youtube
                   v-if="session.campaign.is_video == true"
                   v-show="session.campaign.is_video"
                   id="player-ytb"
@@ -57,13 +57,13 @@
                   @ready="playerReady()"
                   @playing="playerPlaying()"
                   @ended="playVideo()"
-                ></youtube>
-                <img v-else :src="session.campaign.logo" :alt="session.campaign.name" />
-              </div>
+              ></youtube>-->
+              <img id="donationStepImage" :src="stepImage" :alt="session.campaign.name" />
+              <!-- </div> -->
             </div>
             <div class="col-md-8">
-              <div class="row p-3 campaign-description">
-                <span class="descr">{{ session.campaign.description }}</span>
+              <div class="campaign-description">
+                <div class="descr">{{ stepText }}</div>
               </div>
             </div>
           </div>
@@ -116,7 +116,9 @@ export default {
       amount: [{ n: 0 }, { n: 1 }],
       max_amount: 50,
       min_amount: 1,
-      eurobox: "default"
+      eurobox: "default",
+      stepImage: "",
+      stepText: ""
     };
   },
   mounted: function() {
@@ -124,15 +126,31 @@ export default {
       this.$emit("lastView");
     }
 
+    this.updateDonationStep();
+
     this.boxes = document.getElementsByClassName("number-box");
     this.arrows = document.getElementById("arrows");
     // var reversed = boxes.reverse();
 
-    this.overflowVerify();
     this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
-    setTimeout(() => this.$emit("home"), 1000 * 60);
+    // setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
+    updateDonationStep: function() {
+      if (!this.session.campaign.donationSteps) return;
+
+      // console.log(this.session.campaign);
+
+      this.session.campaign.donationSteps.forEach(step => {
+        if (this.countAmount() >= step.amount) {
+          this.stepImage = step.image;
+          this.stepText = step.text;
+          
+          // this.overflowVerify();
+          return;
+        }
+      });
+    },
     playerReady: function() {
       this.$refs.youtube.player.mute();
       this.$refs.youtube.player.getDuration().then(resp => {
@@ -161,17 +179,16 @@ export default {
     updateEurobox() {
       var count = this.countAmount();
 
+      this.eurobox = "default";
+      document.getElementsByClassName("euro")[0].style.background = "#ffff60";
+
       if (count < this.min_amount) {
         this.eurobox = "minlimit";
         document.getElementsByClassName("euro")[0].style.background = "red";
       } else if (count > this.max_amount) {
         this.eurobox = "maxlimit";
         document.getElementsByClassName("euro")[0].style.background = "red";
-      } else {
-        this.eurobox = "default";
-        document.getElementsByClassName("euro")[0].style.background = "yellow";
       }
-      // console.log(this.eurobox);
     },
     nextBox(direction = 1) {
       // direction = 1 or -1
@@ -191,7 +208,6 @@ export default {
       this.moveArrows(direction);
     },
     moveArrows(direction = 1) {
-      // console.log("this.boxes[this.active_box"+direction+"].offsetLeft = "+this.boxes[this.active_box + direction].offsetLeft);
       if (this.active_box < this.boxes.length - 1) {
         this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
       }
@@ -227,6 +243,7 @@ export default {
         this.amount[this.active_box].n =
           (this.amount[this.active_box].n + incr) % 10;
 
+      this.updateDonationStep();
       this.updateEurobox();
 
       // console.log("countAmount() = " + this.countAmount());
@@ -234,8 +251,10 @@ export default {
     simulate_a() {
       if (this.active_box < this.boxes.length - 1) {
         this.nextBox(1);
-      } else if (this.active_box == this.boxes.length - 1 &&
-                 this.eurobox == "start") {
+      } else if (
+        this.active_box == this.boxes.length - 1 &&
+        this.eurobox == "start"
+      ) {
         this.$emit("saveAmount", {
           amount: this.countAmount()
         });
@@ -265,10 +284,15 @@ export default {
       var box = document.getElementsByClassName("campaign-description")[0];
       var text = document.getElementsByClassName("descr")[0];
 
-      // console.log(text.offsetHeight + " " + box.offsetHeight);
+      console.log(text.offsetHeight + " " + box.offsetHeight);
+      console.log("change donation step for " + this.countAmount() + "€");
+      console.log(text);
 
-      if (text.offsetHeight > box.offsetHeight)
+      text.classList.remove("animVerticalText");
+      if (text.offsetHeight > box.offsetHeight) {
+        console.log("animate");
         text.classList.add("animVerticalText");
+      }
     }
   }
 };
@@ -431,15 +455,24 @@ export default {
   }
 }
 
+#donationStepImage {
+  /* width: 200px; */
+  margin-top: 1vh;
+  height: 19.5vh;
+  object-fit: contain;
+}
+
 .campaign-description {
   overflow: hidden;
   height: 18vh;
-  margin-top: 2vh;
+  margin-top: 1vh;
 }
 
 .amount-media {
-  margin-left: auto;
-  margin-right: auto;
+  overflow: hidden;
+  text-align: center;
+  /* margin-left: auto;
+  margin-right: auto; */
 }
 
 @media screen and (max-width: 1500px) {
@@ -455,7 +488,8 @@ export default {
 
 .amount-detail {
   background-color: #512fb5;
-  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491;
+  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
+    0px 5px #372491;
   width: 70vw;
   height: 22vh;
   overflow: hidden;
@@ -470,7 +504,8 @@ export default {
 }
 
 .content-slidebar {
-  box-shadow: -8px 0px #775ce4, 0px -8px #775ce4, 8px 0px #372491, 0px 8px #372491;
+  box-shadow: -8px 0px #775ce4, 0px -8px #775ce4, 8px 0px #372491,
+    0px 8px #372491;
 }
 
 .campaign-description {
