@@ -130,23 +130,17 @@ export default {
 
     this.boxes = document.getElementsByClassName("number-box");
     this.arrows = document.getElementById("arrows");
-    // var reversed = boxes.reverse();
 
     this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
-    // setTimeout(() => this.$emit("home"), 1000 * 60);
+    setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
     updateDonationStep: function() {
       if (!this.session.campaign.donationSteps) return;
-
-      // console.log(this.session.campaign);
-
       this.session.campaign.donationSteps.forEach(step => {
         if (this.countAmount() >= step.amount) {
           this.stepImage = step.image;
           this.stepText = step.text;
-          
-          // this.overflowVerify();
           return;
         }
       });
@@ -201,8 +195,6 @@ export default {
         return;
 
       this.active_box += direction;
-      // console.log(this.active_box);
-
       this.boxes[this.active_box].classList.toggle("active");
       this.boxes[this.active_box - direction].classList.toggle("active");
       this.moveArrows(direction);
@@ -235,8 +227,6 @@ export default {
       // incr is direction 1 or -1
       if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1)
         return;
-      // console.log(this.active_box);
-
       if (this.amount[this.active_box].n == 0 && incr == -1)
         this.amount[this.active_box].n = 9;
       else
@@ -245,8 +235,6 @@ export default {
 
       this.updateDonationStep();
       this.updateEurobox();
-
-      // console.log("countAmount() = " + this.countAmount());
     },
     simulate_a() {
       if (this.active_box < this.boxes.length - 1) {
