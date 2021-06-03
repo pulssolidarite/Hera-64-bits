@@ -7,7 +7,7 @@
           <div class="s-title">
             <div class="title">CHOISIS TON MONTANT</div>
             <div class="subtitle">
-              <div class>Vos dons sont reversés aux associations.</div>
+              <div class>Ton don reversé à {{ session.campaign.name}}.</div>
             </div>
           </div>
         </div>
@@ -113,7 +113,10 @@ export default {
         iv_load_policy: 3,
         modestbranding: 1
       },
-      amount: [{ n: 0 }, { n: 1 }],
+      amount: [
+        { n: 0, limit: 5 },
+        { n: 1, limit: 9 }
+      ],
       max_amount: 50,
       min_amount: 1,
       eurobox: "default",
@@ -228,10 +231,10 @@ export default {
       if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1)
         return;
       if (this.amount[this.active_box].n == 0 && incr == -1)
-        this.amount[this.active_box].n = 9;
+        this.amount[this.active_box].n = this.amount[this.active_box].limit;
       else
         this.amount[this.active_box].n =
-          (this.amount[this.active_box].n + incr) % 10;
+          (this.amount[this.active_box].n + incr) % (this.amount[this.active_box].limit + 1);
 
       this.updateDonationStep();
       this.updateEurobox();

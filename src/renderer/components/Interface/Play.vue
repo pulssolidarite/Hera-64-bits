@@ -9,7 +9,7 @@
           Le jeu a débuté
         </h1>
         <p class="lead text-white">
-          Veuillez patienter, votre partie va se lancer.
+          Chargement.
         </p>
         <p><strong>Status</strong> : {{ this.status }}</p>
       </div>
