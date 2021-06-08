@@ -104,9 +104,9 @@ On next boot Hera will auto start.
 
 ## Local Net & Internet
 
-Le Wifi se configure simplement à l'installation de l'OS ou directement chez l'usager avec le gestionnaire réseau d'Ubuntu.
-Si ce n'est pas déjà fait, il faut partager un port ethernet aux autres ordinat
-Sur le barebone AsRock il y a deux ports Ethernet ce qui permet de partage le premier au réseau interne de la borne et le deuxième comme connexion directe. Ceci permêt des usages plus polyvalents pour l'usager (wifi + ethernet).
+On the AsRock barebone there are two ethernet plugs allowing for a shared connection for the payment terminal and the second can be used as internet acces for when someone changes connection type (wifi/etheret).
+This configuration is done in the internet settings, where you can set eth0 to be shared with other computers. This interface now can be plugged to the local network inside the arcade and be used as a internet sharing.
 
-Magie ça marche ! si tout est branché...
+## Enjoy!
+
 
