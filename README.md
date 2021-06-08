@@ -19,7 +19,7 @@ When installation is over, go in BIOS and :
 
 Configure Ubuntu :
 - share one ethernet port with other devices (for EMV)
-- empêcher l'écran de se mettre en veille
+- deactivate screensaver
 
 ## Install Software
 
