@@ -7,14 +7,12 @@
           <div class="s-title">
             <div class="title">CHOISIS TON MONTANT</div>
             <div class="subtitle">
-              <div class>Ton don reversé à {{ session.campaign.name}}.</div>
+              <div class>Ton don sera reversé à {{ session.campaign.name}}.</div>
             </div>
           </div>
         </div>
         <!-- time -->
-        <div id="time" class="row">
-          <div class="time">{{ session.terminal.play_timer }} min.</div>
-        </div>
+
         <!-- payment-tool -->
         <div id="payment-tool" class="row">
           <div id="arrows">
@@ -43,28 +41,16 @@
         </div>
         <!-- campaing -->
         <div class="row campaign-row">
-          <div class="row amount-detail">
-            <div class="amount-media col-md-4">
-              <!-- <div class="p-3"> -->
-              <!-- <youtube
-                  v-if="session.campaign.is_video == true"
-                  v-show="session.campaign.is_video"
-                  id="player-ytb"
-                  :video-id="session.campaign.video"
-                  :player-vars="playerVars"
-                  :fitParent="true"
-                  ref="youtube"
-                  @ready="playerReady()"
-                  @playing="playerPlaying()"
-                  @ended="playVideo()"
-              ></youtube>-->
-              <img id="donationStepImage" :src="stepImage" :alt="session.campaign.name" />
-              <!-- </div> -->
-            </div>
-            <div class="col-md-8">
-              <div class="campaign-description">
-                <div class="descr">{{ stepText }}</div>
-              </div>
+          <div
+            v-for="(step, i) in session.campaign.donationSteps"
+            :key="i"
+            :index="i"
+            class="donationsteps"
+            ref="steptext"
+          >
+            <div class="donationstep">
+              <img class="donationStepImage" :src="step.image" :alt="session.campaign.name" />
+              {{step.text}}
             </div>
           </div>
         </div>
@@ -100,19 +86,6 @@ export default {
       active_box: 0,
       boxes: "",
       arrows: "",
-      duration: 0,
-      playerVars: {
-        autoplay: 1,
-        iv_load_policy: 3,
-        playsinline: 1,
-        controls: 0,
-        modestbranding: 1,
-        showinfo: 0,
-        rel: 0,
-        cc_load_policy: 0,
-        iv_load_policy: 3,
-        modestbranding: 1
-      },
       amount: [
         { n: 0, limit: 5 },
         { n: 1, limit: 9 }
@@ -120,8 +93,6 @@ export default {
       max_amount: 50,
       min_amount: 1,
       eurobox: "default",
-      stepImage: "",
-      stepText: ""
     };
   },
   mounted: function() {
@@ -140,27 +111,18 @@ export default {
   methods: {
     updateDonationStep: function() {
       if (!this.session.campaign.donationSteps) return;
-      this.session.campaign.donationSteps.forEach(step => {
-        if (this.countAmount() >= step.amount) {
-          this.stepImage = step.image;
-          this.stepText = step.text;
-          return;
+      this.session.campaign.donationSteps.forEach((step, i, steps) => {
+        if (
+          this.countAmount() >= step.amount &&
+          this.countAmount() < (steps[i + 1] == null ? 55 : steps[i + 1].amount)
+        ) {
+          // this.$refs.carousel.slideTo(i);
+          this.$refs.steptext[i].style.boxShadow = "-5px 0px yellow, 0px -5px yellow, 5px 0px #ff9900, 0px 5px #ff9900";
+          // return;
+        } else {
+          this.$refs.steptext[i].style.boxShadow = "-5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491";
         }
       });
-    },
-    playerReady: function() {
-      this.$refs.youtube.player.mute();
-      this.$refs.youtube.player.getDuration().then(resp => {
-        this.duration = resp;
-      });
-      this.playVideo();
-    },
-    playerPlaying: async function() {
-      let currentTime = this.$refs.youtube.player.getCurrentTime();
-      this.timer = (Math.ceil(currentTime) / this.duration) * 100;
-    },
-    playVideo() {
-      this.$refs.youtube.player.playVideo();
     },
     countAmount() {
       // return in cents : 1€ = 100
@@ -234,7 +196,8 @@ export default {
         this.amount[this.active_box].n = this.amount[this.active_box].limit;
       else
         this.amount[this.active_box].n =
-          (this.amount[this.active_box].n + incr) % (this.amount[this.active_box].limit + 1);
+          (this.amount[this.active_box].n + incr) %
+          (this.amount[this.active_box].limit + 1);
 
       this.updateDonationStep();
       this.updateEurobox();
@@ -271,43 +234,39 @@ export default {
     simulate_down: function() {
       this.incrementNum(-1);
     },
-    overflowVerify: function() {
-      var box = document.getElementsByClassName("campaign-description")[0];
-      var text = document.getElementsByClassName("descr")[0];
-
-      console.log(text.offsetHeight + " " + box.offsetHeight);
-      console.log("change donation step for " + this.countAmount() + "€");
-      console.log(text);
-
-      text.classList.remove("animVerticalText");
-      if (text.offsetHeight > box.offsetHeight) {
-        console.log("animate");
-        text.classList.add("animVerticalText");
-      }
-    }
   }
 };
 </script>
 
 <style scoped>
+.campaign-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  min-width: 100%;
+}
+
 #start {
   font-size: 5vh;
 }
 #maxlimit,
 #minlimit {
   font-size: 5vh;
-  line-height: calc(18vh / 2);
-}
-.row {
-  justify-content: center;
-  margin-top: 3vh;
+  line-height: calc(15vh / 2);
 }
 #payment-tool {
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  justify-content: center;
+}
+
+#payment-tool {
+  margin-top: 12vh;
+  margin-bottom: 10vh;
 }
 #arrows {
-  line-height: 18vh;
+  line-height: 15vh;
   position: absolute;
   transition-duration: 0.3s;
 }
@@ -319,15 +278,9 @@ export default {
 .s-title .subtitle {
   font-family: Pixel2;
   font-size: 3.5vh;
-  margin-left: 0;
   max-width: 70vw;
   color: #c97005;
-  white-space: nowrap;
   overflow: hidden;
-}
-
-.s-title .title {
-  margin-left: 0;
 }
 
 .subtitle {
@@ -335,18 +288,12 @@ export default {
 }
 
 .title,
-.subtitle,
-.time {
+.subtitle{
   margin-left: unset;
   margin: unset;
   text-align: center;
   font-family: pixel2;
   color: white;
-}
-
-.time {
-  text-shadow: 5px 5px #ff9900;
-  font-size: 6em;
 }
 
 .payment-tool {
@@ -370,7 +317,7 @@ export default {
 
 .arrow {
   display: block;
-  margin-left: calc((18vh / 2) - 20px);
+  margin-left: calc((15vh / 2) - 20px);
 }
 .boxes {
   display: flex;
@@ -382,16 +329,21 @@ export default {
 .invisible-box {
   transition-duration: 0.1s;
   margin: 15px;
-  height: 18vh;
-  width: 18vh;
-  line-height: 18vh; /* text centering vertically */
+  height: 15vh;
+  width: 15vh;
+  line-height: 15vh; /* text centering vertically */
   text-align: center; /* text centering vertically */
 }
 
+.number-box:not(.euro) {
+  padding-left: 15px;
+}
+
+
 .invisible-box {
   margin: 5px;
-  height: calc(18vh + 20px);
-  width: calc(18vh + 20px);
+  height: calc(15vh + 20px);
+  width: calc(15vh + 20px);
   justify-content: center;
 }
 
@@ -411,12 +363,12 @@ export default {
 }
 
 .active {
-  line-height: calc(18vh + 20px); /* text centering vertically */
+  line-height: calc(15vh + 20px); /* text centering vertically */
   background-color: #ffff08;
   box-shadow: 5px 10px #ffac30, 0 0 0, 7px 10px #ffac30, 0 0 0;
   margin: 5px;
-  height: calc(18vh + 20px);
-  width: calc(18vh + 20px);
+  height: calc(15vh + 20px);
+  width: calc(15vh + 20px);
   font-size: 11rem;
 }
 
@@ -446,62 +398,25 @@ export default {
   }
 }
 
-#donationStepImage {
-  /* width: 200px; */
-  margin-top: 1vh;
-  height: 19.5vh;
-  object-fit: contain;
+.donationStepImage {
+  height: 120px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
 }
 
-.campaign-description {
-  overflow: hidden;
-  height: 18vh;
-  margin-top: 1vh;
-}
-
-.amount-media {
-  overflow: hidden;
-  text-align: center;
-  /* margin-left: auto;
-  margin-right: auto; */
-}
-
-@media screen and (max-width: 1500px) {
-  .title {
-    max-width: 70vw !important;
-    margin-left: 15vw !important;
-    font-size: 2.4rem !important;
-  }
-  .less-but {
-    left: -5.5vw !important;
-  }
-}
-
-.amount-detail {
+.donationsteps {
+  margin-left: 30px;
   background-color: #512fb5;
   box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
     0px 5px #372491;
-  width: 70vw;
-  height: 22vh;
-  overflow: hidden;
+  width: 280px;
+  height: 400px;
   font-family: pixel2;
-  font-size: 2.5rem;
+  font-size: 1.1rem;
   color: white;
-}
-
-.content-line {
-  height: 25vh;
-  top: 19vw;
-}
-
-.content-slidebar {
-  box-shadow: -8px 0px #775ce4, 0px -8px #775ce4, 8px 0px #372491,
-    0px 8px #372491;
-}
-
-.campaign-description {
-  font-family: pixel3;
-  color: white;
-  font-size: 1.2rem;
+  padding: 15px;
+  transition-duration: 0.3s;
 }
 </style>

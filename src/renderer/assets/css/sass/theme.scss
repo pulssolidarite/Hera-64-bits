@@ -704,7 +704,7 @@ body {
         background: #ffdb00;
         }
         50% {
-        width: calc(101%);
+        width: calc(100%);
         background: #ffdb00;
         }
         62% {
@@ -731,7 +731,7 @@ body {
         background: #ffdb00;
         }
         25% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         38% {
@@ -741,7 +741,7 @@ body {
         background: #ffdb00;
         }
         62% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         75% {
@@ -768,7 +768,7 @@ body {
         background: #ffdb00;
         }
         50% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         62% {
@@ -778,7 +778,7 @@ body {
         background: #ffdb00;
         }
         88% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         100% {
@@ -808,18 +808,6 @@ body {
     }
 }
 
-    /* Responsive */
-@media screen and (max-width: 1500px) {
-    .w-title {
-        .title {
-            font-size: 5rem !important;
-        }
-    }
-    .start-but {
-        font-size: 1.8rem !important;
-    }
-}
-    /* Responsive */
 
 /* HOME PAGE */
 

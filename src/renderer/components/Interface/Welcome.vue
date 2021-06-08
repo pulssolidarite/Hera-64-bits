@@ -17,9 +17,6 @@
             <div class="button-line">
               <div class="button">A</div> POUR AVANCER
             </div>
-            <div class="button-line">
-              <div class="button">B</div> POUR REVENIR
-            </div>
           </div>
         </div>
 
