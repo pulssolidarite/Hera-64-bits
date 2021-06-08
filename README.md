@@ -27,6 +27,10 @@ Configure Ubuntu :
 
 `$ sudo apt-get upgrade`
 
+### Autoupdate
+https://blog.behrouze.com/debian-auto-update-upgrade/
+
+### Softwares
 arp-scan is a tool for EMV detection
 xserver-xorg-input-joystick allows mouse control with the gamepad
 
@@ -96,7 +100,7 @@ Test the GUI
 
 Use the meta screen of Ubuntu to find the "application" manager and add a application to the board.
 Write "~/PULS-ARCADE.AppImage" in the Command field and save with a name like "Puls-Arcade".
-On next boot the 
+On next boot Hera will auto start.
 
 ## Local Net & Internet
 
