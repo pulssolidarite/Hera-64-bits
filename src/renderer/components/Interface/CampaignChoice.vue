@@ -111,6 +111,9 @@ export default {
         modestbranding: 1,
         showinfo: 0,
         rel: 0,
+        cc_load_policy: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
       },
       currentSlide: 0,
     };

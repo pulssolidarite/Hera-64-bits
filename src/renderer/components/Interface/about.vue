@@ -24,7 +24,6 @@
             <br /><br />
             Site web : www.puls-impact.fr<br />
             Email : contact@puls-impact.fr<br />
-            Téléphone : +33 (0)6 32 46 51 64
           </p>
         </div>
         <div class="QR">

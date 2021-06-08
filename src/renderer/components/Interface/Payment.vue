@@ -3,17 +3,16 @@
     <div class="view payment">
       <div class="s-title">
         <div class="title">
-          <img
-            class="padlock-icon"
-            src="@/assets/img/padlock.svg"
-            alt="padlock"
-          />
+          <img class="padlock-icon" src="@/assets/img/padlock.svg" alt="padlock" />
           Realise ton don !
           <img
             class="padlock-icon"
             src="@/assets/img/padlock.svg"
             alt="padlock"
           />
+          <div id="time">
+            <div class="time">{{ session.terminal.play_timer }} min. de jeu</div>
+          </div>
         </div>
         <div class="subtitle">
           <div class="animHorizontalText" style="margin-bottom:-50px">
@@ -21,7 +20,7 @@
             borne.
           </div>
           <!-- <br />
-          Tu pourras récupérer un reçu après ta partie. -->
+          Tu pourras récupérer un reçu après ta partie.-->
         </div>
       </div>
 
@@ -30,25 +29,18 @@
 
         <div class="recap">
           <div class="game-icon">
-            <img
-              class="logo-circle"
-              :src="session.game.logo"
-              :alt="session.game.name"
-            />
+            <img class="logo-circle" :src="session.game.logo" :alt="session.game.name" />
           </div>
-          <span class="txt-recap"
-            >Je reverse
+          <span class="txt-recap">
+            Je reverse
             <span style="color:#C97005;">{{ session.amount }} €</span> à
             l’association
             <span style="color:#C97005;">{{ session.campaign.name }}</span> en
-            jouant à <span style="color:#C97005;">{{ session.game.name }}</span>
+            jouant à
+            <span style="color:#C97005;">{{ session.game.name }}</span>
           </span>
           <div class="asso-icon">
-            <img
-              class="logo-circle"
-              :src="session.campaign.logo"
-              :alt="session.campaign.name"
-            />
+            <img class="logo-circle" :src="session.campaign.logo" :alt="session.campaign.name" />
           </div>
         </div>
       </div>
@@ -66,7 +58,6 @@ export default {
       // For skipping payment
       console.log("skip payment");
       setTimeout(() => this.skipPayment(this.session.amount), 1000);
-
     } else {
       if (this.session.amount) {
         setTimeout(() => this.pay(this.session.amount), 1000);
@@ -86,7 +77,7 @@ export default {
         method: "Manual",
         status: "Skiped",
         amount: 0,
-        currency: "EUR",
+        currency: "EUR"
       };
 
       this.$emit("savePayment", { payment: this.payment });
@@ -101,15 +92,15 @@ export default {
         method: "Manual",
         status: "",
         amount: 0,
-        currency: "EUR",
+        currency: "EUR"
       };
 
       this.$emit("error", {
         visible: true,
         title: "Erreur de connexion",
         errors: [
-          "Il y a un problème de connexion au terminal de paiement. Veuillez réessayer ou contacter le support.",
-        ],
+          "Il y a un problème de connexion au terminal de paiement. Veuillez réessayer ou contacter le support."
+        ]
       });
     },
     launchPayment: function(amount) {
@@ -142,8 +133,8 @@ export default {
           visible: true,
           title: "Connexion impossible au TPE",
           errors: [
-            "Un problème inconnu est survenu. Veuillez réessayer ou contacter le support.",
-          ],
+            "Un problème inconnu est survenu. Veuillez réessayer ou contacter le support."
+          ]
         });
       }
     },
@@ -161,7 +152,7 @@ export default {
           method: "Contactless",
           status: "",
           amount: amount,
-          currency: "EUR",
+          currency: "EUR"
         };
 
         // Checking response from the Payter Pay DLL
@@ -177,8 +168,8 @@ export default {
               visible: true,
               title: "Temps écoulé",
               errors: [
-                "Vous avez mis trop de temps à passer votre carte. L'opération est annulée, veuillez réessayer.",
-              ],
+                "Vous avez mis trop de temps à passer votre carte. L'opération est annulée, veuillez réessayer."
+              ]
             });
             break;
           default:
@@ -187,14 +178,14 @@ export default {
               visible: true,
               title: "Erreur inconnue",
               errors: [
-                "Un problème inconnu est survenu. Veuillez réessayer ou contacter le support.",
-              ],
+                "Un problème inconnu est survenu. Veuillez réessayer ou contacter le support."
+              ]
             });
             break;
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

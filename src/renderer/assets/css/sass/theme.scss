@@ -38,7 +38,7 @@
 body {
     font-family: "Futura Std";
     font-weight: normal;
-    cursor: none; 
+    // cursor: none; 
 }
 
 .h1,.h2, .h3, .h4, .h5 {
@@ -305,7 +305,7 @@ body {
     text-align: center;
     color: white;
     float: left;
-    cursor: pointer;
+    // cursor: pointer;
 }
 
 .arrow-up-ft {
@@ -372,9 +372,9 @@ body {
 }
 
 .gpio-help {
-    position: absolute;
-    margin-top: -4.3vh;
-    margin-left: 6vw;
+    // position: absolute;
+    // margin-top: -4.3vh;
+    // margin-left: 6vw;
     color: white;
 }
 
@@ -534,7 +534,6 @@ body {
 }
 
 .animHorizontalText {
-    width: fit-content;
     animation: overflowHorizontalText 10s linear infinite;
 }
 
@@ -705,7 +704,7 @@ body {
         background: #ffdb00;
         }
         50% {
-        width: calc(101%);
+        width: calc(100%);
         background: #ffdb00;
         }
         62% {
@@ -732,7 +731,7 @@ body {
         background: #ffdb00;
         }
         25% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         38% {
@@ -742,7 +741,7 @@ body {
         background: #ffdb00;
         }
         62% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         75% {
@@ -769,7 +768,7 @@ body {
         background: #ffdb00;
         }
         50% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         62% {
@@ -779,7 +778,7 @@ body {
         background: #ffdb00;
         }
         88% {
-        height: calc(103%);
+        height: calc(100%);
         background: #ffdb00;
         }
         100% {
@@ -809,18 +808,6 @@ body {
     }
 }
 
-    /* Responsive */
-@media screen and (max-width: 1500px) {
-    .w-title {
-        .title {
-            font-size: 5rem !important;
-        }
-    }
-    .start-but {
-        font-size: 1.8rem !important;
-    }
-}
-    /* Responsive */
 
 /* HOME PAGE */
 

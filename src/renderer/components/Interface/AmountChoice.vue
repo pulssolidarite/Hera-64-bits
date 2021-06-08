@@ -1,98 +1,74 @@
 <template>
   <div class="component">
     <div class="view amount-choice">
-      <div class="s-title">
-        <div class="title">CHOISIS TON MONTANT</div>
-        <div class="subtitle">
-          <div class="animHorizontalText">
-            Vos dons sont reversés aux assosiations.
-          </div>
-        </div>
-      </div>
-
-      <div class="s-content">
-        <div class="content-amount">
-          <img
-            id="mario_bloc"
-            class="amount-frame"
-            src="@/assets/img/amount-frame.svg"
-            alt="cadre"
-          />
-          <span class="h2 amount">{{ session.amount }}€</span>
-          <span class="h2 amount2">{{ session.amount }}€</span>
-          <!-- <span class="h2 amount"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350" :begin="run_anim" :complete="stop_anim"/>€</span>
-            <span class="h2 amount2"><animated-number :value="amounts[choosenIndexOf]" :round="true" :duration="350"/>€</span> -->
-        </div>
-
-        <div>
-          <span class="h2 time">10 min.</span>
-        </div>
-
-        <div class="content-flags">
-          <div id="flag1" class="full-flag"></div>
-          <div id="flag2" class="full-flag"></div>
-          <div id="flag3" class="full-flag"></div>
-          <div id="flag4" class="empty-flag"></div>
-          <div id="flag5" class="empty-flag"></div>
-          <div id="flag6" class="empty-flag"></div>
-        </div>
-
-        <div class="slider">
-          <!-- <div class="container mb-5 pb-3 mt-2 text-center" id="content-slidebar"> -->
-          <div class="content-slidebar">
-            <div class="progress" style="height: 30px;">
-              <div
-                class="progress-bar bg-warning"
-                role="progressbar"
-                :style="{ width: (this.session.amount / 50) * 100 + '%' }"
-                :aria-valuenow="this.session.amount"
-                aria-valuemin="0"
-                :aria-valuemax="50"
-              ></div>
+      <div class="container">
+        <!-- title -->
+        <div class="row">
+          <div class="s-title">
+            <div class="title">CHOISIS TON MONTANT</div>
+            <div class="subtitle">
+              <div class>Ton don sera reversé à {{ session.campaign.name}}.</div>
             </div>
           </div>
-          <!-- </div> -->
+        </div>
+        <!-- time -->
 
-          <span id="more-but" class="more-but" @click="simulate_right"
-            ><img src="@/assets/img/plus_btn.svg" alt="plus"
-          /></span>
-          <span id="less-but" class="less-but" @click="simulate_left"
-            ><img src="@/assets/img/moins_btn.svg" alt="moins"
-          /></span>
-
-          <div class="content-line" id="content-line">
-            <!-- <span class="line1" :style="{ width: (this.session.amount/30)*100 + '%' }"></span> -->
-            <!-- <span class="line1" id="line1"></span>
-            <span
-              class="line2"
-            ></span>
-            <span class="line3" id="line3"></span> -->
+        <!-- payment-tool -->
+        <div id="payment-tool" class="row">
+          <div id="arrows">
+            <img id="up-arrow" class="arrow" src="@/assets/img/up-arrow.svg" />
+            <div class="invisible-box"></div>
+            <img id="down-arrow" class="arrow" src="@/assets/img/down-arrow.svg" />
+          </div>
+          <div class="boxes">
+            <div class="number-box active">{{ amount[0].n }}</div>
+            <div class="number-box">{{ amount[1].n }}</div>
+            <div class="euro number-box">
+              <div id="maxlimit" v-if="eurobox=='maxlimit'">
+                Max.
+                <br />
+                {{ max_amount }}€
+              </div>
+              <div id="minlimit" v-if="eurobox=='minlimit'">
+                Min.
+                <br />
+                {{ min_amount }}€
+              </div>
+              <div id="default" v-if="eurobox=='default'">€</div>
+              <div id="start" v-if="eurobox=='start'">Start</div>
+            </div>
           </div>
         </div>
-        <!-- amount DETAILS -->
-        <div class="amount-detail">
-          <div class="amount-icon">
-            <img
-              :src="getActionPhoto(session.campaign, session.amount)"
-              :alt="session.campaign.name"
-              height="125"
-              class="rounded"
-            />
+        <!-- campaing -->
+        <div class="row campaign-row">
+          <div
+            v-for="(step, i) in session.campaign.donationSteps"
+            :key="i"
+            :index="i"
+            class="donationsteps"
+            ref="steptext"
+          >
+            <div class="donationstep">
+              <img class="donationStepImage" :src="step.image" :alt="session.campaign.name" />
+              {{step.text}}
+            </div>
           </div>
-          <span class="amount-description">
-            {{ getAction(session.campaign, session.amount) }}
-          </span>
         </div>
-        <!-- \amount DETAILS -->
+        <!-- footer -->
+        <div class="row">
+          <helpGamepad
+            :gpio_help="3"
+            @simulate_a="simulate_a"
+            @simulate_b="simulate_b"
+            @simulate_left="simulate_left"
+            @simulate_right="simulate_right"
+            @simulate_up="simulate_up"
+            @simulate_down="simulate_down"
+          />
+        </div>
       </div>
 
       <!-- GAMEPAD -->
-      <helpGamepad
-        @simulate_a="simulate_a"
-        @simulate_b="simulate_b"
-        @simulate_left="simulate_left"
-        @simulate_right="simulate_right"
-      />
     </div>
   </div>
 </template>
@@ -107,576 +83,340 @@ export default {
   props: ["session"],
   data: function() {
     return {
-      choosenIndexOf: 2,
-      amounts: [1, 5, 10, 20, 30, 50],
-      value: 1,
-      max: 100,
+      active_box: 0,
+      boxes: "",
+      arrows: "",
+      amount: [
+        { n: 0, limit: 5 },
+        { n: 1, limit: 9 }
+      ],
+      max_amount: 50,
+      min_amount: 1,
+      eurobox: "default",
     };
   },
   mounted: function() {
     if (!this.session.position_asso) {
       this.$emit("lastView");
-    } else {
-      if (this.session.position_amount) {
-        this.chooseAmount(this.session.position_amount - 1);
-      } else {
-        this.chooseAmount(2);
-      }
     }
+
+    this.updateDonationStep();
+
+    this.boxes = document.getElementsByClassName("number-box");
+    this.arrows = document.getElementById("arrows");
+
+    this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
     setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
-    // line_right() {
-    //   var line3 = document.getElementById("line3");
-    //   if (this.session.amount == 50) {
-    //     line3.style.width = "70vw"; //122%
-    //   } else {
-    //     line3.style.width = "0vw";
-    //   }
-    // },
-    // line_left() {
-    //   var line1 = document.getElementById("line1");
-    //   switch (this.session.amount) {
-    //     case 1:
-    //       line1.style.width = "30%";
-    //       line1.style.left = "2%";
-    //       break;
-    //     case 5:
-    //       line1.style.width = "20%";
-    //       line1.style.left = "9.8%";
-    //       break;
-    //     case 10:
-    //       line1.style.width = "10%";
-    //       line1.style.left = "19.8%";
-    //       break;
-    //     default:
-    //       line1.style.left = "40%";
-    //       break;
-    //   }
-    // },
-    flags() {
-      var flag1 = document.getElementById("flag1");
-      var flag2 = document.getElementById("flag2");
-      var flag3 = document.getElementById("flag3");
-      var flag4 = document.getElementById("flag4");
-      var flag5 = document.getElementById("flag5");
-      var flag6 = document.getElementById("flag6");
-      switch (this.session.amount) {
-        case 1:
-          flag2.className = "empty-flag";
-          break;
-        case 5:
-          flag2.className = "full-flag";
-          flag3.className = "empty-flag";
-          break;
-        case 10:
-          flag3.className = "full-flag";
-          flag4.className = "empty-flag";
-          break;
-        case 20:
-          flag4.className = "full-flag";
-          flag5.className = "empty-flag";
-          break;
-        case 30:
-          flag5.className = "full-flag";
-          flag6.className = "empty-flag";
-          break;
-        case 50:
-          flag6.className = "full-flag";
-          break;
+    updateDonationStep: function() {
+      if (!this.session.campaign.donationSteps) return;
+      this.session.campaign.donationSteps.forEach((step, i, steps) => {
+        if (
+          this.countAmount() >= step.amount &&
+          this.countAmount() < (steps[i + 1] == null ? 55 : steps[i + 1].amount)
+        ) {
+          // this.$refs.carousel.slideTo(i);
+          this.$refs.steptext[i].style.boxShadow = "-5px 0px yellow, 0px -5px yellow, 5px 0px #ff9900, 0px 5px #ff9900";
+          // return;
+        } else {
+          this.$refs.steptext[i].style.boxShadow = "-5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491";
+        }
+      });
+    },
+    countAmount() {
+      // return in cents : 1€ = 100
+      var count = 0;
+      var e = 1;
+      this.amount.forEach(a => {
+        count += a.n * 10 ** e;
+        e--;
+      });
+
+      return count;
+    },
+    updateEurobox() {
+      var count = this.countAmount();
+
+      this.eurobox = "default";
+      document.getElementsByClassName("euro")[0].style.background = "#ffff60";
+
+      if (count < this.min_amount) {
+        this.eurobox = "minlimit";
+        document.getElementsByClassName("euro")[0].style.background = "red";
+      } else if (count > this.max_amount) {
+        this.eurobox = "maxlimit";
+        document.getElementsByClassName("euro")[0].style.background = "red";
       }
     },
-    run_anim() {
-      var mario = document.getElementById("mario_bloc");
-      mario.className = "amount-frame shake-vertical";
+    nextBox(direction = 1) {
+      // direction = 1 or -1
+
+      if (
+        (direction != 1 && direction != -1) ||
+        (this.active_box <= 0 && direction == -1) ||
+        (this.active_box >= this.boxes.length - 1 && direction == 1)
+      )
+        return;
+
+      this.active_box += direction;
+      this.boxes[this.active_box].classList.toggle("active");
+      this.boxes[this.active_box - direction].classList.toggle("active");
+      this.moveArrows(direction);
     },
-    stop_anim() {
-      var mario = document.getElementById("mario_bloc");
-      mario.className = "amount-frame";
+    moveArrows(direction = 1) {
+      if (this.active_box < this.boxes.length - 1) {
+        this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
+      }
+      if (
+        this.eurobox == "default" &&
+        this.active_box == this.boxes.length - 1
+      ) {
+        this.eurobox = "start";
+        this.arrows.style.display = "none";
+        this.boxes[this.boxes.length - 1].classList.toggle("start");
+        this.boxes[this.boxes.length - 1].classList.toggle("default");
+        document.getElementsByClassName("euro")[0].style.background = "#99c961";
+      } else if (
+        this.eurobox == "start" &&
+        this.active_box < this.boxes.length
+      ) {
+        this.eurobox = "default";
+        this.arrows.style.display = "block";
+        this.boxes[this.boxes.length - 1].classList.toggle("start");
+        this.boxes[this.boxes.length - 1].classList.toggle("default");
+        document.getElementsByClassName("euro")[0].style.background = "#ffff60";
+      }
+    },
+    incrementNum(incr = 1) {
+      // incr is direction 1 or -1
+      if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1)
+        return;
+      if (this.amount[this.active_box].n == 0 && incr == -1)
+        this.amount[this.active_box].n = this.amount[this.active_box].limit;
+      else
+        this.amount[this.active_box].n =
+          (this.amount[this.active_box].n + incr) %
+          (this.amount[this.active_box].limit + 1);
+
+      this.updateDonationStep();
+      this.updateEurobox();
     },
     simulate_a() {
-      this.proceed();
+      if (this.active_box < this.boxes.length - 1) {
+        this.nextBox(1);
+      } else if (
+        this.active_box == this.boxes.length - 1 &&
+        this.eurobox == "start"
+      ) {
+        this.$emit("saveAmount", {
+          amount: this.countAmount()
+        });
+        this.$emit("nextView");
+      }
     },
     simulate_b() {
-      this.$emit("lastView");
+      if (this.active_box == 0) {
+        this.$emit("lastView");
+      } else if (this.active_box < this.boxes.length) {
+        this.nextBox(-1);
+      }
     },
     simulate_left() {
-      if (this.amounts[this.choosenIndexOf - 1]) {
-        this.chooseAmount(this.choosenIndexOf - 1);
-        this.animateIcon("less");
-      }
+      this.nextBox(-1);
     },
     simulate_right() {
-      if (this.amounts[this.choosenIndexOf + 1]) {
-        this.chooseAmount(this.choosenIndexOf + 1);
-        this.animateIcon("more");
-      }
+      this.nextBox(1);
     },
-    getAction: function(campaign, amount) {
-      if (amount == 1) {
-        return campaign.text1;
-      }
-      if (amount == 5) {
-        return campaign.text5;
-      }
-      if (amount == 10) {
-        return campaign.text10;
-      }
-      if (amount == 20) {
-        return campaign.text20;
-      }
-      if (amount == 30) {
-        return campaign.text30;
-      }
-      if (amount == 50) {
-        return campaign.text50; //text50 when back ready
-      }
+    simulate_up: function() {
+      this.incrementNum(1);
     },
-    getActionPhoto: function(campaign, amount) {
-      if (amount == 1) {
-        return campaign.photo1;
-      }
-      if (amount == 5) {
-        return campaign.photo5;
-      }
-      if (amount == 10) {
-        return campaign.photo10;
-      }
-      if (amount == 20) {
-        return campaign.photo20;
-      }
-      if (amount == 30) {
-        return campaign.photo30;
-      }
-      if (amount == 50) {
-        return campaign.photo50; //photo50 when back ready
-      }
+    simulate_down: function() {
+      this.incrementNum(-1);
     },
-    chooseAmount: function(index) {
-      this.choosenIndexOf = index;
-      this.$emit("saveAmount", {
-        amount: this.amounts[this.choosenIndexOf],
-        indexOf: this.choosenIndexOf + 1,
-      });
-      // this.line_right();
-      // this.line_left();
-      this.flags();
-    },
-    proceed: function() {
-      if (this.choosenIndexOf != null) {
-        this.$emit("nextView");
-      } else {
-        this.$emit("error", {
-          visible: true,
-          title: "Aucun choix valide",
-          errors: {},
-        });
-      }
-    },
-    animateIcon(dir) {
-      if (dir == "less") {
-        var icon = document.getElementById("less-but");
-      } else {
-        var icon = document.getElementById("more-but");
-      }
-      icon.style.transform = "scale(1.4)";
-      setTimeout(function() {
-        icon.style.transform = "scale(1)";
-      }, 150);
-    },
-  },
+  }
 };
 </script>
 
 <style scoped>
-.content-flags {
+.campaign-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  min-width: 100%;
+}
+
+#start {
+  font-size: 5vh;
+}
+#maxlimit,
+#minlimit {
+  font-size: 5vh;
+  line-height: calc(15vh / 2);
+}
+#payment-tool {
+  justify-content: center;
+}
+
+#payment-tool {
+  margin-top: 12vh;
+  margin-bottom: 10vh;
+}
+#arrows {
+  line-height: 15vh;
+  position: absolute;
+  transition-duration: 0.3s;
+}
+
+.s-title {
   position: relative;
 }
 
-.full-flag,
-.empty-flag {
-  position: absolute;
-  width: 80px;
-  height: 100px;
-  top: 18vh;
-  transform: scale(0.8);
+.s-title .subtitle {
+  font-family: Pixel2;
+  font-size: 3.5vh;
+  max-width: 70vw;
+  color: #c97005;
+  overflow: hidden;
 }
 
-.full-flag {
-  background: no-repeat url("../../assets/img/drap_plein.svg");
-  z-index: 5;
+.subtitle {
+  font-size: 2em;
 }
 
-.empty-flag {
-  background: no-repeat url("../../assets/img/drap_vide.svg");
-}
-
-#flag1 {
-  left: 21.4vw;
-}
-#flag2 {
-  left: 26.1vw;
-}
-#flag3 {
-  left: 31.9vw; /* -0.2 en media < 1500px*/
-}
-#flag4 {
-  left: 43.5vw;
-}
-#flag5 {
-  left: 55.05vw;
-}
-#flag6 {
-  left: 78.26vw;
-}
-
-@media screen and (max-width: 1500px) {
-  /*.amount-choice {*/
-  .title {
-    max-width: 70vw !important;
-    margin-left: 15vw !important;
-    font-size: 2.4rem !important;
-  }
-  /* } */
-  .empty-flag,
-  .full-flag {
-    margin-left: -4px;
-  }
-  .less-but {
-    left: -5.5vw !important;
-  }
-}
-
-.content-amount {
-  width: 150px;
-  margin-left: 50%;
-  height: 50px;
-  margin-top: 25vh;
-}
-
-.amount {
-  z-index: 5;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 3.1vh;
-  font-family: pixel2;
-  font-size: 3rem;
-  color: white;
-}
-
-.amount2 {
-  z-index: 2;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-47%);
-  margin-top: 3.4vh;
-  font-family: pixel2;
-  font-size: 3rem;
-  color: black;
-}
-
-.amount-frame {
-  transform: translateX(-50%);
-}
-
-.amount-detail {
-  margin-left: 50%;
-  margin-top: -15vh;
-  transform: translateX(-50%);
-  background-color: #512fb5;
-  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
-    0px 5px #372491;
-  /* border : solid 3px rgb(33, 29, 255); */
-  /* border-radius: 15px; */
+.title,
+.subtitle{
+  margin-left: unset;
+  margin: unset;
   text-align: center;
-  width: 30vw;
-  z-index: 4;
-}
-
-.time {
-  z-index: 5;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 8vh;
   font-family: pixel2;
-  font-size: 2.5rem;
   color: white;
 }
 
-.slider {
-  position: relative;
-  width: 58%;
-  margin-left: 21%;
-  margin-top: 25vh;
-}
-
-.content-line {
-  height: 25vh;
-  top: 19vw;
-}
-
-.content-slidebar {
-  box-shadow: -8px 0px #775ce4, 0px -8px #775ce4, 8px 0px #372491,
-    0px 8px #372491;
-}
-
-.amount-icon .rounded {
-  display: block;
+.payment-tool {
+  width: 60vw;
   margin-left: auto;
   margin-right: auto;
 }
 
-.amount-description {
-  font-family: pixel3;
-  color: white;
-  font-size: 1.2rem;
+#arrows {
+  margin-top: -48px;
 }
 
-.progress {
-  border-radius: 0;
+#up-arrow {
+  animation: topArrow 1s ease-in-out infinite;
 }
 
-/* .line1 {
-  position: relative;
-  top: 78.8%;
-  height: 100%;
+#down-arrow {
+  margin-top: 15px;
+  animation: botArrow 1s ease-in-out infinite;
+}
+
+.arrow {
   display: block;
-  box-sizing: border-box;
+  margin-left: calc((15vh / 2) - 20px);
+}
+.boxes {
+  display: flex;
+  justify-content: center;
 }
 
-.line2 {
-  position: relative;
-  top: -25vh;
-  display: block;
-  box-sizing: border-box;
-  width: 10px;
-  height: 20vh;
-  overflow: hidden;
+.number-box,
+.euro,
+.invisible-box {
+  transition-duration: 0.1s;
+  margin: 15px;
+  height: 15vh;
+  width: 15vh;
+  line-height: 15vh; /* text centering vertically */
+  text-align: center; /* text centering vertically */
 }
 
-.line3 {
-  position: relative;
-  top: -101.5%;
-  left: 59.5%;
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
+.number-box:not(.euro) {
+  padding-left: 15px;
 }
 
-.line1:before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 4px;
-  background: #ffc107;
+
+.invisible-box {
+  margin: 5px;
+  height: calc(15vh + 20px);
+  width: calc(15vh + 20px);
+  justify-content: center;
 }
 
-.line2:before {
-  content: "";
-  position: absolute;
-  left: -0.3%;
-  width: 4px;
-  height: 30vh;
-  background: #ffc107;
-}
-
-.line3:before {
-  content: "";
-  position: absolute;
-  width: 33.33%;
-  height: 4px;
-  background: #ffc107;
-} */
-
-.progress-bar,
-.line2,
-.line1,
-.line3 {
-  transition: all 0.35s ease-in-out;
-}
-
-.more-but {
-  font-size: 3rem;
+.number-box,
+.euro {
+  background-color: #ffff60;
+  box-shadow: 3px 8px #ff9900, 0 0 0, 5px 8px #ff9900, 0 0 0;
+  font-family: pixel;
+  font-size: 9rem;
   color: white;
-  width: 30px;
-  position: absolute;
-  text-align: center;
-  top: -9%;
-  left: 60vw;
-  transition: 0.15s ease;
+  text-shadow: 5px 5px #ff9900;
 }
 
-.less-but {
-  font-size: 3rem;
-  color: white;
-  width: 30px;
-  position: absolute;
-  text-align: center;
-  top: -9%;
-  left: -4.5vw;
-  transition: 0.15s ease;
+.euro {
+  font-family: pixel2;
+  font-weight: bold;
 }
 
-@keyframes shake-vertical {
-  2% {
-    transform: translate(-50%, -3px) rotate(0);
-  }
-  4% {
-    transform: translate(-50%, -9px) rotate(0);
-  }
-  6% {
-    transform: translate(-50%, 1px) rotate(0);
-  }
-  8% {
-    transform: translate(-50%, -5px) rotate(0);
-  }
-  10% {
-    transform: translate(-50%, 1px) rotate(0);
-  }
-  12% {
-    transform: translate(-50%, -1px) rotate(0);
-  }
-  14% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  16% {
-    transform: translate(-50%, 0px) rotate(0);
-  }
-  18% {
-    transform: translate(-50%, 0px) rotate(0);
-  }
+.active {
+  line-height: calc(15vh + 20px); /* text centering vertically */
+  background-color: #ffff08;
+  box-shadow: 5px 10px #ffac30, 0 0 0, 7px 10px #ffac30, 0 0 0;
+  margin: 5px;
+  height: calc(15vh + 20px);
+  width: calc(15vh + 20px);
+  font-size: 11rem;
+}
+
+@keyframes overflowVerticalText {
   20% {
-    transform: translate(-50%, 2px) rotate(0);
-  }
-  22% {
-    transform: translate(-50%, 10px) rotate(0);
-  }
-  24% {
-    transform: translate(-50%, 5px) rotate(0);
-  }
-  26% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  28% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  30% {
-    transform: translate(-50%, 5px) rotate(0);
-  }
-  32% {
-    transform: translate(-50%, 5px) rotate(0);
-  }
-  34% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  36% {
-    transform: translate(-50%, 6px) rotate(0);
-  }
-  38% {
-    transform: translate(-50%, -9px) rotate(0);
-  }
-  40% {
-    transform: translate(-50%, 6px) rotate(0);
-  }
-  42% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  44% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  46% {
-    transform: translate(-50%, 6px) rotate(0);
-  }
-  48% {
-    transform: translate(-50%, -9px) rotate(0);
-  }
-  50% {
-    transform: translate(-50%, 7px) rotate(0);
-  }
-  52% {
-    transform: translate(-50%, 9px) rotate(0);
-  }
-  54% {
-    transform: translate(-50%, 3px) rotate(0);
-  }
-  56% {
-    transform: translate(-50%, -1px) rotate(0);
-  }
-  58% {
-    transform: translate(-50%, -2px) rotate(0);
-  }
-  60% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  62% {
-    transform: translate(-50%, -5px) rotate(0);
-  }
-  64% {
-    transform: translate(-50%, 4px) rotate(0);
-  }
-  66% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  68% {
-    transform: translate(-50%, -2px) rotate(0);
-  }
-  70% {
-    transform: translate(-50%, -8px) rotate(0);
-  }
-  72% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  74% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  76% {
-    transform: translate(-50%, 0px) rotate(0);
-  }
-  78% {
-    transform: translate(-50%, 7px) rotate(0);
-  }
-  80% {
-    transform: translate(-50%, -6px) rotate(0);
-  }
-  82% {
-    transform: translate(-50%, 10px) rotate(0);
-  }
-  84% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  86% {
-    transform: translate(-50%, 10px) rotate(0);
-  }
-  88% {
-    transform: translate(-50%, -1px) rotate(0);
-  }
-  90% {
-    transform: translate(-50%, 1px) rotate(0);
-  }
-  92% {
-    transform: translate(-50%, 9px) rotate(0);
-  }
-  94% {
-    transform: translate(-50%, -4px) rotate(0);
-  }
-  96% {
-    transform: translate(-50%, -8px) rotate(0);
+    transform: translateY(0%);
   }
   98% {
-    transform: translate(-50%, 4px) rotate(0);
+    transform: translateY(-100%);
   }
-  0%,
   100% {
-    transform: translate(-50%, 0) rotate(0);
+    transform: translateY(0%);
+  }
+}
+.animVerticalText {
+  animation: overflowVerticalText 10s linear infinite;
+}
+
+@keyframes topArrow {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes botArrow {
+  50% {
+    transform: translateY(10px);
   }
 }
 
-.shake-vertical {
-  animation-name: shake-vertical;
-  animation-duration: 100ms;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+.donationStepImage {
+  height: 120px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+}
+
+.donationsteps {
+  margin-left: 30px;
+  background-color: #512fb5;
+  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
+    0px 5px #372491;
+  width: 280px;
+  height: 400px;
+  font-family: pixel2;
+  font-size: 1.1rem;
+  color: white;
+  padding: 15px;
+  transition-duration: 0.3s;
 }
 </style>

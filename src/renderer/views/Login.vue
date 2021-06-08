@@ -43,7 +43,7 @@ export default {
     } else {
       for (let i = 0; i < 5; i++) {
         setTimeout(function(){
-          console.log("login attempt");
+          // console.log("login attempt");
           this.login();
         }.bind(this), 5000 * i);
       }

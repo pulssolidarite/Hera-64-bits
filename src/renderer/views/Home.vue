@@ -19,6 +19,7 @@
     <vue-element-loading :active="loading" is-full-screen />
     <div class="w-100 h-100" v-if="!loading">
       <transition name="mytr" mode="out-in">
+
         <!-- SCREENSAVER -->
         <Welcome
           @error="handleError"
@@ -199,7 +200,6 @@ export default {
         end_time: null,
         position_asso: null,
         position_game: null,
-        position_amount: null,
       },
       campaigns: {},
       games: {},
@@ -218,7 +218,6 @@ export default {
       end_time: null,
       position_asso: null,
       position_game: null,
-      position_amount: null,
     };
     this.loading = true;
     // First checking if logged in
@@ -235,8 +234,12 @@ export default {
       .get("terminal/mine/")
       .then((resp) => {
         this.terminal = resp.data.terminal;
+        // console.log(this.terminal);
+        
         this.session.terminal = this.terminal;
         this.campaigns = resp.data.campaigns;
+        // console.log(resp.data.campaigns);
+        
         this.games = resp.data.games;
 
         // TEST-ONLY : we get the subscription type here
@@ -244,10 +247,11 @@ export default {
 
         // Core & Game management
         // Here we check if have all the required game files before turning the terminal on
+        // bioses go in the same dir as the games
         const pathGlobal = process.env.HOME + "/games/";
         const pathRoms = pathGlobal + "roms/";
         const pathCores = pathGlobal + "cores/";
-        const pathBios = pathGlobal + "bios/";
+        const pathBios = pathGlobal + "roms/";
 
         // Creating folders if they don't exist
         if (!fs.existsSync(pathGlobal)) {
@@ -334,7 +338,6 @@ export default {
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;
-      this.session.position_amount = payload.indexOf;
     },
     savePayment: function(payload) {
       // Saving the payment right away, avoiding to loose sensitive data

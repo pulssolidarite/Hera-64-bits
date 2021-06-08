@@ -2,7 +2,7 @@
   <div class="component">
     <div class="view screensaver">
       <div class="w-title">
-        <div class="title">ART.CADE SOLIDAIRE</div>
+        <div class="title">Arcade For Good</div>
         <div class="subtitle">SOUTIENS UNE ASSOCIATION EN JOUANT</div>
       </div>
 
@@ -14,7 +14,9 @@
           <div class="left"></div>
           <div class="right"></div>
           <div class="start-but">
-            PRESSE <span style="font-size:1.8rem;">A</span> POUR CHOISIR TON JEU
+            <div class="button-line">
+              <div class="button">A</div> POUR AVANCER
+            </div>
           </div>
         </div>
 
@@ -57,10 +59,30 @@ export default {
 </script>
 
 <style scoped>
-/* 
-.cadre {
-  position: relative;
-  margin: 0 auto;
-  border: 5px solid transparent;
-} */
+.total_donations{
+  color:darkorange;
+}
+
+
+.button {
+  background-color: rgb(152, 133, 226);
+  border-radius: 80px;
+  min-width:80px;
+  height: 80px;
+  font: 50px pixel3;
+  line-height: 85px;
+  display: inline-block;
+  text-align: center;
+  padding: 0 0 0 10px;
+  vertical-align: middle;
+  box-shadow: 5px 5px 0px 2px rgb(73, 55, 143);
+  text-shadow: -2px -2px rgb(73, 55, 143);
+}
+
+.button-line{
+  line-height: 120px;
+  height: 120px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
 </style>

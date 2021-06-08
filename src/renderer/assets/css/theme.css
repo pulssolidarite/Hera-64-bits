@@ -32,7 +32,7 @@
 }
 
 html{
-  cursor:none;
+  /* cursor:none; */
 }
 
 body {
@@ -185,6 +185,14 @@ body {
   background-image: url("../img/left-arrow.svg");
 }
 
+.up-arrow {
+  background-image: url("../img/up-arrow.svg");
+}
+
+.down-arrow {
+  background-image: url("../img/down-arrow.svg");
+}
+
 .c-line {
   width: 100%;
   margin-top: 5px;
@@ -279,7 +287,7 @@ body {
     transform: translateY(0%);
   }
   98% {
-    transform: translateY(-50%);
+    transform: translateY(-100%);
   }
   100% {
     transform: translateY(0%);
@@ -319,7 +327,9 @@ body {
   float: left;
   cursor: pointer;
 }
-
+.A-but {
+  margin-right:15px;
+}
 .arrow-up-ft {
   transform: rotate(90deg);
   position: absolute;
@@ -380,9 +390,9 @@ body {
 }
 
 .gpio-help {
-  position: absolute;
-  margin-top: -4.3vh;
-  margin-left: 6vw;
+  /* position: absolute; */
+  /* margin-top: -4.3vh; */
+  /* margin-left: 6vw; */
   color: white;
 }
 
@@ -518,11 +528,6 @@ body {
   overflow: hidden;
 }
 
-.animHorizontalText {
-  width: fit-content;
-  animation: overflowHorizontalText 10s linear infinite;
-}
-
 @keyframes overflowHorizontalText {
   20% {
     transform: translateX(0%);
@@ -534,6 +539,11 @@ body {
     transform: translateX(0%);
   }
 }
+
+.animHorizontalText {
+  animation: overflowHorizontalText 10s linear infinite;
+}
+
 /* Responsive */
 @media screen and (max-width: 1500px) {
   .s-title .title {
@@ -676,7 +686,7 @@ body {
     background: #ffdb00;
   }
   50% {
-    width: calc(101%);
+    width: calc(100%);
     background: #ffdb00;
   }
   62% {
@@ -701,7 +711,7 @@ body {
     background: #ffdb00;
   }
   25% {
-    height: calc(103%);
+    height: calc(100%);
     background: #ffdb00;
   }
   38% {
@@ -711,7 +721,7 @@ body {
     background: #ffdb00;
   }
   62% {
-    height: calc(103%);
+    height: calc(100%);
     background: #ffdb00;
   }
   75% {
@@ -736,7 +746,7 @@ body {
     background: #ffdb00;
   }
   50% {
-    height: calc(103%);
+    height: calc(100%);
     background: #ffdb00;
   }
   62% {
@@ -746,7 +756,7 @@ body {
     background: #ffdb00;
   }
   88% {
-    height: calc(103%);
+    height: calc(100%);
     background: #ffdb00;
   }
   100% {
