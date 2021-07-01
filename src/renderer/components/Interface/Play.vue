@@ -46,7 +46,7 @@ export default {
     const pathToCore = process.env.HOME + "/games/cores/" + this.session.game.core.path;
     const pathToGame = process.env.HOME + "/games/roms/" + this.session.game.path;
 
-    let command = 'retroarch -v -f -L "' + pathToCore + '" "' + pathToGame + '"';
+    let command = 'retroarch -f -L "' + pathToCore + '" "' + pathToGame + '"';
     console.log(command);
     this.startShell(command);
   },
