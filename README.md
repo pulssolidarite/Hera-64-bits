@@ -62,16 +62,9 @@ Open Retroarch and go to **Online Updater** :
 
 The EMV binary can be found in the Payter repository under releases as a zip file.
 
-Install mono-xsp4 : https://www.mono-project.com/download/stable/#download-lin-ubuntu
+Install mono-xsp4 complete version : https://www.mono-project.com/download/stable/#download-lin-ubuntu
 
-If for some obscure reason you need to recompile the Payter project, here is how is done using mono-complete:
-`git clone https://github.com/pulssolidarite/PayterPay.git`
-
-Go to PayterPay repository and compile:
-
-`msbuild /p:Configuration=Release`
-
-Move PayterPay/bin/Release/ to home/ and rename it Payter/
+Extract the payter zip in Home directory as : `/home/Payter/...`
 
 ## PULS-ARCADE.AppImage
 
