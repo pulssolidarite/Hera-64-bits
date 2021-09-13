@@ -54,10 +54,9 @@ Add the PPA and install retroarch for Ubuntu : https://www.retroarch.com/index.p
 Open Retroarch and go to **Online Updater** :
 - Download Assets (optional)
 - Download Joypad Profiles
+- Go To **Notifications** and turn all off
 - esc to exit
 - Reexecute retroarch and configure joypads
-
-Go To **Notifications** and turn all off
 
 ## Install Mono for EMV's exectuable
 
