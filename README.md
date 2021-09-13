@@ -76,10 +76,6 @@ Add these two lines at the end of `/etc/environment` :
 
 `export PULS_MDP=???`
 
-> Add this for free mode:
-
-`export PULS_SKIPPAYMENT=TRUE`
-
 Download latest AppImage release of Hera and place it in home directory. Grant permissions.
 
 `$ chmod a+x PULS-ARCADE.AppImage`
