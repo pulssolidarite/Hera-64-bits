@@ -64,7 +64,7 @@ The EMV binary can be found in the Payter repository under releases as a zip fil
 
 Install mono-xsp4 complete version : https://www.mono-project.com/download/stable/#download-lin-ubuntu
 
-Extract the payter zip in Home directory as : `/home/Payter/...`
+Extract the payter zip in Home directory as : `/home/pulsimpact/Payter/...`
 
 ## PULS-ARCADE.AppImage
 
