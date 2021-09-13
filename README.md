@@ -49,6 +49,8 @@ Install AnyDesk from website https://anydesk.com/en/downloads/linux
 
 Add the PPA and install retroarch for Ubuntu : https://www.retroarch.com/index.php?page=linux-instructions
 
+> $ sudo apt install retroarch
+
 Open Retroarch and go to **Online Updater** :
 - Download Assets (optional)
 - Download Joypad Profiles
