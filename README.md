@@ -28,12 +28,14 @@ Configure Ubuntu :
 `$ sudo apt-get upgrade`
 
 ### Autoupdate
+
 Follow this guide to configure automatic system updates.
+
 https://www.cyberciti.biz/faq/how-to-set-up-automatic-updates-for-ubuntu-linux-18-04/
 
 ### Softwares
-arp-scan is a tool for EMV detection
-xserver-xorg-input-joystick allows mouse control with the gamepad
+
+arp-scan is a tool for EMV detection and xserver-xorg-input-joystick allows mouse control with the gamepad
 
 `$ sudo apt-get --fix-broken install`
 
