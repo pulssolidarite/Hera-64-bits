@@ -28,7 +28,8 @@ Configure Ubuntu :
 `$ sudo apt-get upgrade`
 
 ### Autoupdate
-https://blog.behrouze.com/debian-auto-update-upgrade/
+Follow this guide to configure automatic system updates.
+https://www.cyberciti.biz/faq/how-to-set-up-automatic-updates-for-ubuntu-linux-18-04/
 
 ### Softwares
 arp-scan is a tool for EMV detection
