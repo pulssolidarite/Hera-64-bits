@@ -45,7 +45,7 @@ Install AnyDesk from website https://anydesk.com/en/downloads/linux
 
 > arp-scan needs to have root permissions.
 > `$ sudo visudo`
-> add this permission : %sudo ALL = (ALL) NOPASSWD: /usr/sbin/arp-scan
+> add this permission : %sudo ALL=(ALL) NOPASSWD:/usr/sbin/arp-scan
 > test with `$ sudo arp-scan --localnet`
 
 ## Download & Install Retroarch
