@@ -19,7 +19,7 @@ When installation is over, go in BIOS and :
 
 Configure Ubuntu :
 - share one ethernet port with other devices (for EMV)
-- empêcher l'écran de se mettre en veille
+- deactivate screensaver
 
 ## Install Software
 
@@ -28,11 +28,14 @@ Configure Ubuntu :
 `$ sudo apt-get upgrade`
 
 ### Autoupdate
-https://blog.behrouze.com/debian-auto-update-upgrade/
+
+Follow this guide to configure automatic system updates.
+
+https://www.cyberciti.biz/faq/how-to-set-up-automatic-updates-for-ubuntu-linux-18-04/
 
 ### Softwares
-arp-scan is a tool for EMV detection
-xserver-xorg-input-joystick allows mouse control with the gamepad
+
+arp-scan is a tool for EMV detection and xserver-xorg-input-joystick allows mouse control with the gamepad
 
 `$ sudo apt-get --fix-broken install`
 
@@ -41,36 +44,30 @@ xserver-xorg-input-joystick allows mouse control with the gamepad
 Install AnyDesk from website https://anydesk.com/en/downloads/linux
 
 > arp-scan needs to have root permissions.
-> `# visudo`
-> add this permission : %sudo ALL = (ALL) NOPASSWD: /usr/sbin/arp-scan
+> `$ sudo visudo`
+> add this permission : %sudo ALL=(ALL) NOPASSWD:/usr/sbin/arp-scan
 > test with `$ sudo arp-scan --localnet`
 
 ## Download & Install Retroarch
 
 Add the PPA and install retroarch for Ubuntu : https://www.retroarch.com/index.php?page=linux-instructions
 
+> $ sudo apt install retroarch
+
 Open Retroarch and go to **Online Updater** :
 - Download Assets (optional)
 - Download Joypad Profiles
+- Go To **Notifications** and turn all off
 - esc to exit
 - Reexecute retroarch and configure joypads
-
-Go To **Notifications** and turn all off
 
 ## Install Mono for EMV's exectuable
 
 The EMV binary can be found in the Payter repository under releases as a zip file.
 
-Install mono-xsp4 : https://www.mono-project.com/download/stable/#download-lin-ubuntu
+Install mono-xsp4 complete version : https://www.mono-project.com/download/stable/#download-lin-ubuntu
 
-If for some obscure reason you need to recompile the Payter project, here is how is done using mono-complete:
-`git clone https://github.com/pulssolidarite/PayterPay.git`
-
-Go to PayterPay repository and compile:
-
-`msbuild /p:Configuration=Release`
-
-Move PayterPay/bin/Release/ to home/ and rename it Payter/
+Extract the payter zip in Home directory as : `/home/pulsimpact/Payter/...`
 
 ## PULS-ARCADE.AppImage
 
@@ -81,10 +78,6 @@ Add these two lines at the end of `/etc/environment` :
 `export PULS_LOGIN=???`
 
 `export PULS_MDP=???`
-
-> Add this for free mode:
-
-`export PULS_SKIPPAYMENT=TRUE`
 
 Download latest AppImage release of Hera and place it in home directory. Grant permissions.
 
@@ -104,9 +97,9 @@ On next boot Hera will auto start.
 
 ## Local Net & Internet
 
-Le Wifi se configure simplement à l'installation de l'OS ou directement chez l'usager avec le gestionnaire réseau d'Ubuntu.
-Si ce n'est pas déjà fait, il faut partager un port ethernet aux autres ordinat
-Sur le barebone AsRock il y a deux ports Ethernet ce qui permet de partage le premier au réseau interne de la borne et le deuxième comme connexion directe. Ceci permêt des usages plus polyvalents pour l'usager (wifi + ethernet).
+On the AsRock barebone there are two ethernet plugs allowing for a shared connection for the payment terminal and the second can be used as internet acces for when someone changes connection type (wifi/etheret).
+This configuration is done in the internet settings, where you can set eth0 to be shared with other computers. This interface now can be plugged to the local network inside the arcade and be used as a internet sharing.
 
-Magie ça marche ! si tout est branché...
+## Enjoy!
+
 
