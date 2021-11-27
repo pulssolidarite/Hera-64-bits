@@ -7,8 +7,11 @@
           <div class="s-title">
             <div class="title">CHOISIS TON MONTANT</div>
             <div class="subtitle">
-              <div class>Ton don sera reversé à {{ session.campaign.name}}.</div>
+              <div>Ton don sera reversé à {{ session.campaign.name }}.</div>
             </div>
+              <div id="freeModeMessage" v-if="session.terminal.is_free">
+				Si tu sélectionnes 0€, c'est ton entreprise qui s'engage à faire un don à ta place <span class="material-icon pink">favorite</span>
+			  </div>
           </div>
         </div>
         <!-- time -->
@@ -24,18 +27,18 @@
             <div class="number-box active">{{ amount[0].n }}</div>
             <div class="number-box">{{ amount[1].n }}</div>
             <div class="euro number-box">
-              <div id="maxlimit" v-if="eurobox=='maxlimit'">
+              <div id="maxlimit" v-if="eurobox == 'maxlimit'">
                 Max.
                 <br />
                 {{ max_amount }}€
               </div>
-              <div id="minlimit" v-if="eurobox=='minlimit'">
+              <div id="minlimit" v-if="eurobox == 'minlimit'">
                 Min.
                 <br />
                 {{ min_amount }}€
               </div>
-              <div id="default" v-if="eurobox=='default'">€</div>
-              <div id="start" v-if="eurobox=='start'">Start</div>
+              <div id="default" v-if="eurobox == 'default'">€</div>
+              <div id="start" v-if="eurobox == 'start'">Start</div>
             </div>
           </div>
         </div>
@@ -49,8 +52,12 @@
             ref="steptext"
           >
             <div class="donationstep">
-              <img class="donationStepImage" :src="step.image" :alt="session.campaign.name" />
-              {{step.text}}
+              <img
+                class="donationStepImage"
+                :src="step.image"
+                :alt="session.campaign.name"
+              />
+              {{ step.text }}
             </div>
           </div>
         </div>
@@ -81,26 +88,27 @@ export default {
   name: "AmountChoice",
   components: { helpGamepad, AnimatedNumber },
   props: ["session"],
-  data: function() {
+  data: function () {
     return {
       active_box: 0,
       boxes: "",
       arrows: "",
       amount: [
         { n: 0, limit: 5 },
-        { n: 1, limit: 9 }
+        { n: 1, limit: 9 },
       ],
       max_amount: 50,
       min_amount: 1,
       eurobox: "default",
     };
   },
-  mounted: function() {
+  mounted: function () {
     if (!this.session.position_asso) {
       this.$emit("lastView");
     }
 
     this.updateDonationStep();
+	this.defineFreeMode();
 
     this.boxes = document.getElementsByClassName("number-box");
     this.arrows = document.getElementById("arrows");
@@ -109,7 +117,13 @@ export default {
     setTimeout(() => this.$emit("home"), 1000 * 60);
   },
   methods: {
-    updateDonationStep: function() {
+	  defineFreeMode: function () {
+		  if (this.session.terminal.is_free){
+			  this.min_amount = 0;
+			  this.amount[1].n = 0;
+		  }
+	  },
+    updateDonationStep: function () {
       if (!this.session.campaign.donationSteps) return;
       this.session.campaign.donationSteps.forEach((step, i, steps) => {
         if (
@@ -117,10 +131,12 @@ export default {
           this.countAmount() < (steps[i + 1] == null ? 55 : steps[i + 1].amount)
         ) {
           // this.$refs.carousel.slideTo(i);
-          this.$refs.steptext[i].style.boxShadow = "-5px 0px yellow, 0px -5px yellow, 5px 0px #ff9900, 0px 5px #ff9900";
+          this.$refs.steptext[i].style.boxShadow =
+            "-5px 0px yellow, 0px -5px yellow, 5px 0px #ff9900, 0px 5px #ff9900";
           // return;
         } else {
-          this.$refs.steptext[i].style.boxShadow = "-5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491";
+          this.$refs.steptext[i].style.boxShadow =
+            "-5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491";
         }
       });
     },
@@ -128,7 +144,7 @@ export default {
       // return in cents : 1€ = 100
       var count = 0;
       var e = 1;
-      this.amount.forEach(a => {
+      this.amount.forEach((a) => {
         count += a.n * 10 ** e;
         e--;
       });
@@ -168,19 +184,13 @@ export default {
       if (this.active_box < this.boxes.length - 1) {
         this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
       }
-      if (
-        this.eurobox == "default" &&
-        this.active_box == this.boxes.length - 1
-      ) {
+      if (this.eurobox == "default" && this.active_box == this.boxes.length - 1) {
         this.eurobox = "start";
         this.arrows.style.display = "none";
         this.boxes[this.boxes.length - 1].classList.toggle("start");
         this.boxes[this.boxes.length - 1].classList.toggle("default");
         document.getElementsByClassName("euro")[0].style.background = "#99c961";
-      } else if (
-        this.eurobox == "start" &&
-        this.active_box < this.boxes.length
-      ) {
+      } else if (this.eurobox == "start" && this.active_box < this.boxes.length) {
         this.eurobox = "default";
         this.arrows.style.display = "block";
         this.boxes[this.boxes.length - 1].classList.toggle("start");
@@ -190,8 +200,7 @@ export default {
     },
     incrementNum(incr = 1) {
       // incr is direction 1 or -1
-      if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1)
-        return;
+      if ((incr != 1 && incr != -1) || this.active_box >= this.boxes.length - 1) return;
       if (this.amount[this.active_box].n == 0 && incr == -1)
         this.amount[this.active_box].n = this.amount[this.active_box].limit;
       else
@@ -205,12 +214,9 @@ export default {
     simulate_a() {
       if (this.active_box < this.boxes.length - 1) {
         this.nextBox(1);
-      } else if (
-        this.active_box == this.boxes.length - 1 &&
-        this.eurobox == "start"
-      ) {
+      } else if (this.active_box == this.boxes.length - 1 && this.eurobox == "start") {
         this.$emit("saveAmount", {
-          amount: this.countAmount()
+          amount: this.countAmount(),
         });
         this.$emit("nextView");
       }
@@ -228,13 +234,13 @@ export default {
     simulate_right() {
       this.nextBox(1);
     },
-    simulate_up: function() {
+    simulate_up: function () {
       this.incrementNum(1);
     },
-    simulate_down: function() {
+    simulate_down: function () {
       this.incrementNum(-1);
     },
-  }
+  },
 };
 </script>
 
@@ -288,7 +294,7 @@ export default {
 }
 
 .title,
-.subtitle{
+.subtitle {
   margin-left: unset;
   margin: unset;
   text-align: center;
@@ -338,7 +344,6 @@ export default {
 .number-box:not(.euro) {
   padding-left: 15px;
 }
-
 
 .invisible-box {
   margin: 5px;
@@ -409,8 +414,7 @@ export default {
 .donationsteps {
   margin-left: 30px;
   background-color: #512fb5;
-  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491,
-    0px 5px #372491;
+  box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491;
   width: 280px;
   height: 400px;
   font-family: pixel2;
@@ -418,5 +422,21 @@ export default {
   color: white;
   padding: 15px;
   transition-duration: 0.3s;
+}
+
+#freeModeMessage{
+  font-family: Pixel2;
+  font-size: 1.8vh;
+  color: white;
+  height: 50px;
+  position: absolute;
+  margin: auto;
+  left: 50%;
+  transform: translate(-50%, 0px);
+  width: 100%
+}
+
+.pink{
+	color: rgb(255, 0, 0);
 }
 </style>

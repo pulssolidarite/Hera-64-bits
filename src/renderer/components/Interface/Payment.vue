@@ -53,10 +53,7 @@ export default {
   name: "Payment",
   props: ["session"],
   mounted: function() {
-    if (process.env.PULS_SKIPPAYMENT == "TRUE") {
-      // FOR DEV PURPOSE ONLY
-      // For skipping payment
-      console.log("skip payment");
+    if (this.session.terminal.is_free && this.session.amount == 0) {
       setTimeout(() => this.skipPayment(this.session.amount), 1000);
     } else {
       if (this.session.amount) {
@@ -76,7 +73,7 @@ export default {
         date: new Date(),
         method: "Manual",
         status: "Skiped",
-        amount: 0,
+        amount: amount,
         currency: "EUR"
       };
 
@@ -91,7 +88,7 @@ export default {
         date: new Date(),
         method: "Manual",
         status: "",
-        amount: 0,
+        amount: amount,
         currency: "EUR"
       };
 

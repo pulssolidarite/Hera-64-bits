@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 @font-face {
   font-family: "Futura Std";
   src: url("../webfonts/FuturaStd-ExtraBold.woff2") format("woff2"),
@@ -46,6 +48,10 @@ body {
 .h4,
 .h5 {
   font-weight: bold;
+}
+
+.material-icon{
+	font-family: 'Material Icons';
 }
 
 .component {
