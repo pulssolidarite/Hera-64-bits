@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
+    <!-- <div class="container">
       <div id="notification" class="alert alert-warning mx-auto d-none my-3">
         <div class="d-flex align-items-center justify-content-between">
           <span id="message">Une nouvelle version est disponible !</span>
@@ -19,11 +19,11 @@
           </button>
         </div>
       </div>
-    </div>
-    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+    </div> -->
+    <div class="app-wrapper">
       <router-view />
     </div>
-    <vue-progress-bar />
+    <!-- <vue-progress-bar /> -->
   </div>
 </template>
 
@@ -72,19 +72,3 @@ export default {
   },
 };
 </script>
-
-<style>
-@import "./assets/css/all.min.css";
-
-.card.card-rounded {
-  border-radius: 20px !important;
-  border: none !important;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06), 0 3px 6px rgba(0, 0, 0, 0.13);
-}
-
-html,
-body,
-#app {
-  height: 100%;
-}
-</style>

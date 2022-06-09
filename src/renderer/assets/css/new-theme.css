@@ -1,0 +1,96 @@
+@font-face {
+  font-family: "Silka-Medium";
+  src: url("../webfonts/silka/Silka-Medium.otf");
+}
+@font-face {
+  font-family: "Silka-Bold";
+  src: url("../webfonts/silka/Silka-Bold.otf");
+}
+@font-face {
+  font-family: "Silka-Light";
+  src: url("../webfonts/silka/Silka-Light.otf");
+}
+body {
+  background-color: #282828;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  overflow: hidden;
+  font-family: "Silka-Medium";
+}
+
+#home {
+  height: 100vh;
+  width: 100vw;
+}
+
+#aside {
+  position: absolute;
+  height: calc(100vh - 30px);
+  width: calc(23vw - 15px);
+  top: 0;
+  left: 0;
+}
+
+#favorite {
+  position: absolute;
+  height: calc(65vh - 15px);
+  width: calc(100vw - (23vw - 15px) - 30px);
+  top: 15px;
+  right: 15px;
+  background: white;
+  border-radius: 20px;
+}
+
+#presentation-list {
+  position: absolute;
+  height: calc(100vh - (65vh - 15px) - 60px);
+  width: calc(100vw - (23vw - 15px) - 15px);
+  bottom: 30px;
+  right: 0;
+  overflow: hidden;
+}
+
+.list-title {
+  color: white;
+  line-height: 40px;
+}
+
+.game-list {
+  --game-list-offset-factor: calc($card-w + $margin);
+}
+
+.small-card {
+  height: calc(100vh - (65vh - 15px) - 60px - 40px);
+  width: calc(100vh - (65vh - 15px) - 60px - 40px);
+  border-radius: 20px;
+  background: white;
+  margin-right: 15px;
+}
+
+.inactive {
+  border: 5px solid rgba(0, 0, 0, 0.25);
+}
+
+.active {
+  border: 5px solid #FFD733;
+}
+
+.inactive, .active {
+  box-sizing: border-box;
+}
+
+.transparent-box {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.25);
+  margin-top: 40px;
+}
+.transparent-box p {
+  color: #5DC3E4;
+  line-height: 20px;
+  height: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/*# sourceMappingURL=new-theme.css.map */

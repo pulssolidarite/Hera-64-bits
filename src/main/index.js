@@ -47,7 +47,7 @@ function createWindow() {
 
 app.on("ready", () => {
   createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
+  autoUpdater.checkForUpdates();
 });
 
 app.on("window-all-closed", () => {
@@ -71,7 +71,7 @@ app.on("activate", () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
+
 ipcMain.on("app_version", event => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
@@ -79,12 +79,12 @@ ipcMain.on("app_version", event => {
 autoUpdater.on("update-available", () => {
   mainWindow.webContents.send("update_available");
 });
+
 autoUpdater.on("update-downloaded", () => {
   mainWindow.webContents.send("update_downloaded");
+  autoUpdater.quitAndInstall();
 });
 
 ipcMain.on("restart_app", () => {
   autoUpdater.quitAndInstall();
 });
-
-*/

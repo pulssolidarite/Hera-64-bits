@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 h-100 bg-gradient" style="overflow :hidden;">
+  <div id="home">
     <!-- overflow for transition -->
 
     <Error
@@ -17,18 +17,40 @@
     </transition>
 
     <vue-element-loading :active="loading" is-full-screen />
-    <div class="w-100 h-100" v-if="!loading">
+    <div v-if="!loading">
       <transition name="mytr" mode="out-in">
 
+		<!-- NEW SCREENS -->
+		<GamesPresentationScreen
+		:content="games"
+        :session="session"
+        @saveGame="saveGame"
+        @error="handleError"
+        @nextView="nextView"
+        @lastView="lastView"
+    	@home="homeView"
+        v-if="viewIndex == 0">
+		</GamesPresentationScreen>
+
+		<CampaignPresentationScreen
+		:content="campaigns"
+        :session="session"
+        @saveGame="saveGame"
+        @error="handleError"
+        @nextView="nextView"
+        @lastView="lastView"
+    	@home="homeView"
+        v-if="viewIndex == 1">
+		</CampaignPresentationScreen>
         <!-- SCREENSAVER -->
-        <Welcome
+        <!-- <Welcome
           @error="handleError"
           @nextView="nextView"
           v-if="viewIndex == -1"
-        ></Welcome>
+        ></Welcome> -->
 
         <!-- FIRST VIEW -->
-        <Start
+        <!-- <Start
           :games="games"
           :session="session"
           @saveGame="saveGame"
@@ -37,10 +59,10 @@
           @lastView="lastView"
           @home="homeView"
           v-if="viewIndex == 0"
-        ></Start>
+        ></Start> -->
 
         <!-- SECOND VIEW -->
-        <CampaignChoice
+        <!-- <CampaignChoice
           :campaigns="campaigns"
           :session="session"
           @startSession="startSession"
@@ -50,10 +72,10 @@
           @lastView="lastView"
           @home="homeView"
           v-if="viewIndex == 1"
-        ></CampaignChoice>
+        ></CampaignChoice> -->
 
         <!-- THIRD VIEW -->
-        <AmountChoice
+        <!-- <AmountChoice
           :session="session"
           @saveAmount="saveAmount"
           @error="handleError"
@@ -61,17 +83,17 @@
           @lastView="lastView"
           @home="homeView"
           v-if="viewIndex == 2"
-        ></AmountChoice>
+        ></AmountChoice> -->
 
         <!-- 4TH VIEW -->
-        <Payment
+        <!-- <Payment
           :session="session"
           @savePayment="savePayment"
           @error="handleError"
           @nextView="nextView"
           @lastView="lastView"
           v-if="viewIndex == 3"
-        ></Payment>
+        ></Payment> -->
 
         <!-- 4TH VIEW -->
         <!-- <CampaignDetail
@@ -82,20 +104,20 @@
           v-if="viewIndex == 4"
         ></CampaignDetail> -->
 
-        <didactitiel
+        <!-- <didactitiel
           :session="session"
           @nextView="nextView"
           v-if="viewIndex == 4"
-        ></didactitiel>
+        ></didactitiel> -->
 
         <!-- 5TH VIEW -->
-        <Play
+        <!-- <Play
           :session="session"
           @error="handleError"
           @nextView="nextView"
           @lastView="lastView"
           v-if="viewIndex == 5"
-        ></Play>
+        ></Play> -->
 
         <!-- <ticketProposition
           @error="handleError"
@@ -106,7 +128,7 @@
         ></ticketProposition> -->
 
         <!-- 6TH VIEW -->
-        <End
+        <!-- <End
           :session="session"
           @error="handleError"
           @home="homeView"
@@ -124,7 +146,7 @@
           @nextView="lastView"
           @home="homeView"
           v-if="viewIndex == 7"
-        ></requestTicket>
+        ></requestTicket> -->
 
         <about @lastView="endedView" v-if="viewIndex == 8"></about>
       </transition>
@@ -149,9 +171,13 @@ import ticketProposition from "@/components/Interface/ticketProposition.vue";
 import End from "@/components/Interface/End.vue";
 import requestTicket from "@/components/Interface/requestTicket.vue";
 import about from "@/components/Interface/about.vue";
-const fs = require("fs");
+
+// NEW THEME :
+import GamesPresentationScreen from "@/components/new-theme/GamesPresentationScreen.vue"
+import CampaignPresentationScreen from "@/components/new-theme/CampaignPresentationScreen.vue"
 import axios from "axios";
 
+const fs = require("fs");
 const request = require("request");
 
 export default {
@@ -172,6 +198,8 @@ export default {
     End,
     requestTicket,
     about,
+	GamesPresentationScreen,
+	CampaignPresentationScreen,
   },
   data: function() {
     return {
@@ -182,9 +210,9 @@ export default {
         errors: {},
       },
       terminal: {},
-      campaigns: [],
-      games: [],
-      viewIndex: -1, // Starting index
+    //   campaigns: [],
+    //   games: [],
+      viewIndex: 0, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,
@@ -202,7 +230,7 @@ export default {
         position_game: null,
       },
       campaigns: {},
-      games: {},
+      games: null,
     };
   },
   mounted: function() {
@@ -276,7 +304,7 @@ export default {
               request(game.file.file).pipe(fs.createWriteStream(currentPath));
             }
           } catch (err) {
-            console.error("Catched error on try : " + err);
+            console.error("Cought error on try : " + err);
           }
 
           // Checking if the Core exists

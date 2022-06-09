@@ -1,0 +1,133 @@
+@font-face {
+    font-family: "Silka-Medium";
+    src: url("../webfonts/silka/Silka-Medium.otf");
+}
+
+@font-face {
+    font-family: "Silka-Bold";
+    src: url("../webfonts/silka/Silka-Bold.otf");
+}
+
+@font-face {
+    font-family: "Silka-Light";
+    src: url("../webfonts/silka/Silka-Light.otf");
+}
+// COLORS
+$bg-color: #282828;
+$yellow-color: #FFD733;
+$light-grey-color: #eeede9;
+$light-brown-color: #B3AA99;
+$blue-color: #5DC3E4;
+$green-color: #6C972F;
+$white-color: #ffffff;
+$std-opacity: rgba(0, 0, 0, 0.25);
+
+// SIZES
+$max-h: 100vh;
+$max-w: 100vw;
+
+$margin: 15px;
+
+$radius: 20px;
+
+// BLOCK POSITIONS
+
+body {
+	background-color: $bg-color;
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	overflow: hidden;
+	font-family: "Silka-Medium";
+}
+
+#home {
+	height: $max-h;
+	width: $max-w;
+}
+
+$aside-h: calc($max-h - 2 * $margin);
+$aside-w: calc(23vw - $margin);
+
+#aside {
+	position: absolute;
+	height: $aside-h;
+	width: $aside-w;
+	top: 0;
+	left: 0;
+}
+
+$favorite-h: calc(65vh - 1 * $margin);
+$favorite-w: calc($max-w - $aside-w - 2 * $margin);
+
+#favorite {
+	position: absolute;
+	height: $favorite-h;
+	width: $favorite-w;
+	top: $margin;
+	right: $margin;
+	background: white;
+	border-radius: $radius;
+}
+
+// small carrousel
+$list-title-h: 40px;
+$list-h: calc($max-h - $favorite-h - 4 * $margin);
+$list-w: calc($max-w - $aside-w - 1 * $margin);
+
+#presentation-list {
+	position: absolute;
+	height: $list-h;
+	width: $list-w;
+	bottom: calc(2 * $margin);
+	right: 0;
+	overflow: hidden;
+}
+
+.list-title{
+	color: white;
+	line-height: $list-title-h;
+}
+
+$card-h: calc($list-h - $list-title-h);
+$card-w: $card-h;
+
+.game-list{
+	--game-list-offset-factor: calc($card-w + $margin);
+}
+
+.small-card {
+	height: $card-h;
+	width: $card-w;
+	border-radius: 20px;
+	background: white;
+	margin-right: $margin;
+}
+
+// utils
+
+.inactive {
+	border: 5px solid $std-opacity;
+}
+
+.active {
+	border: 5px solid $yellow-color;
+}
+
+.inactive, .active{
+	box-sizing: border-box;
+}
+
+$transparent-box-h: 20px;
+.transparent-box{
+	position: absolute;
+	background: $std-opacity;
+	margin-top: 40px;
+	p{
+		color: $blue-color;
+		line-height: $transparent-box-h;
+		height: $transparent-box-h;
+		margin-left: $transparent-box-h;
+		margin-right: $transparent-box-h;
+	}
+}
