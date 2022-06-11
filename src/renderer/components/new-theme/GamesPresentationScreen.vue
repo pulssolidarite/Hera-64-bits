@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<PresentationScreen :content="content"></PresentationScreen>
+		<PresentationScreen :content="content" :favoriteButtons="favoriteButtons"></PresentationScreen>
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="2" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_up="simulate_up" @simulate_down="simulate_down" />
 	
@@ -12,6 +12,11 @@ import PresentationScreen from "@/components/new-theme/abstractScreens/Presentat
 import HelpGamepad from "@/components/helpGamepad.vue";
 
 export default {
+  data () {
+    return {
+		favoriteButtons:[{text:"jouer"},{text:"+ d'infos"}],
+    }
+  },
 	props: [
 		"content"
 	],

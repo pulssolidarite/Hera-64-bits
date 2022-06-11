@@ -1,10 +1,13 @@
 <template>
 	<div class="step-desc">
+
 		<div class="circle">
 			<div class="num">{{ num }}</div>
 		</div>
-		<div class="big">{{ big }}</div>
-		<div class="small">{{ small }}</div>
+		<div class="text">
+			<div class="big blue">{{ big }}</div>
+			<div class="small blue">{{ small }}</div>
+		</div>
 	</div>
 </template>
 
@@ -19,53 +22,58 @@ export default {
 </script>
 
 <style>
+
 .step-desc {
-	color: #44c1e4;
+	--size: 60px;
 	position: relative;
+	font-family: "Silka-Bold";
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
 	margin-bottom: 30px;
-	/* background: red; */
+	padding-left: 80px;
 }
 
 .circle {
-	height: 50px;
-	width: 50px;
+	height: calc(var(--size));
+	width: calc(var(--size));
 	border-radius: 50%;
-	background-color: black;
+	background: black;
 	position: relative;
 }
 
-.num {
-	background-color: #44c1e4;
-	color: white;
-	margin: 0 auto;
-	padding: 0;
-	border-radius: 50%;
-	width: 52px;
-	height: 52px;
-	line-height: 52px;
-	text-align: center;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	mix-blend-mode: screen;
-	font-size: 2em;
-	font-weight: bold;
+	.num {
+		background: var(--blue-color);
+		color: white;
+		margin: 0 auto;
+		padding: 0;
+		border-radius: 50%;
+		width: var(--size);
+		height: var(--size);
+		line-height: var(--size);
+		text-align: center;
+		mix-blend-mode: screen;
+		font-size: calc(var(--size) - 10px);
+		font-weight: bold;
+	}
+
+.text{
+	margin-left: var(--margin);
 }
 
 .big, .small{
-	position: absolute;
-	left: 60px;
+	white-space: nowrap;
 }
 
 .big{
 	top: 0;
-	line-height: 30px;
-	font-size: 1.5em;
+	line-height: calc(var(--size) * (2/3));
+	font-size: calc(var(--size) * (2/3));
 }
 
 .small{
 	bottom: 0;
-	line-height: 20px;
+	line-height: calc(var(--size) * (1/3));
+	font-size: calc(var(--size) * (1/3));
 }
 </style>

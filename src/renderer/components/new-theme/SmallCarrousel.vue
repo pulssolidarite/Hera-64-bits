@@ -1,7 +1,6 @@
 <template>
 	<div id="presentation-list">
 		<div class="list-title">tous nos jeux</div>
-		<!-- <Transition name="game-list"> -->
 		<div class="game-list" ref="gameList">
 			<div class="small-card" :class="isActiveCard(i)" ref="smallCard" v-for="(c, i) in content" :key="i">
 				<div class="transparent-box">
@@ -9,11 +8,10 @@
 				</div>
 				<img :src="c.logo" class="slide-picture" />
 				<!-- <span class="slide-description">
-														{{ game.description }}
-													</span> -->
+					{{ game.description }}
+				</span> -->
 			</div>
 		</div>
-		<!-- </Transition> -->
 	
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
@@ -46,10 +44,8 @@ export default {
 		isActiveCard: function(i) {
 			return (i == this.activeIndex && this.active ? "active" : "inactive");
 		},
-		simulate_a() {
-		},
-		simulate_b() {
-		},
+		simulate_a() {},
+		simulate_b() {},
 		simulate_left() {
 			this.moveSelection(-1);
 		},

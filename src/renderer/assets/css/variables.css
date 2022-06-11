@@ -1,0 +1,25 @@
+:root{
+	--bg-color: #282828;
+	--yellow-color: #FFD733;
+	--light-grey-color: #eeede9;
+	--light-brown-color: #B3AA99;
+	--blue-color: #5DC3E4;
+	--green-color: #6C972F;
+	--white-color: #ffffff;
+	--std-opacity: rgba(0, 0, 0, 0.25);
+	--max-h: 100vh;
+	--max-w: 100vw;
+	--margin: 15px;
+	--radius: 20px;
+	--aside-h: calc(var(--max-h) - 2 * var(--margin));
+	--aside-w: calc(23vw - var(--margin));
+	--favorite-h: calc(65vh - 1 * var(--margin));
+	--favorite-w: calc(var(--max-w) - var(--aside-w) - 2 * var(--margin));
+	--list-title-h: 40px;
+	--list-h: calc(var(--max-h) - var(--favorite-h) - 4 * var(--margin));
+	--list-w: calc(var(--max-w) - var(--aside-w) - 1 * var(--margin));
+	--card-h: calc(var(--list-h) - var(--list-title-h));
+	--card-w: var(--card-h);
+	--border-width: 5px;
+}
+

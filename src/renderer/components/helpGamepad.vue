@@ -225,4 +225,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+.footer{
+	display: none;
+}
+</style>

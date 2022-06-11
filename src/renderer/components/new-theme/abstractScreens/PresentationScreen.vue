@@ -5,7 +5,7 @@
 			<AsideBot></AsideBot>
 		</div>
 	
-		<Favorite :content="content ? content[0] : {}" :active="isActiveFavorite"></Favorite>
+		<Favorite :content="content ? content[0] : {}" :active="isActiveFavorite" :favoriteButtons="favoriteButtons"></Favorite>
 	
 		<SmallCarrousel :content="content" :active="isActiveCarrousel"></SmallCarrousel>
 	
@@ -37,6 +37,7 @@ export default {
 	},
 	props: [
 		"content",
+		"favoriteButtons",
 	],
 	mounted: function() {
 		setTimeout(() => this.$emit("home"), 1000 * 60);
