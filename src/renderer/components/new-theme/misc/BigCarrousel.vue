@@ -1,16 +1,15 @@
 <template>
 	<div id="presentation-list">
-		<div class="list-title">tous nos jeux</div>
+		<div class="list-title bold-font big-font">{{ title }}</div>
 		<div class="game-list" ref="gameList">
-			<div class="small-card" :class="isActiveCard(i)" ref="smallCard" v-for="(c, i) in content" :key="i">
-				<div class="transparent-box">
-					<p>{{ c.name }}</p>
-				</div>
-				<img :src="c.logo" class="slide-picture" />
-				<!-- <span class="slide-description">
-					{{ game.description }}
-				</span> -->
-			</div>
+			<SmallCard
+				:active="isActiveCard(i)"
+				v-for="(card, i) in content"
+				:key="i"
+				:content="card"
+				class="smallCard"
+				@chose="chose">
+			</SmallCard>
 		</div>
 	
 		<!-- GAMEPAD -->
@@ -21,6 +20,7 @@
 
 <script>
 import HelpGamepad from "@/components/helpGamepad.vue";
+import SmallCard from "@/components/new-theme/misc/SmallCard.vue";
 
 export default {
 	data() {
@@ -35,14 +35,21 @@ export default {
 	},
 	components: {
 		HelpGamepad,
+		SmallCard,
 	},
 	props: [
 		"content",
 		"active",
+		"title",
 	],
 	methods: {
+		chose(data){
+			// console.log(data);
+			if(this.active)
+				this.$emit("chose", data)
+		},
 		isActiveCard: function(i) {
-			return (i == this.activeIndex && this.active ? "active" : "inactive");
+			return (i == this.activeIndex && this.active ? true: false);
 		},
 		simulate_a() {},
 		simulate_b() {},
@@ -53,9 +60,10 @@ export default {
 			this.moveSelection(1);
 		},
 		getGameListOffsetFactor() {
-			if (this.$refs.smallCard === undefined)
+			var cards = document.getElementsByClassName("small-card");
+			if (cards === undefined || cards.length == 0)
 				return
-			return parseInt(window.getComputedStyle(this.$refs.smallCard[0]).width) + parseInt(window.getComputedStyle(this.$refs.smallCard[0]).marginRight);
+			return parseInt(window.getComputedStyle(cards[0]).width) + parseInt(window.getComputedStyle(cards[0]).marginRight);
 		},
 		moveSelection(direction) { // direction must be -1 or +1 for left or right
 			if (direction != 1 && direction != -1 || !this.active)
@@ -85,9 +93,5 @@ export default {
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	transition-duration: 500ms;
-}
-
-.small-card {
-	flex-shrink: 0;
 }
 </style>

@@ -5,10 +5,16 @@
 				<p class="bold-font">le jeu du moment</p>
 			</div>
 
-			<div class="campaign-name">{{ content.name }}</div>
+			<div class="campaign-name bold-font">{{ content.name }}</div>
 		
 			<div class="buttons">
-				<FavButton :text="favoriteButtons[i].text" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i"></FavButton>
+				<FavButton
+					:text="favoriteButtons[i].text"
+					:active="isActiveButton(i)"
+					v-for="(button, i) in favoriteButtons"
+					:key="i"
+					@selection="selection">
+				</FavButton>
 			</div>
 		</div>
 
@@ -41,6 +47,11 @@ export default {
 		"favoriteButtons",
 	],
 	methods: {
+		selection: function(){
+			if (this.active){
+				console.log("selection");
+			}
+		},
 		isActive() {
 			if (this.active) {
 				if (this.activeButtonIndex == -1) {
@@ -73,7 +84,6 @@ export default {
 				return;
 			} else {
 				this.activeButtonIndex += direction;
-			console.log(this.activeButtonIndex);
 			}
 		},
 	},

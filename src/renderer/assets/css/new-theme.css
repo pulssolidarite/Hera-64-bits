@@ -1,18 +1,18 @@
 @import "./variables.css";
 
 @font-face {
-    font-family: "Silka-Medium";
-    src: url("../webfonts/silka/Silka-Medium.otf");
+	font-family: "Silka-Medium";
+	src: url("../webfonts/silka/Silka-Medium.otf");
 }
 
 @font-face {
-    font-family: "Silka-Bold";
-    src: url("../webfonts/silka/Silka-Bold.otf");
+	font-family: "Silka-Bold";
+	src: url("../webfonts/silka/Silka-Bold.otf");
 }
 
 @font-face {
-    font-family: "Silka-Light";
-    src: url("../webfonts/silka/Silka-Light.otf");
+	font-family: "Silka-Light";
+	src: url("../webfonts/silka/Silka-Light.otf");
 }
 
 body {
@@ -47,35 +47,67 @@ body {
 	border-radius: var(--radius);
 }
 
+#inline-stepping{
+	position: absolute;
+	height: var(--inline-stepping-h);
+	width: var(--inline-stepping-w);
+	top: 0;
+	left: var(--aside-w);
+	display: flex;
+	flex-flow: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#big-carrousel{
+	position: absolute;
+	height: var(--big-carrousel-h);
+	width: var(--max-w);
+	top: var(--inline-stepping-h);
+	left: 0;
+}
+
 /* small carrousel */
 
-#presentation-list {
-	position: absolute;
-	height: var(--list-h);
-	width: var(--list-w);
-	bottom: calc(2 * var(--margin));
-	right: 0;
-	overflow: hidden;
+#small-carrousel {
+	/* position: absolute; */
+	/* height: var(--list-h); */
+	/* width: var(--list-w); */
+	/* bottom: calc(2 * var(--margin)); */
+	/* right: 0; */
+	/* overflow: hidden; */
 }
 
-.list-title{
+.list-title {
 	color: white;
 	line-height: var(--list-title-h);
-}
-
-.game-list{
-	--game-list-offset-factor: calc(var(--card-w + var(--margin)));
 }
 
 .small-card {
 	height: var(--card-h);
 	width: var(--card-w);
-	border-radius: 20px;
+	border-radius: var(--radius);
+	background: white;
+	margin-right: var(--margin);
+}
+
+.big-card {
+	height: var(--card-h * 2);
+	width: var(--card-w * 2);
+	border-radius: var(--radius);
 	background: white;
 	margin-right: var(--margin);
 }
 
 /* utils */
+
+#logo {
+	background: red;
+	height: 200px;
+	width: 200px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
 
 .inactive {
 	border: var(--border-width) solid var(--std-opacity);
@@ -85,57 +117,57 @@ body {
 	border: var(--border-width) solid var(--yellow-color);
 }
 
-.inactive, .active{
+.inactive,
+.active {
 	box-sizing: border-box;
 }
 
-.transparent-box{
+.transparent-box {
 	position: absolute;
 	background: var(--std-opacity);
 	margin-top: 40px;
 }
 
-	.transparent-box p{
-		color: var(--blue-color);
-		line-height: var(--transparent-box-h);
-		height: var(--transparent-box-h);
-		margin-left: var(--margin);
-		margin-right: var(--margin);
-	}
-	
-.brown{
+.transparent-box p {
+	color: var(--blue-color);
+	line-height: var(--transparent-box-h);
+	height: var(--transparent-box-h);
+	margin-left: var(--margin);
+	margin-right: var(--margin);
+}
+
+.brown {
 	color: var(--light-brown-color);
 }
-	
-.blue{
-	color: var(--blue-color);
 
+.blue {
+	color: var(--blue-color);
 }
 
-.small-font{
+.small-font {
 	font-size: 0.8em;
 }
 
-.big-font{
+.big-font {
 	font-size: 1.2em;
 }
 
-.very-big-font{
+.very-big-font {
 	font-size: 2em;
 }
 
-.bold-font{
+.bold-font {
 	font-family: "Silka-Bold";
 }
 
-.inline-block{
+.inline-block {
 	display: inline-block;
 }
 
-.inline{
+.inline {
 	display: inline;
 }
 
-.block{
+.block {
 	display: block;
 }

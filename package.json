@@ -1,6 +1,6 @@
 {
 	"name": "puls-arcade",
-	"version": "3.6.0",
+	"version": "4.0.0",
 	"author": "Moncef HILALI, Yoann BOUGE, Fabien BLIN",
 	"description": "A complete system to manage Arcade terminal capable of running retro games with donations management.",
 	"license": "GNU AGPLv3",

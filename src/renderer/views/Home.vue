@@ -12,36 +12,47 @@
       @lastView="lastView"
     ></Error>
 
-    <transition name="step-tr">
+    <!-- <transition name="step-tr">
       <stepping :n_step="viewIndex" v-if="viewIndex >= 0 && viewIndex < 5" />
-    </transition>
+    </transition> -->
 
     <vue-element-loading :active="loading" is-full-screen />
     <div v-if="!loading">
       <transition name="mytr" mode="out-in">
 
 		<!-- NEW SCREENS -->
-		<GamesPresentationScreen
-		:content="games"
-        :session="session"
-        @saveGame="saveGame"
-        @error="handleError"
-        @nextView="nextView"
-        @lastView="lastView"
-    	@home="homeView"
-        v-if="viewIndex == 0">
-		</GamesPresentationScreen>
+		<PresentationScreen
+			:games="games"
+			:campaigns="campaigns"
+			@saveGame="saveGame"
+			@saveCampaign="saveCampaign"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == -1">
+		</PresentationScreen>
 
-		<CampaignPresentationScreen
-		:content="campaigns"
-        :session="session"
-        @saveGame="saveGame"
-        @error="handleError"
-        @nextView="nextView"
-        @lastView="lastView"
-    	@home="homeView"
-        v-if="viewIndex == 1">
-		</CampaignPresentationScreen>
+		<GameSelection
+			:content="games"
+			@saveGame="saveGame"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == 0">
+		</GameSelection>
+
+		<CampaignSelection
+			:content="campaigns"
+			@saveGame="saveCampaign"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == 1">
+		</CampaignSelection>
+
         <!-- SCREENSAVER -->
         <!-- <Welcome
           @error="handleError"
@@ -148,7 +159,7 @@
           v-if="viewIndex == 7"
         ></requestTicket> -->
 
-        <about @lastView="endedView" v-if="viewIndex == 8"></about>
+        <!-- <about @lastView="endedView" v-if="viewIndex == 8"></about> -->
       </transition>
     </div>
   </div>
@@ -173,8 +184,9 @@ import requestTicket from "@/components/Interface/requestTicket.vue";
 import about from "@/components/Interface/about.vue";
 
 // NEW THEME :
-import GamesPresentationScreen from "@/components/new-theme/GamesPresentationScreen.vue"
-import CampaignPresentationScreen from "@/components/new-theme/CampaignPresentationScreen.vue"
+import PresentationScreen from "@/components/new-theme/PresentationScreen.vue"
+import GameSelection from "@/components/new-theme/GameSelection.vue"
+import CampaignSelection from "@/components/new-theme/CampaignSelection.vue"
 import axios from "axios";
 
 const fs = require("fs");
@@ -198,8 +210,9 @@ export default {
     End,
     requestTicket,
     about,
-	GamesPresentationScreen,
-	CampaignPresentationScreen,
+	PresentationScreen,
+	GameSelection,
+	CampaignSelection,
   },
   data: function() {
     return {
@@ -356,13 +369,13 @@ export default {
   },
   methods: {
     // CHOICE METHODS
-    saveGame: function(payload) {
-      this.session.game = payload.game;
-      this.session.position_game = payload.indexOf;
+    saveGame: function(game) {
+      this.session.game = game;
+      this.session.position_game = game.indexOf;
     },
-    saveCampaign: function(payload) {
-      this.session.campaign = payload.campaign;
-      this.session.position_asso = payload.indexOf;
+    saveCampaign: function(campaign) {
+      this.session.campaign = campaign;
+      this.session.position_asso = campaign.indexOf;
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;

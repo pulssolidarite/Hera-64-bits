@@ -30,18 +30,9 @@ export default {
 	position: absolute;
 }
 
-#logo {
-	background: red;
-	height: 200px;
-	width: 200px;
-	margin: 0 auto;
-	margin-top: 50px;
-}
-
 .steps{
 	width: var(--aside-w);
 	margin-left: -50%;
-	/* margin: 0 auto; */
 	transform: translate(50%, 50%);
 }
 </style>
