@@ -1,26 +1,26 @@
 <template>
-	<div id="favorite" :class="isActive()" :style="image">
-		<div>
+	<div id="favorite" :class="isActive()">
+	
+		<div class="fav-img" :style="image">
+			<div class="card-wrapper"></div>
+		</div>
+	
+		<div class="fav-wrapper">
 			<div class="transparent-box">
 				<p class="bold-font">le jeu du moment</p>
 			</div>
-
+	
 			<div class="campaign-name bold-font">{{ content.name }}</div>
-		
+	
 			<div class="buttons">
-				<FavButton
-					:text="favoriteButtons[i].text"
-					:active="isActiveButton(i)"
-					v-for="(button, i) in favoriteButtons"
-					:key="i"
-					@selection="selection">
+				<FavButton :text="favoriteButtons[i].text" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i" @selection="selection">
 				</FavButton>
 			</div>
 		</div>
-
+	
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
-
+	
 	</div>
 </template>
 
@@ -47,8 +47,8 @@ export default {
 		"favoriteButtons",
 	],
 	methods: {
-		selection: function(){
-			if (this.active){
+		selection: function() {
+			if (this.active) {
 				console.log("selection");
 			}
 		},
@@ -63,7 +63,7 @@ export default {
 				return "inactive";
 			}
 		},
-		isActiveButton(i){
+		isActiveButton(i) {
 			return i == this.activeButtonIndex ? true : false;
 		},
 		simulate_a() {},
@@ -91,23 +91,19 @@ export default {
 </script>
 
 <style>
-
-#favorite>div {
+.fav-wrapper {
 	padding-left: 100px;
-	height: var(--favorite-h);
+	position: absolute;
+}
+
+.fav-img{
+	position: absolute;
 }
 
 .campaign-name {
 	font-size: 80px;
-	position: absolute;
-	top : 100px;
 	color: var(--white-color);
 	text-transform: capitalize;
 	-webkit-text-stroke: 2px black;
-}
-
-.buttons {
-	position: absolute;
-	bottom: 50px;
 }
 </style>

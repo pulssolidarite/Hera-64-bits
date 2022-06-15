@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style>
+.active-button,
+.inactive-button{
+	transition: all var(--transition) ease;
+}
 .fav-button {
 	--height: 20px;
 	display: inline-block;

@@ -1,15 +1,16 @@
 <template>
-	<div id="presentation-list">
-		<div class="list-title bold-font big-font">{{ title }}</div>
-		<div class="game-list" ref="gameList">
-			<SmallCard
-				:active="isActiveCard(i)"
-				v-for="(card, i) in content"
-				:key="i"
-				:content="card"
-				class="smallCard"
-				@chose="chose">
-			</SmallCard>
+	<div id="big-carrousel">
+		<div class="big-list" ref="list">
+			<div class="list-wrapper">
+				<BigCard
+					:active="isActiveCard(i)"
+					v-for="(card, i) in content"
+					:key="i"
+					:content="card"
+					class="big-card"
+					@chose="chose">
+				</BigCard>
+			</div>
 		</div>
 	
 		<!-- GAMEPAD -->
@@ -20,31 +21,29 @@
 
 <script>
 import HelpGamepad from "@/components/helpGamepad.vue";
-import SmallCard from "@/components/new-theme/misc/SmallCard.vue";
+import BigCard from "@/components/new-theme/misc/BigCard.vue";
 
 export default {
 	data() {
 		return {
 			activeIndex: 0,
-			gameListOffsetFactor: 0,
-			gameListOffset: 0,
+			listOffsetFactor: 0,
+			listOffset: 0,
 		}
 	},
 	mounted: function() {
-		this.gameListOffsetFactor = this.getGameListOffsetFactor();
+		this.listOffsetFactor = this.getListOffsetFactor();
 	},
 	components: {
 		HelpGamepad,
-		SmallCard,
+		BigCard,
 	},
 	props: [
 		"content",
 		"active",
-		"title",
 	],
 	methods: {
 		chose(data){
-			// console.log(data);
 			if(this.active)
 				this.$emit("chose", data)
 		},
@@ -59,8 +58,8 @@ export default {
 		simulate_right() {
 			this.moveSelection(1);
 		},
-		getGameListOffsetFactor() {
-			var cards = document.getElementsByClassName("small-card");
+		getListOffsetFactor() {
+			var cards = document.getElementsByClassName("big-card");
 			if (cards === undefined || cards.length == 0)
 				return
 			return parseInt(window.getComputedStyle(cards[0]).width) + parseInt(window.getComputedStyle(cards[0]).marginRight);
@@ -75,11 +74,11 @@ export default {
 			} else {
 				this.activeIndex += direction;
 				if (this.activeIndex >= 4) { // slide game list (left/right) when selected card index is >=4
-					this.gameListOffset += this.gameListOffsetFactor * -direction;
+					this.listOffset += this.listOffsetFactor * -direction;
 				} else {
-					this.gameListOffset = 0;
+					this.listOffset = 0;
 				}
-				this.$refs.gameList.style.transform = "translateX(" + this.gameListOffset + "px)";
+				this.$refs.list.style.transform = "translateX(" + this.listOffset + "px)";
 			}
 		},
 	},
@@ -87,11 +86,23 @@ export default {
 </script>
 
 <style>
-.game-list {
+.big-list {
+	/* top: calc(var(--inline-stepping-h) + 2* var(--margin)); */
+	top: 25%;
+	position: absolute;
+	height: var(--big-carrousel-h);
+	width: var(--max-w);
+}
+
+.list-wrapper{
+	/* background: red; */
+	height: var(--big-carrousel-h);
+	width: var(--max-w);
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
-	transition-duration: 500ms;
+	align-items: center;
+	transition-duration: var(--transition);
 }
 </style>

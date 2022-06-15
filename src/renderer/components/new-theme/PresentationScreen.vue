@@ -65,7 +65,7 @@ export default {
 		"favoriteButtons",
 	],
 	mounted: function() {
-		setTimeout(() => this.$emit("home"), 1000 * 60);
+		// setTimeout(() => this.$emit("home"), 1000 * 60);
 		this.translateY = this.getSmallCarrouselHeight();
 		this.carrouselHeight = this.translateY;
 	},

@@ -30,7 +30,7 @@
 			@nextView="nextView"
 			@lastView="lastView"
 			@home="homeView"
-			v-if="viewIndex == -1">
+			v-if="viewIndex == 0">
 		</PresentationScreen>
 
 		<GameSelection
@@ -40,7 +40,7 @@
 			@nextView="nextView"
 			@lastView="lastView"
 			@home="homeView"
-			v-if="viewIndex == 0">
+			v-if="viewIndex == 1">
 		</GameSelection>
 
 		<CampaignSelection
@@ -50,7 +50,7 @@
 			@nextView="nextView"
 			@lastView="lastView"
 			@home="homeView"
-			v-if="viewIndex == 1">
+			v-if="viewIndex == 2">
 		</CampaignSelection>
 
         <!-- SCREENSAVER -->

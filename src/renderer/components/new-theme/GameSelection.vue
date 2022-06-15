@@ -15,8 +15,11 @@
 			<Step class="step" num="3" big="réaliser" small="un don" color="var(--bg-color)" :size="stepSize"></Step>
 		</div>
 
-		<div id="big-carrousel">
-			
+		<div>
+			<BigCarrousel
+				:content="content"
+				:active="false"
+			></BigCarrousel>
 		</div>
 
 		<!-- GAMEPAD -->
@@ -28,7 +31,7 @@
 import HelpGamepad from "@/components/helpGamepad.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import Step from "@/components/new-theme/misc/Step.vue";
-
+import BigCarrousel from "@/components/new-theme/misc/BigCarrousel.vue"
 export default {
   data () {
     return {
@@ -39,6 +42,7 @@ export default {
 		HelpGamepad,
 		AsideBot,
 		Step,
+		BigCarrousel,
 	},
 	props: [
 		"content",

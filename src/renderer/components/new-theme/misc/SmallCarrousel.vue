@@ -1,13 +1,12 @@
 <template>
 	<div id="small-carrousel">
 		<div class="list-title bold-font big-font">{{ title }}</div>
-		<div class="game-list" ref="gameList">
+		<div class="small-list" ref="list">
 			<SmallCard
 				:active="isActiveCard(i)"
 				v-for="(card, i) in content"
 				:key="i"
 				:content="card"
-				class="smallCard"
 				@chose="chose">
 			</SmallCard>
 		</div>
@@ -26,12 +25,12 @@ export default {
 	data() {
 		return {
 			activeIndex: 0,
-			gameListOffsetFactor: 0,
-			gameListOffset: 0,
+			listOffsetFactor: 0,
+			listOffset: 0,
 		}
 	},
 	mounted: function() {
-		this.gameListOffsetFactor = this.getGameListOffsetFactor();
+		this.listOffsetFactor = this.getListOffsetFactor();
 	},
 	components: {
 		HelpGamepad,
@@ -59,7 +58,7 @@ export default {
 		simulate_right() {
 			this.moveSelection(1);
 		},
-		getGameListOffsetFactor() {
+		getListOffsetFactor() {
 			var cards = document.getElementsByClassName("small-card");
 			if (cards === undefined || cards.length == 0)
 				return
@@ -75,11 +74,11 @@ export default {
 			} else {
 				this.activeIndex += direction;
 				if (this.activeIndex >= 4) { // slide game list (left/right) when selected card index is >=4
-					this.gameListOffset += this.gameListOffsetFactor * -direction;
+					this.listOffset += this.listOffsetFactor * -direction;
 				} else {
-					this.gameListOffset = 0;
+					this.listOffset = 0;
 				}
-				this.$refs.gameList.style.transform = "translateX(" + this.gameListOffset + "px)";
+				this.$refs.list.style.transform = "translateX(" + this.listOffset + "px)";
 			}
 		},
 	},
@@ -87,11 +86,16 @@ export default {
 </script>
 
 <style>
-.game-list {
+.small-list {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
-	transition-duration: 500ms;
+	transition-duration: var(--transition);
+}
+
+.list-title {
+	color: white;
+	line-height: var(--list-title-h);
 }
 </style>

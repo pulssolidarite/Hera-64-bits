@@ -1,14 +1,15 @@
 <template>
-	<div class="small-card" :class="active ? 'active' : 'inactive'">
-		
-		<div class="card-img" :style="image">
-			<div class="card-wrapper"></div>
-		</div>
-		
+	<div class="big-card" :class="active ? 'active' : 'inactive'">
+		<div class="card-img" :style="image"></div>
 		<div class="transparent-box">
-			<p>{{ content.name }}</p>
+			<p class="very-big-font bold-font">{{ content.name }}</p>
 		</div>
-	
+
+		<div class="card-desc">
+			<p>
+				{{ content.description }}
+			</p>
+		</div>
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	</div>
@@ -21,7 +22,6 @@ export default {
 	methods: {
 		simulate_a() {
 			if(this.active){
-
 				// console.log(this.content);
 				this.$emit("chose", this.content);
 			}
@@ -52,14 +52,26 @@ export default {
 </script>
 
 <style>
-.small-card {
-	height: var(--card-h);
-	width: var(--card-w);
+.big-card {
+	--size: var(--card-h);
+	margin: var(--margin);
+	height: var(--size);
+	width: var(--size);
 	border-radius: var(--radius);
 	background: white;
-	margin-right: var(--margin);
 }
-.small-card .transparent-box {
-	margin-top: -280px;
+
+.card-desc{
+	background: var(--std-opacity);
+	border-radius: calc(var(--radius));
+	margin-top: calc(var(--size) / 2 - var(--border-width));
+	margin-left: calc(-1 * var(--border-width));
+	height: calc(var(--size) / 2);
+	width: calc(var(--size));
 }
+
+.card-desc p{
+	padding: var(--margin);
+}
+
 </style>
