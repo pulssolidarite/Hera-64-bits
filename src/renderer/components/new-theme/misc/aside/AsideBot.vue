@@ -9,6 +9,7 @@
 		</div>
 		<div class="center-items">
 			<div class="inline-block block-txt-img"><img class="block" src="">valider</div>
+			<div class="inline-block block-txt-img"><img class="block" src="">retour</div>
 			<div class="inline-block block-txt-img"><img class="block" src="" style="width:200px">déplacer</div>
 		</div>
 

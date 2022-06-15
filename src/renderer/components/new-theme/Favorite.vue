@@ -2,12 +2,12 @@
 	<div id="favorite" :class="isActive()">
 	
 		<div class="fav-img" :style="image">
-			<div class="card-wrapper"></div>
+			<div class="card-border"></div>
 		</div>
 	
 		<div class="fav-wrapper">
 			<div class="transparent-box">
-				<p class="bold-font">le jeu du moment</p>
+				<p class="bold-font very-big-font">le jeu du moment</p>
 			</div>
 	
 			<div class="campaign-name bold-font">{{ content.name }}</div>
@@ -92,8 +92,11 @@ export default {
 
 <style>
 .fav-wrapper {
-	padding-left: 100px;
+	--padding: 100px;
+	padding-left: var(--padding);
 	position: absolute;
+	top: 50px;
+	width: calc(var(--favorite-w) - var(--padding))
 }
 
 .fav-img{
@@ -101,9 +104,14 @@ export default {
 }
 
 .campaign-name {
-	font-size: 80px;
+	font-size: 100px;
 	color: var(--white-color);
 	text-transform: capitalize;
-	-webkit-text-stroke: 2px black;
+	-webkit-text-stroke: 2px rgb(82, 82, 82);
+	max-width: 50%;
+}
+
+.buttons{
+	margin-top: 50px;
 }
 </style>

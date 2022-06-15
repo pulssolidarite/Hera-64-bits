@@ -1,11 +1,11 @@
 <template>
 	<div class="small-card" :class="active ? 'active' : 'inactive'">
 		
-		<div class="card-img" :style="image">
-			<div class="card-wrapper"></div>
-		</div>
 		
-		<div class="transparent-box">
+		<div class="card-img" :style="image">
+			<div class="card-border"></div>
+		</div>
+		<div class="transparent-box big-font bold-font">
 			<p>{{ content.name }}</p>
 		</div>
 	

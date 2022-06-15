@@ -69,7 +69,7 @@ body {
 	margin-top: 50px;
 }
 	
-.card-wrapper{
+.card-border{
 	height: inherit;
 	width: inherit;
 	box-sizing: border-box;
@@ -78,16 +78,16 @@ body {
 	border-width: var(--border-width);
 }
 
-	.inactive .card-wrapper,
-	.active .card-wrapper{
+	.inactive .card-border,
+	.active .card-border{
 		transition: all var(--transition) ease;
 	}
 
-	.inactive .card-wrapper{
+	.inactive .card-border{
 		border-color: rgba(0,0,0,0);
 	}
 	
-	.active .card-wrapper{
+	.active .card-border{
 		transform: scale(0.91);
 		border-color: var(--yellow-color);
 	}
