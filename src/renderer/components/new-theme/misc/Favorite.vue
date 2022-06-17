@@ -1,23 +1,24 @@
 <template>
-	<div id="favorite" :class="isActive()">
-	
-		<div class="fav-img" :style="image">
-			<div class="card-border"></div>
-		</div>
-	
-		<div class="fav-wrapper">
-			<div class="transparent-box">
-				<p class="bold-font very-big-font">le jeu du moment</p>
-			</div>
-	
-			<div class="campaign-name bold-font">{{ content.name }}</div>
-	
-			<div class="buttons">
-				<FavButton :text="favoriteButtons[i].text" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i" @selection="selection">
-				</FavButton>
-			</div>
-		</div>
-	
+	<div :class="isActive()" v-if="content">
+
+				<div class="fav-img" :style="getImageStyle()">
+					<div class="card-border"></div>
+				</div>
+			
+				<div class="fav-wrapper">
+					<div class="transparent-box">
+						<p class="bold-font very-big-font">le jeu du moment</p>
+					</div>
+			
+					<div class="campaign-name bold-font">{{ content.name }}</div>
+			
+					<div v-if="action == 'more'" class="description">{{ content.description }}</div>
+
+					<div class="buttons">
+						<FavButton :button="favoriteButtons[i]" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i" @selection="selection">
+						</FavButton>
+					</div>
+				</div>
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
@@ -34,10 +35,6 @@ export default {
 	},
 	data() {
 		return {
-			image: "background-image: url('" + this.content.logo + "');" +
-				"background-position: center;" +
-				"background-size: cover;" +
-				"background-repeat: no-repeat;",
 			activeButtonIndex: 0,
 		}
 	},
@@ -45,11 +42,19 @@ export default {
 		"content",
 		"active",
 		"favoriteButtons",
+		"action",
 	],
 	methods: {
-		selection: function() {
+		getImageStyle: function (){
+			return "background-image: url('" + this.content.logo + "');" +
+				"background-position: center;" +
+				"background-size: cover;" +
+				"background-repeat: no-repeat;";
+		},
+		selection: function(action) {
 			if (this.active) {
-				console.log("selection");
+				// console.log("action, this.content", action, this.content);
+				this.$emit(action, this.content)
 			}
 		},
 		isActive() {
@@ -64,7 +69,7 @@ export default {
 			}
 		},
 		isActiveButton(i) {
-			return i == this.activeButtonIndex ? true : false;
+			return i == this.activeButtonIndex && this.active ? true : false;
 		},
 		simulate_a() {},
 		simulate_b() {},
@@ -114,4 +119,5 @@ export default {
 .buttons{
 	margin-top: 50px;
 }
+
 </style>

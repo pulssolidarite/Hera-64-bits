@@ -31,8 +31,17 @@ export default {
 }
 
 .steps{
-	width: var(--aside-w);
-	margin-left: -50%;
-	transform: translate(50%, 50%);
+	width: max-content;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+
+#logo {
+	--logo-size: 300px;
+	background: red;
+	height: var(--logo-size);
+	width: var(--logo-size);
+	margin: 0 auto;
+	margin-top: 50px;
 }
 </style>

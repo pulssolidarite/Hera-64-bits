@@ -1,6 +1,8 @@
 <template>
 	<div class="bold-font fav-button big-font" :class="isActiveButton()">
-		{{ text }}
+		
+		{{ button.text }}
+
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
@@ -17,7 +19,8 @@ export default {
 	methods: {
 		simulate_a() {
 			if (this.active){
-				this.$emit("selection");
+				// console.log("btn:",this.button.action);
+				this.$emit("selection", this.button.action);
 			}
 		},
 		simulate_b() {},
@@ -31,8 +34,9 @@ export default {
 		},
 	},
 	props: [
-		"text",
-		"active"
+		"button",
+		"active",
+		
 	]
 }
 </script>
@@ -46,7 +50,7 @@ export default {
 	--height: 20px;
 	display: inline-block;
 	padding: var(--height);
-	border-radius: var(--radius);
+	border-radius: calc(var(--height) * 2);
 	margin-right: var(--height);
 }
 

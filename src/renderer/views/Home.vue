@@ -29,7 +29,6 @@
 			@error="handleError"
 			@nextView="nextView"
 			@lastView="lastView"
-			@home="homeView"
 			v-if="viewIndex == 0">
 		</PresentationScreen>
 

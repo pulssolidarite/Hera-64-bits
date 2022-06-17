@@ -46,22 +46,18 @@ export default {
 
 <style>
 .step-desc {
-	/* --size: 60px; */
 	position: relative;
 	font-family: "Silka-Bold";
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	margin-bottom: 30px;
-	padding-left: 80px;
 }
 
 .circle {
 	height: calc(var(--size));
 	width: calc(var(--size));
 	border-radius: 50%;
-	background: black;
-	position: relative;
 }
 
 .num {
@@ -74,7 +70,6 @@ export default {
 	height: var(--size);
 	line-height: var(--size);
 	text-align: center;
-	mix-blend-mode: screen;
 	font-size: calc(var(--size) - 10px);
 	font-weight: bold;
 }

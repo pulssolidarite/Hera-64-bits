@@ -43,7 +43,6 @@ export default {
 	],
 	methods: {
 		chose(data){
-			// console.log(data);
 			if(this.active)
 				this.$emit("chose", data)
 		},
