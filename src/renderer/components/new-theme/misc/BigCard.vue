@@ -51,7 +51,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.big-card.active{
+	--size: calc(var(--card-h) * 2);
+}
+
 .big-card {
 	--size: var(--card-h);
 	margin: var(--margin);

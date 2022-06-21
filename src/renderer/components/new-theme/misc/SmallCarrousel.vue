@@ -43,8 +43,9 @@ export default {
 	],
 	methods: {
 		chose(data){
+			// console.log("chose: ",data);
 			if(this.active)
-				this.$emit("chose", data)
+				this.$emit("carrouselChose", data)
 		},
 		isActiveCard: function(i) {
 			return (i == this.activeIndex && this.active ? true: false);

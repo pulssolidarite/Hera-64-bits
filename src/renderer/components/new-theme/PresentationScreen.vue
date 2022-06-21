@@ -7,10 +7,10 @@
 	
 		<div id="small-carrousels" ref="smallCarrousel">
 			<div class="wrapper" :style="smallCarrouselTranslate">
-				<SmallCarrousel id="game-carrousel" :active="isActiveGamesCarrousel" :content="games" title="tous nos jeux" @chose="choseGame">
+				<SmallCarrousel id="game-carrousel" :active="isActiveGamesCarrousel" :content="games" title="tous nos jeux" @carrouselChose="choseGame">
 				</SmallCarrousel>
 	
-				<SmallCarrousel id="campaign-carrousel" :active="isActiveCampaignsCarrousel" :content="campaigns" title="toutes nos associations" @chose="choseCampaign">
+				<SmallCarrousel id="campaign-carrousel" :active="isActiveCampaignsCarrousel" :content="campaigns" title="toutes nos associations" @carrouselChose="choseCampaign">
 				</SmallCarrousel>
 			</div>
 		</div>
@@ -18,10 +18,12 @@
 		<div class="flipX" id="favorite">
 			<div class="flip-inner" :class="isFliped ? 'fliped' : ''">
 				<div class="flip-front">
-					<Favorite v-if="activeComponent.content && !isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="!isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select" @more="activeComponent.more" @back="activeComponent.back"></Favorite>
+					<Favorite :type="activeComponent.type" v-if="activeComponent.content && !isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="!isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
+					    @more="activeComponent.more" @back="activeComponent.back"></Favorite>
 				</div>
 				<div class="flip-back">
-					<Favorite v-if="activeComponent.content && isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select" @more="activeComponent.more" @back="activeComponent.back"></Favorite>
+					<Favorite :type="activeComponent.type" v-if="activeComponent.content && isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
+					    @more="activeComponent.more" @back="activeComponent.back"></Favorite>
 				</div>
 			</div>
 		</div>
@@ -42,6 +44,22 @@ const more = "more";
 const back = "back";
 
 export default {
+	watch: {
+		selectedGame: function(newVal, oldVal) {
+			console.log(newVal, this.selectedCampaign);
+			if (newVal && this.selectedCampaign) {
+				this.$emit("saveGame", newVal);
+				this.$emit("nextView");
+			}
+		},
+		selectedCampaign: function(newVal, oldVal) {
+			console.log(newVal, this.selectedGame);
+			if (newVal && this.selectedGame) {
+				this.$emit("saveCampaign", newVal);
+				this.$emit("nextView");
+			}
+		}
+	},
 	data() {
 		return {
 			gameButtons: [{ text: "jouer", action: select }, { text: "+ d'infos", action: more }],
@@ -73,12 +91,11 @@ export default {
 		"campaigns",
 		"favoriteButtons",
 	],
-	created: function(){
-		if (this.games){
-			this.activeComponent = {content:this.games[0], action:"present", buttons:this.gameButtons, select:this.selectGame, more:this.moreGame, back:this.backGame};
+	created: function() {
+		if (this.games) {
+			this.activeComponent = { type: "game", content: this.games[0], action: "present", buttons: this.gameButtons, select: this.selectGame, more: this.moreGame, back: this.backGame };
 		}
 		// console.log(this.activeComponent);
-
 	},
 	mounted: function() {
 		// setTimeout(() => this.$emit("home"), 1000 * 60);
@@ -89,19 +106,40 @@ export default {
 		toggleFlip: function() {
 			this.isFliped = !this.isFliped;
 		},
-		selectGame: function(element) {
-			this.selectedGame = element;
-			this.activeComponent = {content:this.campaigns[0], action:"present", buttons:this.campaignButtons, select:this.selectCampaign, more:this.moreCampaign, back:this.backCampaign};
-			this.toggleFlip();
-			this.setSmallCarrouselHeightStyle(true);
+		choseGame(game) {
+			console.log("chose game", game.name);
+			this.selectedGame = game;
+			this.moveSelection(1);
+			this.isActiveCampaignsCarrousel = false;
+			this.isFavActive = true;
 		},
-		selectCampaign: function(element) {
-			this.selectedCampaign = element;
-			this.activeComponent = {content:this.games[0], action:"present", buttons:this.gameButtons, select:this.selectGame, more:this.moreGame, back:this.backGame};
+		choseCampaign(campaign) {
+			console.log("chose camp", campaign.name);
+			this.selectedCampaign = campaign;
+			this.moveSelection(1);
+		},
+		selectGame: function(game) {
+			if (game.type != "game")
+				return;
+			console.log("select game", game.content.name);
+			this.toggleFlip();
+
+			this.activeComponent.type = "campaign";
+			this.activeComponent.content = this.campaigns[0];
+			this.activeComponent.action = "present";
+			this.activeComponent.buttons = this.campaignButtons;
+			this.activeComponent.select = this.selectCampaign;
+			this.activeComponent.more = this.moreCampaign;
+			this.activeComponent.back = this.backCampaign;
+
+			this.selectedGame = game.content;
+		},
+		selectCampaign: function(campaign) {
+			if (campaign.type != "campaign")
+				return;
+			console.log("select campaign", campaign.content.name);
 			
-			if (this.selectedCampaign && this.selectedGame){
-				this.$emit("nextView");
-			}
+			this.selectedCampaign = campaign.content;
 		},
 		moreGame: function(element) {
 			this.activeComponent.action = "more";
@@ -123,13 +161,6 @@ export default {
 			this.activeComponent.buttons = this.campaignButtons;
 			this.toggleFlip();
 		},
-		choseGame(game) {
-			this.selectGame(game);
-		},
-		choseCampaign(campaign) {
-			this.$emit("saveCampaign", campaign);
-			this.$emit("nextView");
-		},
 		simulate_a: function() {},
 		simulate_b: function() {},
 		simulate_up: function() {
@@ -144,8 +175,8 @@ export default {
 				return 0;
 			return (parseInt(window.getComputedStyle(carrousel).height) + parseInt(window.getComputedStyle(carrousel).paddingBottom));
 		},
-		setSmallCarrouselHeightStyle(condition) {
-			if (condition)
+		setSmallCarrouselHeightStyle() {
+			if (this.isActiveCampaignsCarrousel)
 				this.smallCarrouselTranslate = "transform: translateY(" + -this.translateY + "px);";
 			else
 				this.smallCarrouselTranslate = "transform: translateY(0px);";
@@ -164,7 +195,7 @@ export default {
 				this.isActiveGamesCarrousel = this.activeItemIndex == 1;
 				this.isActiveCampaignsCarrousel = this.activeItemIndex == 2;
 
-				this.setSmallCarrouselHeightStyle(this.isActiveCampaignsCarrousel);
+				this.setSmallCarrouselHeightStyle();
 			}
 		},
 	},

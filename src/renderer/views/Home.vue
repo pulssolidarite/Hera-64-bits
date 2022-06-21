@@ -21,6 +21,11 @@
       <transition name="mytr" mode="out-in">
 
 		<!-- NEW SCREENS -->
+		<IntroVideo
+			v-if="viewIndex == -1"
+			@nextView="nextView">
+		</IntroVideo>
+
 		<PresentationScreen
 			:games="games"
 			:campaigns="campaigns"
@@ -44,7 +49,7 @@
 
 		<CampaignSelection
 			:content="campaigns"
-			@saveGame="saveCampaign"
+			@saveCampaign="saveCampaign"
 			@error="handleError"
 			@nextView="nextView"
 			@lastView="lastView"
@@ -183,9 +188,10 @@ import requestTicket from "@/components/Interface/requestTicket.vue";
 import about from "@/components/Interface/about.vue";
 
 // NEW THEME :
-import PresentationScreen from "@/components/new-theme/PresentationScreen.vue"
-import GameSelection from "@/components/new-theme/GameSelection.vue"
-import CampaignSelection from "@/components/new-theme/CampaignSelection.vue"
+import IntroVideo from "@/components/new-theme/IntroVideo.vue";
+import PresentationScreen from "@/components/new-theme/PresentationScreen.vue";
+import GameSelection from "@/components/new-theme/GameSelection.vue";
+import CampaignSelection from "@/components/new-theme/CampaignSelection.vue";
 import axios from "axios";
 
 const fs = require("fs");
@@ -209,6 +215,7 @@ export default {
     End,
     requestTicket,
     about,
+	IntroVideo,
 	PresentationScreen,
 	GameSelection,
 	CampaignSelection,
@@ -224,7 +231,7 @@ export default {
       terminal: {},
     //   campaigns: [],
     //   games: [],
-      viewIndex: 0, // Starting index
+      viewIndex: 1, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,

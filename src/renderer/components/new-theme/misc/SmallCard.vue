@@ -1,10 +1,10 @@
 <template>
 	<div class="small-card" :class="active ? 'active' : 'inactive'">
-		
+	
 		<div class="card-img" :style="image">
 			<div class="card-border"></div>
 		</div>
-		
+	
 		<div class="transparent-box big-font bold-font">
 			<p>{{ content.name }}</p>
 		</div>
@@ -20,17 +20,14 @@ import HelpGamepad from "@/components/helpGamepad.vue";
 export default {
 	methods: {
 		simulate_a() {
-			if(this.active){
-
+			if (this.active) {
 				// console.log(this.content);
 				this.$emit("chose", this.content);
 			}
 		},
 		simulate_b() {},
-		simulate_left() {
-		},
-		simulate_right() {
-			},
+		simulate_left() {},
+		simulate_right() {},
 	},
 	components: {
 		HelpGamepad,
@@ -59,6 +56,7 @@ export default {
 	background: white;
 	margin-right: var(--margin);
 }
+
 .small-card .transparent-box {
 	margin-top: -280px;
 }

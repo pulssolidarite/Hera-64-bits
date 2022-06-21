@@ -41,6 +41,7 @@ export default {
 	props: [
 		"content",
 		"active",
+		"session",
 	],
 	methods: {
 		chose(data){
@@ -91,13 +92,10 @@ export default {
 	top: 25%;
 	position: absolute;
 	height: var(--big-carrousel-h);
-	width: var(--max-w);
 }
 
 .list-wrapper{
-	/* background: red; */
 	height: var(--big-carrousel-h);
-	width: var(--max-w);
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;

@@ -43,6 +43,7 @@ export default {
 		"active",
 		"favoriteButtons",
 		"action",
+		"type",
 	],
 	methods: {
 		getImageStyle: function (){
@@ -54,7 +55,7 @@ export default {
 		selection: function(action) {
 			if (this.active) {
 				// console.log("action, this.content", action, this.content);
-				this.$emit(action, this.content)
+				this.$emit(action, {content: this.content, type: this.type})
 			}
 		},
 		isActive() {

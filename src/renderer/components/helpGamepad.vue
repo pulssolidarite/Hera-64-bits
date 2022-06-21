@@ -50,7 +50,7 @@
           <span class="gpio-help">Se déplacer</span>
         </div>
         <div class="gpio3" id="gpio3" style="display: none;">
-          <div @keydown="keyboradEventListener"></div>
+          <div @keydown="keyboardEventListener"></div>
           <span
             class="left-gpio"
             v-gamepad:button-dpad-left="simulate_left"
@@ -123,20 +123,23 @@ export default {
   },
   data() {
     return {
-      // keyborad: this.keyboradEventListener()
+      // keyboard: this.keyboardEventListener()
     };
   },
   mounted() {
     this.select_ath(this.gpio_help, this.A_but, this.B_but);
   },
   created() {
-    window.addEventListener("keydown", this.keyboradEventListener);
+    window.addEventListener("keydown", this.keyboardEventListener);
+  },
+  beforeDestroy: function(){
+	window.removeEventListener("keydown", this.keyboardEventListener);
   },
   destroyed() {
-    window.removeEventListener("keydown", this.keyboradEventListener);
+    window.removeEventListener("keydown", this.keyboardEventListener);
   },
   methods: {
-    keyboradEventListener: function(key) {
+    keyboardEventListener: function(key) {
       // return window.addEventListener("keydown", function(key){
       var k = key.key;
       var c = key.keyCode; // for directional arrows
