@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="85" height="85" viewBox="0 0 85 85">
+  <g id="Groupe_15" data-name="Groupe 15" transform="translate(-663.484 -252.618)">
+    <path id="Tracé_37" data-name="Tracé 37" d="M682.327,320.178l10.289-3.864a6.329,6.329,0,0,1,3.933.482l6.09,2.871a6.788,6.788,0,0,0,5.209.241l15.363-5.57a3.912,3.912,0,0,0,2.387-4.887h0a3.912,3.912,0,0,0-4.877-2.528l-14.091,4.358" transform="translate(-0.93 -1.658)" fill="none" stroke="#5dc3e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+    <path id="Tracé_38" data-name="Tracé 38" d="M680.157,305.618l14.015-5.7a3.631,3.631,0,0,1,2.115.214l10.337,4.341a3.632,3.632,0,0,1,1.839,4.978h0a3.632,3.632,0,0,1-4.71,1.694l-8.3-3.658" transform="translate(-0.584 -1.397)" fill="none" stroke="#5dc3e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+    <path id="Tracé_39" data-name="Tracé 39" d="M714.836,299.388s9.642-5.785,9.642-11.731a5.282,5.282,0,0,0-5.624-5.625,5.605,5.605,0,0,0-4.018,1.692,5.605,5.605,0,0,0-4.018-1.692c-3.106,0-5.624,1.607-5.624,5.625C705.194,293.6,714.836,299.388,714.836,299.388Z" transform="translate(-1.374 -0.915)" fill="none" stroke="#5dc3e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+    <line id="Ligne_5" data-name="Ligne 5" y2="5.8" transform="translate(713.709 268.882)" fill="none" stroke="#5dc3e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+    <line id="Ligne_6" data-name="Ligne 6" x1="4.101" y2="4.101" transform="translate(725.922 273.201)" fill="none" stroke="#5dc3e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+    <line id="Ligne_7" data-name="Ligne 7" x2="4.101" y2="4.101" transform="translate(695.913 273.201)" fill="none" stroke="#5dc3e4" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+    <ellipse id="Ellipse_19" data-name="Ellipse 19" cx="40" cy="40" rx="40" ry="40" transform="translate(665.984 255.118)" fill="none" stroke="#b3aa99" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+  </g>
+</svg>

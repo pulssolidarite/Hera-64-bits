@@ -25,7 +25,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 #aside-bot {
 	--std-height: 50px;
 	background: #eeede9;
@@ -67,7 +67,7 @@
 
 .over, .under{
 	line-height: calc(var(--std-height) / 2);
-	font-size: calc(var(--std-height) / 2);
+	/* font-size: calc(var(--std-height) / 2); */
 }
 
 .center-items{

@@ -1,27 +1,32 @@
 <template>
 	<div :class="isActive()" v-if="content">
-
-				<div class="fav-img" :style="getImageStyle()">
-					<div class="card-border"></div>
-				</div>
-			
-				<div class="fav-wrapper">
-					<div class="transparent-box">
-						<p class="bold-font very-big-font">le jeu du moment</p>
-					</div>
-			
-					<div class="campaign-name bold-font">{{ content.name }}</div>
-			
-					<div v-if="action == 'more'" class="description">{{ content.description }}</div>
-
-					<div class="buttons">
-						<FavButton :button="favoriteButtons[i]" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i" @selection="selection">
-						</FavButton>
-					</div>
-				</div>
-		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
+		<div class="fav-img" :style="getImageStyle()">
+			<div class="card-border"></div>
+		</div>
+	
+		<div class="description big-font bold-font" :class="(more ? 'in' : 'out')">
+			<div>
+				{{ content.description }}
+			</div>
+		</div>
+		
+		<div class="fav-wrapper">
+			<div class="transparent-box">
+				<p class="bold-font very-big-font">le jeu du moment</p>
+			</div>
+	
+			<div class="campaign-name bold-font">{{ content.name }}</div>
+	
+	
+			<div class="buttons">
+				<FavButton :button="favoriteButtons[i]" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i" @selection="selection">
+				</FavButton>
+			</div>
+		</div>
+
+		<!-- GAMEPAD -->
+		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	</div>
 </template>
 
@@ -36,6 +41,7 @@ export default {
 	data() {
 		return {
 			activeButtonIndex: 0,
+			more: false,
 		}
 	},
 	props: [
@@ -46,7 +52,7 @@ export default {
 		"type",
 	],
 	methods: {
-		getImageStyle: function (){
+		getImageStyle: function() {
 			return "background-image: url('" + this.content.logo + "');" +
 				"background-position: center;" +
 				"background-size: cover;" +
@@ -55,7 +61,12 @@ export default {
 		selection: function(action) {
 			if (this.active) {
 				// console.log("action, this.content", action, this.content);
-				this.$emit(action, {content: this.content, type: this.type})
+				this.$emit(action, { content: this.content, type: this.type })
+				if (action == "more"){
+					this.more = true;
+				} else if (action == "back") {
+					this.more = false;
+				}
 			}
 		},
 		isActive() {
@@ -96,7 +107,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .fav-wrapper {
 	--padding: 100px;
 	padding-left: var(--padding);
@@ -105,7 +116,7 @@ export default {
 	width: calc(var(--favorite-w) - var(--padding))
 }
 
-.fav-img{
+.fav-img {
 	position: absolute;
 }
 
@@ -117,8 +128,35 @@ export default {
 	max-width: 50%;
 }
 
-.buttons{
+.buttons {
 	margin-top: 50px;
 }
 
+.description {
+	height: 100%;
+	width: 40%;
+	color: var(--white-color);
+	-webkit-text-stroke: 1px black;
+	background-color: var(--std-opacity);
+	position: absolute;
+	top: 0;
+	right: 0;
+	transition: all var(--transition) ease;
+}
+
+	.in{
+		transform: translateX(0%);
+	}
+
+	.out{
+		transform: translateX(100%);
+	}
+
+.description>div{
+	padding: 30px;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
 </style>

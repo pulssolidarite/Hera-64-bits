@@ -10,7 +10,7 @@
 		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	</div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .small-card {
 	height: var(--card-h);
 	width: var(--card-w);

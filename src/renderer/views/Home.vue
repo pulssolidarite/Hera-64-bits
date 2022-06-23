@@ -39,6 +39,7 @@
 
 		<GameSelection
 			:content="games"
+			:selectedGame="session.game"
 			@saveGame="saveGame"
 			@error="handleError"
 			@nextView="nextView"
@@ -56,6 +57,23 @@
 			@home="homeView"
 			v-if="viewIndex == 2">
 		</CampaignSelection>
+
+		<PaymentScreen
+        	:session="session"
+        	@savePayment="savePayment"
+        	@error="handleError"
+        	@nextView="nextView"
+        	@lastView="lastView"
+        	v-if="viewIndex == 3"
+        ></PaymentScreen>
+
+		<PaymentInstruction
+			:session="session"
+        	@nextView="nextView"
+        	@lastView="lastView"
+        	v-if="viewIndex == 4"
+        ></PaymentInstruction>
+
 
         <!-- SCREENSAVER -->
         <!-- <Welcome
@@ -192,6 +210,8 @@ import IntroVideo from "@/components/new-theme/IntroVideo.vue";
 import PresentationScreen from "@/components/new-theme/PresentationScreen.vue";
 import GameSelection from "@/components/new-theme/GameSelection.vue";
 import CampaignSelection from "@/components/new-theme/CampaignSelection.vue";
+import PaymentInstruction from "@/components/new-theme/PaymentInstruction.vue";
+import PaymentScreen from "@/components/new-theme/PaymentScreen.vue";
 import axios from "axios";
 
 const fs = require("fs");
@@ -219,6 +239,8 @@ export default {
 	PresentationScreen,
 	GameSelection,
 	CampaignSelection,
+	PaymentInstruction,
+	PaymentScreen,
   },
   data: function() {
     return {
@@ -229,8 +251,8 @@ export default {
         errors: {},
       },
       terminal: {},
-    //   campaigns: [],
-    //   games: [],
+      campaigns: [],
+      games: [],
       viewIndex: 1, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
@@ -248,8 +270,8 @@ export default {
         position_asso: null,
         position_game: null,
       },
-      campaigns: {},
-      games: null,
+    //   campaigns: {},
+    //   games: null,
     };
   },
   mounted: function() {
@@ -377,11 +399,13 @@ export default {
     // CHOICE METHODS
     saveGame: function(game) {
       this.session.game = game;
-      this.session.position_game = game.indexOf;
+      this.session.position_game = 1 + this.games.indexOf(game.game);//game.indexOf;
+	  console.log(this.session.position_game);
     },
     saveCampaign: function(campaign) {
       this.session.campaign = campaign;
-      this.session.position_asso = campaign.indexOf;
+      this.session.position_asso = 1 + this.campaigns.indexOf(campaign.campaign);//campaign.indexOf;
+	  console.log(this.session.position_asso);
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;

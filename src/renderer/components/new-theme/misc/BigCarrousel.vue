@@ -1,14 +1,8 @@
 <template>
 	<div id="big-carrousel">
-		<div class="big-list" ref="list">
-			<div class="list-wrapper">
-				<BigCard
-					:active="isActiveCard(i)"
-					v-for="(card, i) in content"
-					:key="i"
-					:content="card"
-					class="big-card"
-					@chose="chose">
+		<div class="big-list" ref="list" :style="'transform: translateX('+ listOffset +'px);'">
+			<div v-if="content" class="list-wrapper">
+				<BigCard v-for="(card, i) in content" :key="i" :active="i == activeIndex" :content="card" @chose="chose">
 				</BigCard>
 			</div>
 		</div>
@@ -24,6 +18,10 @@ import HelpGamepad from "@/components/helpGamepad.vue";
 import BigCard from "@/components/new-theme/misc/BigCard.vue";
 
 export default {
+	created() {
+		this.activeIndex = this.getActiveIndex();
+		this.getReorderedContent();
+	},
 	data() {
 		return {
 			activeIndex: 0,
@@ -33,6 +31,7 @@ export default {
 	},
 	mounted: function() {
 		this.listOffsetFactor = this.getListOffsetFactor();
+		this.listOffset = this.getCenteringOffset();
 	},
 	components: {
 		HelpGamepad,
@@ -40,16 +39,11 @@ export default {
 	},
 	props: [
 		"content",
-		"active",
-		"session",
+		"selectedElement",
 	],
 	methods: {
-		chose(data){
-			if(this.active)
-				this.$emit("chose", data)
-		},
-		isActiveCard: function(i) {
-			return (i == this.activeIndex && this.active ? true: false);
+		chose: function(data) {
+			this.$emit("chose", data)
 		},
 		simulate_a() {},
 		simulate_b() {},
@@ -59,14 +53,38 @@ export default {
 		simulate_right() {
 			this.moveSelection(1);
 		},
+		getReorderedContent: function() {
+			if (this.selectedElement === undefined || this.content === undefined || !this.content.length)
+				return;
+
+			for (let i = 0; i < this.content.length; i++) {
+				if (this.content[i] == this.selectedElement) {
+					this.content = this.swapArrayElements(this.content, i, this.activeIndex)
+					return;
+				}
+			}
+		},
+		swapArrayElements: function(arr, x, y) {
+			if (arr.length <= 1 || x == y) return arr;
+			arr.splice(y, 1, arr.splice(x, 1, arr[y])[0]);
+			return arr;
+		},
+		getActiveIndex: function() {
+			return Math.floor(this.content.length / 2);
+		},
 		getListOffsetFactor() {
-			var cards = document.getElementsByClassName("big-card");
+			var cards = document.getElementsByClassName("inactive");
 			if (cards === undefined || cards.length == 0)
 				return
-			return parseInt(window.getComputedStyle(cards[0]).width) + parseInt(window.getComputedStyle(cards[0]).marginRight);
+			return (parseInt(window.getComputedStyle(cards[0]).width) +
+				parseInt(window.getComputedStyle(cards[0]).marginRight) +
+				parseInt(window.getComputedStyle(cards[0]).marginLeft));
+		},
+		getCenteringOffset() {
+			return (parseInt(document.body.clientWidth) - this.$refs.list.clientWidth) / 2;
 		},
 		moveSelection(direction) { // direction must be -1 or +1 for left or right
-			if (direction != 1 && direction != -1 || !this.active)
+			if (direction != 1 && direction != -1)
 				return;
 
 			var limit = (direction == 1 ? this.content.length : -1);
@@ -74,33 +92,34 @@ export default {
 				return;
 			} else {
 				this.activeIndex += direction;
-				if (this.activeIndex >= 4) { // slide game list (left/right) when selected card index is >=4
+				if (this.content.length % 2)
 					this.listOffset += this.listOffsetFactor * -direction;
-				} else {
-					this.listOffset = 0;
-				}
-				this.$refs.list.style.transform = "translateX(" + this.listOffset + "px)";
 			}
 		},
 	},
 }
 </script>
 
-<style>
+<style scoped>
+.active,
+.inactive,
 .big-list {
-	/* top: calc(var(--inline-stepping-h) + 2* var(--margin)); */
-	top: 25%;
+	transition-duration: var(--transition);
+}
+
+.big-list {
+	top: 30%;
 	position: absolute;
 	height: var(--big-carrousel-h);
 }
 
-.list-wrapper{
+.list-wrapper {
 	height: var(--big-carrousel-h);
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-items: center;
-	transition-duration: var(--transition);
 }
+
 </style>

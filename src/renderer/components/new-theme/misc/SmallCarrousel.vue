@@ -12,7 +12,7 @@
 		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
 	</div>
 </template>
@@ -43,7 +43,7 @@ export default {
 	],
 	methods: {
 		chose(data){
-			// console.log("chose: ",data);
+			console.log("chose: ",data.name);
 			if(this.active)
 				this.$emit("carrouselChose", data)
 		},
@@ -85,7 +85,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .small-list {
 	display: flex;
 	flex-direction: row;

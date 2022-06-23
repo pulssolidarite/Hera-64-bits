@@ -18,11 +18,11 @@
 		<div class="flipX" id="favorite">
 			<div class="flip-inner" :class="isFliped ? 'fliped' : ''">
 				<div class="flip-front">
-					<Favorite :type="activeComponent.type" v-if="activeComponent.content && !isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="!isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
+					<Favorite v-if="activeComponent.content && !isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="!isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
 					    @more="activeComponent.more" @back="activeComponent.back"></Favorite>
 				</div>
 				<div class="flip-back">
-					<Favorite :type="activeComponent.type" v-if="activeComponent.content && isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
+					<Favorite v-if="activeComponent.content && isFliped" :action="activeComponent.action" :content="activeComponent.content" :active="isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
 					    @more="activeComponent.more" @back="activeComponent.back"></Favorite>
 				</div>
 			</div>
@@ -46,16 +46,14 @@ const back = "back";
 export default {
 	watch: {
 		selectedGame: function(newVal, oldVal) {
-			console.log(newVal, this.selectedCampaign);
+			this.$emit("saveGame", {game:newVal});
 			if (newVal && this.selectedCampaign) {
-				this.$emit("saveGame", newVal);
 				this.$emit("nextView");
 			}
 		},
 		selectedCampaign: function(newVal, oldVal) {
-			console.log(newVal, this.selectedGame);
+			this.$emit("saveCampaign", {campaign:newVal});
 			if (newVal && this.selectedGame) {
-				this.$emit("saveCampaign", newVal);
 				this.$emit("nextView");
 			}
 		}
@@ -93,7 +91,7 @@ export default {
 	],
 	created: function() {
 		if (this.games) {
-			this.activeComponent = { type: "game", content: this.games[0], action: "present", buttons: this.gameButtons, select: this.selectGame, more: this.moreGame, back: this.backGame };
+			this.activeComponent = { content: this.games[0], action: "present", buttons: this.gameButtons, select: this.selectGame, more: this.moreGame, back: this.backGame };
 		}
 		// console.log(this.activeComponent);
 	},
@@ -106,25 +104,22 @@ export default {
 		toggleFlip: function() {
 			this.isFliped = !this.isFliped;
 		},
-		choseGame(game) {
+		choseGame: function(game) {
 			console.log("chose game", game.name);
-			this.selectedGame = game;
-			this.moveSelection(1);
-			this.isActiveCampaignsCarrousel = false;
-			this.isFavActive = true;
+			this.selectGame({content: game});
+			// this.selectedGame = game;
+			// this.toggleFlip();
+			// this.moveSelection(1);
 		},
-		choseCampaign(campaign) {
+		choseCampaign: function(campaign) {
 			console.log("chose camp", campaign.name);
-			this.selectedCampaign = campaign;
-			this.moveSelection(1);
+			this.selectCampaign({content: campaign});
+			// this.selectedCampaign = campaign;
+			// this.moveSelection(-1);
 		},
 		selectGame: function(game) {
-			if (game.type != "game")
-				return;
 			console.log("select game", game.content.name);
-			this.toggleFlip();
 
-			this.activeComponent.type = "campaign";
 			this.activeComponent.content = this.campaigns[0];
 			this.activeComponent.action = "present";
 			this.activeComponent.buttons = this.campaignButtons;
@@ -132,34 +127,39 @@ export default {
 			this.activeComponent.more = this.moreCampaign;
 			this.activeComponent.back = this.backCampaign;
 
+			this.toggleFlip();
 			this.selectedGame = game.content;
+			this.moveSelection(1);
+			this.moveSelection(1);
+			this.activeItemIndex = 0;
+			this.isActiveGamesCarrousel = false;
+			this.isActiveCampaignsCarrousel = false;
+			this.isFavActive = true;
 		},
 		selectCampaign: function(campaign) {
-			if (campaign.type != "campaign")
-				return;
 			console.log("select campaign", campaign.content.name);
-			
+
 			this.selectedCampaign = campaign.content;
 		},
 		moreGame: function(element) {
 			this.activeComponent.action = "more";
 			this.activeComponent.buttons = this.gameButtonsMore
-			this.toggleFlip();
+			// this.toggleFlip();
 		},
 		moreCampaign: function(element) {
 			this.activeComponent.action = "more";
 			this.activeComponent.buttons = this.campaignButtonsMore;
-			this.toggleFlip();
+			// this.toggleFlip();
 		},
 		backGame: function(element) {
 			this.activeComponent.action = "present";
 			this.activeComponent.buttons = this.gameButtons;
-			this.toggleFlip();
+			// this.toggleFlip();
 		},
 		backCampaign: function(element) {
 			this.activeComponent.action = "present";
 			this.activeComponent.buttons = this.campaignButtons;
-			this.toggleFlip();
+			// this.toggleFlip();
 		},
 		simulate_a: function() {},
 		simulate_b: function() {},
@@ -203,7 +203,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#campaign-presentation-screen{
+	height: var(--max-h);
+}
+
 #small-carrousels {
 	position: absolute;
 	left: calc(var(--aside-w) + var(--margin));

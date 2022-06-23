@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .step-desc {
 	position: relative;
 	font-family: "Silka-Bold";
