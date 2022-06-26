@@ -2,7 +2,7 @@
 	<div id="game-selection">
 	
 	
-		<div id="inline-stepping" :style="'margin-top: '+stepSize/2+'px;'">
+		<div id="inline-stepping">
 			<Step class="step active-step" num="1" big="jouer" small="une partie" color="var(--bg-color)" :size="stepSize"></Step>
 			<div class="line">
 				<hr>
@@ -20,13 +20,13 @@
 
 		<div class="instructions">
 			<div class="inline-txt-img center-items">
-				<div class="inline-img"><img src=""></div>
+				<div class="inline-img"><img src="@/assets/img/exports/bouton-A-80x80px.svg"></div>
 				<div class="inline-txt">
 					<div class="txt brown bold-font">choisir ce jeu</div>
 				</div>
 			</div>
 			<div class="inline-txt-img center-items">
-				<div class="inline-img"><img src=""></div>
+				<div class="inline-img"><img src="@/assets/img/exports/bouton-X-80x80px.svg"></div>
 				<div class="inline-txt">
 					<div class="txt brown bold-font">choisir au hasard</div>
 				</div>
@@ -35,7 +35,7 @@
 	
 		<div id="aside">
 			<div id="logo">
-				<img src="">
+				<img src="@/assets/img/exports/logo-arcadeforgood-fondnoir-130X152.svg">
 			</div>
 			<AsideBot></AsideBot>
 		</div>
@@ -86,18 +86,4 @@ export default {
 	height: var(--max-h);
 }
 
-#inline-stepping>.step {
-	background: var(--bg-color);
-	padding: 0 var(--margin) 0 var(--margin);
-}
-
-.line {
-	padding: 0;
-	width: calc(var(--inline-stepping-w) / 2);
-	transform: translateY(calc(-1 * var(--margin)));
-}
-
-.line hr {
-	border: 3px solid var(--blue-color);
-}
 </style>

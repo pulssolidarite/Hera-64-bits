@@ -39,12 +39,15 @@ body {
 
 #logo {
 	--logo-size: 300px;
-	background: red;
 	height: var(--logo-size);
 	width: var(--logo-size);
 	margin: 0 auto;
 	margin-top: 50px;
 }
+	#logo img{
+		height: var(--logo-size);
+		width: var(--logo-size);
+	}
 
 #favorite {
 	position: absolute;
@@ -65,16 +68,31 @@ body {
 	flex-flow: row;
 	justify-content: space-between;
 	align-items: center;
+	margin-top: 40px;
 }
 	#inline-stepping .step:not(.active-step),
 	#inline-stepping .line{
-		filter: grayscale(70%);
+		filter: var(--grayscale);
 	}
 
 	#inline-stepping.active-step{
 		filter: grayscale(0%);
 	}
 
+	#inline-stepping>.step {
+		background: var(--bg-color);
+		padding: 0 var(--margin) 0 var(--margin);
+	}
+	
+	.line {
+		padding: 0;
+		width: calc(var(--inline-stepping-w) / 2);
+		transform: translateY(calc(-1 * var(--margin)));
+	}
+	
+	.line hr {
+		border: 3px solid var(--blue-color);
+	}
 /* utils */
 	
 .card-border{
@@ -107,7 +125,7 @@ body {
 	}
 	.inactive .card-img,
 	.inactive .fav-img{
-		filter: grayscale(50%);
+		filter: var(--grayscale);
 		transform: scale(1);
 		transition: all var(--transition) ease;
 	}
@@ -204,7 +222,6 @@ body {
 	}
 	.inline-img img{
 		margin: 0 var(--margin) 0 0;
-		background: red;
 		height: var(--std-height);
 		width: var(--std-height);
 	}

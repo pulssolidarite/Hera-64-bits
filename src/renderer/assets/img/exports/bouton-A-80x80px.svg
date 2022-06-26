@@ -1,4 +1,89 @@
-<svg id="Composant_6_11" data-name="Composant 6 – 11" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
-  <circle id="Ellipse_10" data-name="Ellipse 10" cx="40" cy="40" r="40" fill="#ffd633"/>
-  <text id="A" transform="translate(22 55)" fill="#282828" font-size="50" font-family="Silka-Black, Silka" font-weight="800"><tspan x="0" y="0">A</tspan></text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="21.166666mm"
+   height="21.166666mm"
+   viewBox="0 0 21.166666 21.166666"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="bouton-A-80x80px.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="12.18429"
+     inkscape:cy="20.785831"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g910"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-14.552084,-232.08259)">
+    <g
+       id="g829"
+       transform="matrix(0.26458333,0,0,0.26458333,17.386905,239.54762)">
+      <g
+         id="g894"
+         transform="translate(5.1785716,-32.14286)">
+        <g
+           id="g910"
+           transform="translate(-15.892856,3.9285882)">
+          <circle
+             r="40"
+             cy="40"
+             cx="40"
+             data-name="Ellipse 10"
+             id="Ellipse_10-6"
+             style="fill:#ffd633" />
+          <g
+             aria-label="A"
+             style="font-weight:800;font-size:50px;font-family:Silka-Black, Silka;fill:#282828"
+             id="A">
+            <path
+               d="M 47.36084,51.584473 H 32.663574 l -2.319336,6.640625 H 20.895996 L 34.396973,21.774902 H 45.603027 L 59.104004,58.225098 H 49.655762 Z M 35.007324,44.821777 h 9.985352 L 40.012207,30.319824 Z"
+               style=""
+               id="path818" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
 </svg>

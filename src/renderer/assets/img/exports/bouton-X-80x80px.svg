@@ -1,4 +1,67 @@
-<svg id="Composant_6_12" data-name="Composant 6 – 12" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
-  <circle id="Ellipse_10" data-name="Ellipse 10" cx="40" cy="40" r="40" fill="#ffd633"/>
-  <text id="X" transform="translate(22 56)" fill="#282828" font-size="50" font-family="Silka-Black, Silka" font-weight="800"><tspan x="0" y="0">X</tspan></text>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Composant_6_12"
+   data-name="Composant 6 – 12"
+   width="80"
+   height="80"
+   viewBox="0 0 80 80"
+   version="1.1"
+   sodipodi:docname="bouton-X-80x80px.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata11">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs9" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1024"
+     id="namedview7"
+     showgrid="false"
+     inkscape:zoom="2.95"
+     inkscape:cx="7.2881356"
+     inkscape:cy="40"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Composant_6_12" />
+  <circle
+     id="Ellipse_10"
+     data-name="Ellipse 10"
+     cx="40"
+     cy="40"
+     r="40"
+     fill="#ffd633" />
+  <g
+     aria-label="X"
+     style="font-weight:800;font-size:50px;font-family:Silka-Black, Silka;fill:#282828"
+     id="X">
+    <path
+       d="M 45.651855,39.621582 58.29834,58.225098 H 48.508301 L 39.987793,45.773926 31.540527,58.225098 H 21.70166 L 34.348145,39.621582 22.189941,21.774902 h 9.814454 l 7.983398,11.743164 7.958984,-11.743164 h 9.863282 z"
+       style=""
+       id="path818" />
+  </g>
 </svg>

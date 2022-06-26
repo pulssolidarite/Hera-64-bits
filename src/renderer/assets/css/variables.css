@@ -6,7 +6,8 @@
 	--blue-color: #5DC3E4;
 	--green-color: #6C972F;
 	--white-color: #ffffff;
-	--std-opacity: rgba(0, 0, 0, 0.25);
+	--std-opacity: rgba(0, 0, 0, 0.5);
+	--grayscale: grayscale(70%);
 	--transition: 500ms;
 	--max-h: 100vh;
 	--max-w: 100vw;

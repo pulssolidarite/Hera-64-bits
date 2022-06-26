@@ -1,75 +1,96 @@
 <template>
-	<div class="component">
-		<div class="view amount-choice">
-			<div class="container">
-				<!-- title -->
-				<div class="row">
-					<div class="s-title">
-						<div class="title">CHOISIS TON MONTANT</div>
-						<div class="subtitle">
-							<div>Ton don sera reversé à {{ session.campaign.name }}.</div>
-						</div>
-						<div id="freeModeMessage" v-if="session.terminal.is_free">
-							Si tu sélectionnes 0€, c'est ton entreprise qui s'engage à faire un don à ta place <span class="material-icon pink">favorite</span>
-						</div>
-					</div>
-				</div>
-				<!-- time -->
+	<div id="payment-screen">
 	
-				<!-- payment-tool -->
-				<div id="payment-tool" class="row">
-					<div id="arrows">
-						<img id="up-arrow" class="arrow" src="@/assets/img/up-arrow.svg" />
-						<div class="invisible-box"></div>
-						<img id="down-arrow" class="arrow" src="@/assets/img/down-arrow.svg" />
-					</div>
-					<div class="boxes">
-						<div class="number-box active">{{ amount[0].n }}</div>
-						<div class="number-box">{{ amount[1].n }}</div>
-						<div class="euro number-box">
-							<div id="maxlimit" v-if="eurobox == 'maxlimit'">
-								Max.
-								<br /> {{ max_amount }}€
-							</div>
-							<div id="minlimit" v-if="eurobox == 'minlimit'">
-								Min.
-								<br /> {{ min_amount }}€
-							</div>
-							<div id="default" v-if="eurobox == 'default'">€</div>
-							<div id="start" v-if="eurobox == 'start'">Start</div>
+		<!-- steps -->
+		<div id="inline-stepping">
+			<Step class="step" num="1" big="jouer" small="une partie" color="var(--bg-color)" :size="stepSize"></Step>
+			<div class="line">
+				<hr>
+			</div>
+			<Step class="step" num="2" big="choisir" small="une association" color="var(--bg-color)" :size="stepSize"></Step>
+			<div class="line">
+				<hr>
+			</div>
+			<Step class="step active-step" num="3" big="réaliser" small="un don" color="var(--bg-color)" :size="stepSize"></Step>
+		</div>
+	
+
+		<!-- title -->
+		<div class="infos">
+			<div class="title very-big-font bold-font">votre don pour :</div>
+			<div class="subtitle very-big-font bold-font">
+				<div>{{ session.campaign.campaign.name }}</div>
+			</div>
+			<div id="freeModeMessage big-font bold-font" v-if="session.terminal.is_free">
+				Si tu sélectionnes 0€, c'est ton entreprise qui s'engage à faire un don à ta place
+			</div>
+		</div>
+	
+		<!-- payment-tool -->
+		<div id="payment-tool">
+			<div id="arrows">
+				<img id="up-arrow" class="arrow" src="@/assets/img/exports/fleche-haut-80x80px.svg" />
+				<div class="invisible-box"></div>
+				<img id="down-arrow" class="arrow" src="@/assets/img/exports/fleche-bas-80x80px.svg" />
+			</div>
+			<div class="boxes">
+				<div class="box-wrapper">
+					<div class="number-box active">{{ amount[0].n }}</div>
+					<div class="number-box">{{ amount[1].n }}</div>
+					<div class="euro number-box">
+						<div id="maxlimit" v-if="eurobox == 'maxlimit'">
+							Max.
+							<br /> {{ max_amount }}€
 						</div>
-					</div>
-				</div>
-				<!-- campaing -->
-				<div class="row campaign-row">
-					<div v-for="(step, i) in session.campaign.donationSteps" :key="i" :index="i" class="donationsteps" ref="steptext">
-						<div class="donationstep">
-							<img class="donationStepImage" :src="step.image" :alt="session.campaign.name" /> {{ step.text }}
+						<div id="minlimit" v-if="eurobox == 'minlimit'">
+							Min.
+							<br /> {{ min_amount }}€
 						</div>
+						<div id="default" v-if="eurobox == 'default'">€</div>
+						<div id="start" v-if="eurobox == 'start'">Start</div>
 					</div>
-				</div>
-				<!-- footer -->
-				<div class="row">
-					<helpGamepad :gpio_help="3" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" @simulate_up="simulate_up" @simulate_down="simulate_down" />
 				</div>
 			</div>
-	
-			<!-- GAMEPAD -->
 		</div>
+
+		<!-- campaing -->
+		<DonationInfos :campaign="session.campaign.campaign"></DonationInfos>
+
+	
+		
+	
+		<!-- aside -->
+		<div id="aside">
+			<div id="logo">
+				<img src="@/assets/img/exports/logo-arcadeforgood-fondnoir-130X152.svg">
+			</div>
+			<AsideBot></AsideBot>
+		</div>
+	
+		<!-- GAMEPAD -->
+		<helpGamepad :gpio_help="3" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" @simulate_up="simulate_up" @simulate_down="simulate_down" />
 	</div>
 </template>
 
 <script>
 import helpGamepad from "@/components/helpGamepad.vue";
 import AnimatedNumber from "animated-number-vue";
-
+import Step from "@/components/new-theme/misc/Step.vue";
+import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
+import DonationInfos from "@/components/new-theme/misc/DonationInfos.vue";
 export default {
 	name: "AmountChoice",
-	components: { helpGamepad, AnimatedNumber },
+	components: {
+		helpGamepad,
+		AnimatedNumber,
+		Step,
+		AsideBot,
+		DonationInfos,
+	},
 	props: ["session"],
 	data: function() {
 		return {
-			active_box: 0,
+			active_box: 1,
 			boxes: "",
 			arrows: "",
 			amount: [
@@ -79,6 +100,7 @@ export default {
 			max_amount: 50,
 			min_amount: 1,
 			eurobox: "default",
+			stepSize: "80",
 		};
 	},
 	mounted: function() {
@@ -86,7 +108,6 @@ export default {
 			this.$emit("lastView");
 		}
 
-		this.updateDonationStep();
 		this.defineFreeMode();
 
 		this.boxes = document.getElementsByClassName("number-box");
@@ -101,23 +122,6 @@ export default {
 				this.min_amount = 0;
 				this.amount[1].n = 0;
 			}
-		},
-		updateDonationStep: function() {
-			if (!this.session.campaign.donationSteps) return;
-			this.session.campaign.donationSteps.forEach((step, i, steps) => {
-				if (
-					this.countAmount() >= step.amount &&
-					this.countAmount() < (steps[i + 1] == null ? 55 : steps[i + 1].amount)
-				) {
-					// this.$refs.carousel.slideTo(i);
-					this.$refs.steptext[i].style.boxShadow =
-						"-5px 0px yellow, 0px -5px yellow, 5px 0px #ff9900, 0px 5px #ff9900";
-					// return;
-				} else {
-					this.$refs.steptext[i].style.boxShadow =
-						"-5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491";
-				}
-			});
 		},
 		countAmount() {
 			// return in cents : 1€ = 100
@@ -134,7 +138,7 @@ export default {
 			var count = this.countAmount();
 
 			this.eurobox = "default";
-			document.getElementsByClassName("euro")[0].style.background = "#ffff60";
+			document.getElementsByClassName("euro")[0].style.background = "var(--blue-color)";
 
 			if (count < this.min_amount) {
 				this.eurobox = "minlimit";
@@ -174,7 +178,7 @@ export default {
 				this.arrows.style.display = "block";
 				this.boxes[this.boxes.length - 1].classList.toggle("start");
 				this.boxes[this.boxes.length - 1].classList.toggle("default");
-				document.getElementsByClassName("euro")[0].style.background = "#ffff60";
+				document.getElementsByClassName("euro")[0].style.background = "var(--blue-color)";
 			}
 		},
 		incrementNum(incr = 1) {
@@ -187,7 +191,6 @@ export default {
 				(this.amount[this.active_box].n + incr) %
 				(this.amount[this.active_box].limit + 1);
 
-			this.updateDonationStep();
 			this.updateEurobox();
 		},
 		simulate_a() {
@@ -224,14 +227,26 @@ export default {
 </script>
 
 <style scoped>
-.campaign-row {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+#payment-screen {
+	height: var(--max-h);
 }
 
-.container {
-	min-width: 100%;
+.infos{
+	position: absolute;
+	top: 40%;
+	left: 85px;
+}
+
+.title{
+	color: var(--blue-color);
+}
+
+.subtitle{
+	color: var(--white-color);
+}
+
+#freeModeMessage {
+	color: var(--blue-color);
 }
 
 #start {
@@ -245,67 +260,40 @@ export default {
 }
 
 #payment-tool {
-	justify-content: center;
-}
-
-#payment-tool {
-	margin-top: 12vh;
-	margin-bottom: 10vh;
+	background: var(--blue-color);
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: var(--radius);
 }
 
 #arrows {
-	line-height: 15vh;
 	position: absolute;
 	transition-duration: 0.3s;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
-.s-title {
-	position: relative;
-}
-
-.s-title .subtitle {
-	font-family: Pixel2;
-	font-size: 3.5vh;
-	max-width: 70vw;
-	color: #c97005;
-	overflow: hidden;
-}
-
-.subtitle {
-	font-size: 2em;
-}
-
-.title,
-.subtitle {
-	margin-left: unset;
-	margin: unset;
-	text-align: center;
-	font-family: pixel2;
-	color: white;
-}
-
-.payment-tool {
-	width: 60vw;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#arrows {
-	margin-top: -48px;
-}
 
 #up-arrow {
 	animation: topArrow 1s ease-in-out infinite;
 }
 
 #down-arrow {
-	margin-top: 15px;
 	animation: botArrow 1s ease-in-out infinite;
 }
 
 .arrow {
 	display: block;
-	margin-left: calc((15vh / 2) - 20px);
+	margin-left: calc((15vh / 2) - 40px);
+}
+
+.invisible-box {
+	margin: 5px;
+	height: 13vh;
+	width: calc(15vh + 20px);
+	justify-content: center;
 }
 
 .boxes {
@@ -313,54 +301,33 @@ export default {
 	justify-content: center;
 }
 
+.box-wrapper {
+	width: min-content;
+	display: flex;
+	justify-content: center;
+}
+
 .number-box,
-.euro,
-.invisible-box {
+.euro{
 	transition-duration: 0.1s;
 	margin: 15px;
 	height: 15vh;
 	width: 15vh;
 	line-height: 15vh;
-	/* text centering vertically */
 	text-align: center;
-	/* text centering vertically */
-}
-
-.number-box:not(.euro) {
-	padding-left: 15px;
-}
-
-.invisible-box {
-	margin: 5px;
-	height: calc(15vh + 20px);
-	width: calc(15vh + 20px);
-	justify-content: center;
 }
 
 .number-box,
 .euro {
-	background-color: #ffff60;
-	box-shadow: 3px 8px #ff9900, 0 0 0, 5px 8px #ff9900, 0 0 0;
-	font-family: pixel;
+	background-color: white;
 	font-size: 9rem;
-	color: white;
-	text-shadow: 5px 5px #ff9900;
+	color: var(--bg-color);
+	border-radius: var(--radius);
 }
 
-.euro {
-	font-family: pixel2;
-	font-weight: bold;
-}
-
-.active {
-	line-height: calc(15vh + 20px);
-	/* text centering vertically */
-	background-color: #ffff08;
-	box-shadow: 5px 10px #ffac30, 0 0 0, 7px 10px #ffac30, 0 0 0;
-	margin: 5px;
-	height: calc(15vh + 20px);
-	width: calc(15vh + 20px);
-	font-size: 11rem;
+.euro.number-box{
+	background-color: var(--blue-color);
+	color: var(--white-color);
 }
 
 @keyframes overflowVerticalText {
@@ -391,40 +358,5 @@ export default {
 	}
 }
 
-.donationStepImage {
-	height: 120px;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 15px;
-}
 
-.donationsteps {
-	margin-left: 30px;
-	background-color: #512fb5;
-	box-shadow: -5px 0px #775ce4, 0px -5px #775ce4, 5px 0px #372491, 0px 5px #372491;
-	width: 280px;
-	height: 400px;
-	font-family: pixel2;
-	font-size: 1.1rem;
-	color: white;
-	padding: 15px;
-	transition-duration: 0.3s;
-}
-
-#freeModeMessage {
-	font-family: Pixel2;
-	font-size: 1.8vh;
-	color: white;
-	height: 50px;
-	position: absolute;
-	margin: auto;
-	left: 50%;
-	transform: translate(-50%, 0px);
-	width: 100%
-}
-
-.pink {
-	color: rgb(255, 0, 0);
-}
 </style>

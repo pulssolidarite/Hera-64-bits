@@ -76,7 +76,7 @@ export default {
 	width: var(--size);
 	border-radius: var(--radius);
 	background: white;
-	box-shadow: 0 100px 50px -50px black;
+	box-shadow: 0 130px 100px -50px black;
 }
 
 .transparent-box,
@@ -88,7 +88,7 @@ export default {
 .card-desc{
 	position: absolute;
 	bottom: 0;
-	background: rgba(0, 0, 0, 0.5);
+	background: var(--std-opacity);
 	border-radius: calc(var(--radius));
 	height: min-content;
 	margin: 0;
@@ -102,7 +102,7 @@ export default {
 	}
 
 .big-card.inactive .card-img{
-	filter: grayscale(50%);
+	filter: var(--grayscale);
 }
 
 .big-card.inactive .card-desc.transparent-box {
