@@ -23,9 +23,6 @@
 
 <script>
 export default {
-	created() {
-		console.log(this.campaign);
-	},
 	props: [
 		"campaign",
 	],

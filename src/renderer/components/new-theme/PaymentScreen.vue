@@ -163,7 +163,7 @@ export default {
 			this.boxes[this.active_box - direction].classList.toggle("active");
 			this.moveArrows(direction);
 		},
-		moveArrows(direction = 1) {
+		moveArrows() {
 			if (this.active_box < this.boxes.length - 1) {
 				this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
 			}

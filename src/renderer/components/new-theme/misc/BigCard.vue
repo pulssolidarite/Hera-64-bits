@@ -5,7 +5,7 @@
 
 
 		<div class="card-img" :style="image">
-			<div class="card-desc transparent-box">
+			<div v-if="content.description" class="card-desc transparent-box">
 				<p>
 					{{ content.description }}
 				</p>

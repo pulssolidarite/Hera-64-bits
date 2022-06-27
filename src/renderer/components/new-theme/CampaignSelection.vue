@@ -12,7 +12,7 @@
 		<div>
 			<BigCarrousel
 				:content="content"
-				:selectedCampaign="selectedCampaign"
+				:selectedElement="selectedCampaign"
 				@chose="chose"
 			></BigCarrousel>
 		</div>
