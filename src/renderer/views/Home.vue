@@ -50,6 +50,7 @@
 
 		<CampaignSelection
 			:content="campaigns"
+			:selectedCampaign="session.campaign"
 			@saveCampaign="saveCampaign"
 			@error="handleError"
 			@nextView="nextView"
@@ -59,20 +60,35 @@
 		</CampaignSelection>
 
 		<PaymentScreen
-        	:session="session"
-        	@savePayment="savePayment"
-        	@error="handleError"
-        	@nextView="nextView"
-        	@lastView="lastView"
-        	v-if="viewIndex == 3"
+			:session="session"
+			@saveAmount="saveAmount"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			v-if="viewIndex == 3"
         ></PaymentScreen>
 
 		<PaymentInstruction
 			:session="session"
-        	@nextView="nextView"
-        	@lastView="lastView"
-        	v-if="viewIndex == 4"
+			@nextView="nextView"
+			@lastView="lastView"
+			@savePayment="savePayment"
+			v-if="viewIndex == 4"
         ></PaymentInstruction>
+
+		<PadLayoutScreen
+			:session="session"
+			@nextView="nextView"
+			v-if="viewIndex == 5">
+		</PadLayoutScreen>
+
+		<PlayGame
+			:session="session"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			v-if="viewIndex == 6"
+        ></PlayGame>
 
 
         <!-- SCREENSAVER -->
@@ -212,6 +228,9 @@ import GameSelection from "@/components/new-theme/GameSelection.vue";
 import CampaignSelection from "@/components/new-theme/CampaignSelection.vue";
 import PaymentInstruction from "@/components/new-theme/PaymentInstruction.vue";
 import PaymentScreen from "@/components/new-theme/PaymentScreen.vue";
+import PlayGame from "@/components/new-theme/PlayGame.vue";
+import PadLayoutScreen from "@/components/new-theme/PadLayoutScreen.vue";
+
 import axios from "axios";
 
 const fs = require("fs");
@@ -241,6 +260,8 @@ export default {
 	CampaignSelection,
 	PaymentInstruction,
 	PaymentScreen,
+	PlayGame,
+	PadLayoutScreen,
   },
   data: function() {
     return {
@@ -253,7 +274,7 @@ export default {
       terminal: {},
       campaigns: [],
       games: [],
-      viewIndex: 3, // Starting index
+      viewIndex: 5, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,
@@ -399,13 +420,13 @@ export default {
     // CHOICE METHODS
     saveGame: function(game) {
       this.session.game = game;
-      this.session.position_game = 1 + this.games.indexOf(game.game);//game.indexOf;
-	//   console.log(this.session.position_game);
+      this.session.position_game = 1 + this.games.indexOf(game);//game.indexOf;
+	//   console.log(this.session.game.name);
     },
     saveCampaign: function(campaign) {
       this.session.campaign = campaign;
-      this.session.position_asso = 1 + this.campaigns.indexOf(campaign.campaign);//campaign.indexOf;
-	//   console.log(this.session.position_asso);
+      this.session.position_asso = 1 + this.campaigns.indexOf(campaign);//campaign.indexOf;
+	//   console.log(this.session.campaign.name);
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;

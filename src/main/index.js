@@ -2,6 +2,7 @@
 
 import { app, BrowserWindow, ipcMain } from "electron";
 import { autoUpdater } from "electron-updater";
+import { overlayWindow } from '../'
 
 const log = require("electron-log");
 autoUpdater.logger = log;
@@ -34,8 +35,10 @@ function createWindow() {
     frame: false,
     fullscreen: true,
     webPreferences: {
-      nodeIntegration: true
-    }
+    	nodeIntegration: true,
+		enableRemoteModule: true
+    },
+	...overlayWindow.WINDOW_OPTS
   });
 
   mainWindow.loadURL(winURL);
@@ -44,6 +47,8 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
+app.disableHardwareAcceleration();
 
 app.on("ready", () => {
   createWindow();

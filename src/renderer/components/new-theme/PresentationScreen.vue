@@ -46,13 +46,13 @@ const back = "back";
 export default {
 	watch: {
 		selectedGame: function(newVal, oldVal) {
-			this.$emit("saveGame", {game:newVal});
+			this.$emit("saveGame", newVal);
 			if (newVal && this.selectedCampaign) {
 				this.$emit("nextView");
 			}
 		},
 		selectedCampaign: function(newVal, oldVal) {
-			this.$emit("saveCampaign", {campaign:newVal});
+			this.$emit("saveCampaign", newVal);
 			if (newVal && this.selectedGame) {
 				this.$emit("nextView");
 			}
@@ -107,19 +107,13 @@ export default {
 		choseGame: function(game) {
 			console.log("chose game", game.name);
 			this.selectGame({content: game});
-			// this.selectedGame = game;
-			// this.toggleFlip();
-			// this.moveSelection(1);
 		},
 		choseCampaign: function(campaign) {
 			console.log("chose camp", campaign.name);
 			this.selectCampaign({content: campaign});
-			// this.selectedCampaign = campaign;
-			// this.moveSelection(-1);
 		},
 		selectGame: function(game) {
-			console.log("select game", game.content.name);
-
+			// console.log("select game", game.content.name);
 			this.activeComponent.content = this.campaigns[0];
 			this.activeComponent.action = "present";
 			this.activeComponent.buttons = this.campaignButtons;
@@ -137,29 +131,24 @@ export default {
 			this.isFavActive = true;
 		},
 		selectCampaign: function(campaign) {
-			console.log("select campaign", campaign.content.name);
-
+			// console.log("select campaign", campaign.content.name);
 			this.selectedCampaign = campaign.content;
 		},
 		moreGame: function(element) {
 			this.activeComponent.action = "more";
 			this.activeComponent.buttons = this.gameButtonsMore
-			// this.toggleFlip();
 		},
 		moreCampaign: function(element) {
 			this.activeComponent.action = "more";
 			this.activeComponent.buttons = this.campaignButtonsMore;
-			// this.toggleFlip();
 		},
 		backGame: function(element) {
 			this.activeComponent.action = "present";
 			this.activeComponent.buttons = this.gameButtons;
-			// this.toggleFlip();
 		},
 		backCampaign: function(element) {
 			this.activeComponent.action = "present";
 			this.activeComponent.buttons = this.campaignButtons;
-			// this.toggleFlip();
 		},
 		simulate_a: function() {},
 		simulate_b: function() {},

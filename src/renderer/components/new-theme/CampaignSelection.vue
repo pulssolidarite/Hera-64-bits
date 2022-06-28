@@ -73,7 +73,7 @@ export default {
 	],
 	methods: {
 		chose: function(campaign){
-			this.$emit("saveCampaign", {campaign:campaign});
+			this.$emit("saveCampaign", campaign);
 			this.$emit("nextView");
 		},
 		simulate_a: function() {

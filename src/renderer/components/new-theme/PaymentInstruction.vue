@@ -46,6 +46,7 @@ export default {
 	data() {
 		return {
 			stepSize: "80",
+			payment: {},
 		}
 	},
 	components: {

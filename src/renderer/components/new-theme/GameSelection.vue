@@ -68,7 +68,7 @@ export default {
 	],
 	methods: {
 		chose: function(game) {
-			this.$emit("saveGame", { game: game })
+			this.$emit("saveGame", game)
 			this.$emit("nextView");
 		},
 		simulate_a: function() {},
