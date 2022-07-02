@@ -2,20 +2,32 @@
 	<div id="pad-layout-screen">
 	
 		<div class="title">
-			<div class="very-big-font">game:{{ session.game.name }}</div>
-			<div class="big-font">Instructions</div>
+			<div class="very-big-font bold-font game-title">{{ session.game.name }}</div>
+			<div class="very-big-font blue">Instructions</div>
 		</div>
 	
 		<div class="pad">
 			<div class="joystick">
-				<div class="graphic">
-					<div class="circle"></div>
-					<div class="stick"></div>
+				<div class="stick">
+					<div class="circle">
+						<div class="up" :class="session.game.j_up ? 'defined' : 'undefined'">
+							<p>{{ session.game.j_up }}</p>
+							<div class="arrow"></div>
+						</div>
+						<div class="left" :class="session.game.j_left ? 'defined' : 'undefined'">
+							<p>{{ session.game.j_left }}</p>
+							<div class="arrow"></div>
+						</div>
+						<div class="right" :class="session.game.j_right ? 'defined' : 'undefined'">
+							<p>{{ session.game.j_right }}</p>
+							<div class="arrow"></div>
+						</div>
+						<div class="down" :class="session.game.j_down ? 'defined' : 'undefined'">
+							<p>{{ session.game.j_down }}</p>
+							<div class="arrow"></div>
+						</div>
+					</div>
 				</div>
-				<div class="up">{{ session.game.j_up }}</div>
-				<div class="left">{{ session.game.j_left }}</div>
-				<div class="right">{{ session.game.j_right }}</div>
-				<div class="down">{{ session.game.j_down }}</div>
 			</div>
 			<div class="buttons">
 				<div class="btn btn-x">
@@ -61,6 +73,15 @@
 			<AsideBot></AsideBot>
 		</div>
 	
+		<div class="instructions">
+			<div class="inline-txt-img center-items">
+				<div class="inline-img"><img src="@/assets/img/exports/bouton-A-80x80px.svg"></div>
+				<div class="inline-txt">
+					<div class="txt brown bold-font">jouer</div>
+				</div>
+			</div>
+		</div>
+
 		<helpGamepad :gpio_help="4" :B_but="false" @simulate_a="simulate_a" />
 	</div>
 </template>
@@ -70,7 +91,7 @@ import helpGamepad from "@/components/helpGamepad.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 
 export default {
-	components:{
+	components: {
 		helpGamepad,
 		AsideBot,
 	},
@@ -102,28 +123,105 @@ export default {
 	left: calc(var(--aside-w) + var(--margin));
 	top: 50px;
 }
+	.game-title{
+		font-size: 80px;
+	}
 
-.pad{
+.pad {
 	--size: 6.5vw;
 }
 
-.buttons{
+.buttons {
 	position: absolute;
 	left: 40%;
 	top: 17%;
 }
 
-.joystick{
+.joystick {
 	position: absolute;
 	left: 30%;
-	top: 40%;
+	top: 50%;
 }
 
-.btn{
+.stick {
+	height: calc(var(--size) + 1px);
+	width: calc(var(--size)/3 + 1px);
+	background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+	left: 50%;
+	transform: translateX(-50%);
 	position: absolute;
 }
 
-.txt-btn{
+.stick .circle {
+	position: absolute;
+	transform: translateX(-50%);
+	left: 50%;
+	bottom: calc(var(--size) - 15px);
+}
+
+.joystick .undefined {
+	display: none;
+}
+
+.left p,
+.right p,
+.up p,
+.down p {
+	height: var(--size);
+	width: var(--size);
+	text-align: center;
+	color: var(--yellow-color);
+	font-weight: bold;
+	font-size: calc(var(--size)/5);
+	position: absolute;
+	margin: 0;
+}
+	.left p{
+		transform:translate(calc(-1*var(--size)), -40px);
+	}
+	.right p{
+		transform:translate(calc(var(--size)), -40px);
+	}
+	.up p{
+		transform:translate(0, calc(-1*var(--size) - 40px));
+	}
+	.down p{
+		transform:translate(0, calc(var(--size) + 40px));
+	}
+
+.arrow {
+	background-image: url('../../assets/img/exports/fleche-simple.svg');
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 50px;
+	width: 50px;
+	position: absolute;
+	top: calc(var(--size)/2 - 25px);
+	left: calc(var(--size)/2 - 25px);
+}
+
+.left .arrow {
+	transform: translateX(calc(-1*var(--size))) rotate(90deg);
+}
+
+.right .arrow {
+	transform: translateX(var(--size)) rotate(-90deg);
+}
+
+.up .arrow {
+	transform: translateY(calc(-1*var(--size))) rotate(180deg);
+}
+
+.down .arrow {
+	transform: translateY(var(--size)) rotate(0deg);
+}
+
+.btn {
+	position: absolute;
+}
+
+.txt-btn {
 	color: var(--yellow-color);
 	position: absolute;
 	left: 50%;
@@ -133,7 +231,7 @@ export default {
 	font-size: calc(var(--size)/5);
 }
 
-.circle{
+.circle {
 	background: var(--light-grey-color);
 	width: var(--size);
 	height: var(--size);
@@ -145,72 +243,84 @@ export default {
 	font-size: calc(var(--size) / 3);
 	text-transform: none;
 }
-	.btn .circle{
-		border: solid var(--std-opacity) calc(var(--size) / 10);
-	}
-	.btn-a .circle, .btn-b .circle, .btn-x .circle, .btn-y .circle{
-		color: var(--white-color);
-	}
-	.btn-a .circle{
-		background: var(--green-color);
-	}
-	.btn-b .circle{
-		background: red;
-	}
-	.btn-x .circle{
-		background: var(--blue-color);
-	}
-	.btn-y .circle{
-		background: var(--yellow-color);
-	}
 
-	.undefined{
-		filter: var(--grayscale);
-	}
+.btn .circle {
+	border: solid var(--std-opacity) calc(var(--size) / 10);
+}
 
-.stick{
-	height: calc(var(--size) + 1px);
-	width: calc(var(--size)/5 + 1px);
-	background: rgb(255,255,255);
-	background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-	margin: 0 auto;
-	margin-top: -30px;
+.btn-a .circle,
+.btn-b .circle,
+.btn-x .circle,
+.btn-y .circle {
+	color: var(--white-color);
+}
+
+.btn-a .circle {
+	background: var(--green-color);
+}
+
+.btn-b .circle {
+	background: red;
+}
+
+.btn-x .circle {
+	background: var(--blue-color);
+}
+
+.btn-y .circle {
+	background: var(--yellow-color);
+}
+
+.undefined {
+	filter: grayscale(90%);
+}
+
+.instructions{
+	left: 90%;
 }
 
 /* first column */
-.btn-x{
+
+.btn-x {
 	left: 10vw;
 	top: 15vh;
 }
-.btn-a{
+
+.btn-a {
 	left: 10vw;
 	top: 35vh;
 }
-.btn-lt{
+
+.btn-lt {
 	left: 10vw;
 	top: 55vh;
 }
 
 /* second column */
-.btn-y{
+
+.btn-y {
 	left: 22vw;
 	top: 10vh;
 }
-.btn-b{
+
+.btn-b {
 	left: 22vw;
 	top: 30vh;
 }
-.btn-rt{
+
+.btn-rt {
 	left: 22vw;
 	top: 50vh;
 }
 
 /* third column */
-.btn-lb{
+
+.btn-lb {
 	left: 34vw;
 	top: 5vh;
 }
-.btn-rb{
+
+.btn-rb {
 	left: 34vw;
 	top: 25vh;
 }

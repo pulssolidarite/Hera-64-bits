@@ -54,11 +54,8 @@
 		</div>
 
 		<!-- campaing -->
-		<DonationInfos :campaign="session.campaign.campaign"></DonationInfos>
+		<DonationInfos :campaign="session.campaign"></DonationInfos>
 
-	
-		
-	
 		<!-- aside -->
 		<div id="aside">
 			<div id="logo">
@@ -233,7 +230,7 @@ export default {
 
 .infos{
 	position: absolute;
-	top: 40%;
+	top: 25%;
 	left: 85px;
 }
 

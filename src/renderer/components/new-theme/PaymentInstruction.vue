@@ -64,7 +64,7 @@ export default {
 			if (this.session.amount) {
 				setTimeout(() => this.pay(this.session.amount), 1000);
 			} else {
-				this.$emit("lastView");
+				// this.$emit("lastView");
 			}
 		}
 	},
@@ -197,8 +197,33 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #payment-instruction {
 	height: var(--max-h);
 }
+
+#inline-stepping{
+	width: 40%;
+	justify-content: left;
+}
+#inline-stepping hr{
+	border-style: dashed;
+}
+
+.transparent-box p {
+	color: var(--blue-color) !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+.card-desc {
+	background: transparent !important;
+}
+.card-desc p {
+	font-weight: bold;
+	text-align: center;
+	color: black !important;
+	padding-left: calc(10 * var(--margin)) !important;
+	padding-right: calc(10 * var(--margin)) !important;
+}
+
 </style>

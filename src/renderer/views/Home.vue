@@ -274,7 +274,7 @@ export default {
       terminal: {},
       campaigns: [],
       games: [],
-      viewIndex: 5, // Starting index
+      viewIndex: 4, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,
@@ -421,12 +421,12 @@ export default {
     saveGame: function(game) {
       this.session.game = game;
       this.session.position_game = 1 + this.games.indexOf(game);//game.indexOf;
-	//   console.log(this.session.game.name);
+	  console.log(this.session.game.name);
     },
     saveCampaign: function(campaign) {
       this.session.campaign = campaign;
       this.session.position_asso = 1 + this.campaigns.indexOf(campaign);//campaign.indexOf;
-	//   console.log(this.session.campaign.name);
+	  console.log(this.session.campaign.name);
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;

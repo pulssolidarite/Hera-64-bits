@@ -15,7 +15,7 @@
 		</div>
 	
 		<div>
-			<BigCarrousel :content="content" :selectedElement="selectedGame" @chose="chose"></BigCarrousel>
+			<BigCarrousel :content="content" :selectedElement="selectedGame" type="game" @chose="chose"></BigCarrousel>
 		</div>
 
 		<div class="instructions">

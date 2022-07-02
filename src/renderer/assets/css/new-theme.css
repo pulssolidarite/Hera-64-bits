@@ -37,8 +37,12 @@ body {
 	left: 0;
 }
 
+#logo.big-logo{
+	--logo-size:300px;
+}
+
 #logo {
-	--logo-size: 300px;
+	--logo-size: 150px;
 	height: var(--logo-size);
 	width: var(--logo-size);
 	margin: 0 auto;
@@ -129,12 +133,6 @@ body {
 		transform: scale(1);
 		transition: all var(--transition) ease;
 	}
-
-	.small-card,
-	.big-card{
-		overflow: hidden;
-	}
-
 	
 .transparent-box {
 	background: var(--std-opacity);
@@ -243,6 +241,8 @@ body {
 .flipY {
 	background-color: transparent;
 	perspective: 2000px;
+	height: inherit;
+	width: inherit;
   }
   
   .flip-inner {

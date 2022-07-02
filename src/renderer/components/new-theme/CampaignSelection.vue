@@ -13,6 +13,7 @@
 			<BigCarrousel
 				:content="content"
 				:selectedElement="selectedCampaign"
+				type="campaign"
 				@chose="chose"
 			></BigCarrousel>
 		</div>

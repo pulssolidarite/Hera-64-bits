@@ -2,7 +2,7 @@
 	<div id="big-carrousel">
 		<div class="big-list" ref="list" :style="'transform: translateX('+ listOffset +'px);'">
 			<div v-if="content" class="list-wrapper">
-				<BigCard v-for="(card, i) in content" :key="i" :active="i == activeIndex" :content="card" @chose="chose">
+				<BigCard v-for="(card, i) in content" :key="i" :active="i == activeIndex" :content="card" :type="type" @chose="chose">
 				</BigCard>
 			</div>
 		</div>
@@ -40,6 +40,7 @@ export default {
 	props: [
 		"content",
 		"selectedElement",
+		"type",
 	],
 	methods: {
 		chose: function(data) {

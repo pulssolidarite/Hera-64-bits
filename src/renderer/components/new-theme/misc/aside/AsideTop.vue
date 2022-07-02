@@ -1,6 +1,6 @@
 <template>
 	<div id="aside-top">
-		<div id="logo">
+		<div id="logo" class="big-logo">
 			<img src="@/assets/img/exports/logo-arcadeforgood-fondblanc-260X305.svg">
 		</div>
 		<div class="steps">
