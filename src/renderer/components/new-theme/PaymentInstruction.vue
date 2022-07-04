@@ -202,28 +202,28 @@ export default {
 	height: var(--max-h);
 }
 
-#inline-stepping{
-	width: 40%;
+#payment-instruction #inline-stepping{
+	width: 38%;
 	justify-content: left;
 }
-#inline-stepping hr{
+#payment-instruction #inline-stepping hr{
 	border-style: dashed;
 }
 
-.transparent-box p {
-	color: var(--blue-color) !important;
-    -webkit-text-stroke: 0 !important;
+#payment-instruction .transparent-box p {
+	color: var(--blue-color);
+    -webkit-text-stroke: 0;
 }
 
-.card-desc {
-	background: transparent !important;
+#payment-instruction .card-desc {
+	background: transparent;
 }
-.card-desc p {
+#payment-instruction .card-desc p {
 	font-weight: bold;
 	text-align: center;
-	color: black !important;
-	padding-left: calc(10 * var(--margin)) !important;
-	padding-right: calc(10 * var(--margin)) !important;
+	color: black;
+	padding-left: calc(10 * var(--margin));
+	padding-right: calc(10 * var(--margin));
 }
 
 </style>

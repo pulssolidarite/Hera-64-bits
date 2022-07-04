@@ -10,6 +10,8 @@
 				@chose="chose">
 			</SmallCard>
 		</div>
+
+		<div class="arrow" ref="arrow" v-if="content.length > 4"><img src="src/renderer/assets/img/exports/fleche-droite-80x80px.svg"></div>
 	
 		<!-- GAMEPAD -->
 		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
@@ -26,8 +28,7 @@ export default {
 		return {
 			activeIndex: 0,
 			listOffsetFactor: 0,
-			listOffset: 0,
-		}
+			listOffset: 0,		}
 	},
 	mounted: function() {
 		this.listOffsetFactor = this.getListOffsetFactor();
@@ -75,8 +76,14 @@ export default {
 				this.activeIndex += direction;
 				if (this.activeIndex >= 4) { // slide game list (left/right) when selected card index is >=4
 					this.listOffset += this.listOffsetFactor * -direction;
+					if (this.$refs.arrow){
+						this.$refs.arrow.style.transform = "rotate(180deg)"
+					}
 				} else {
 					this.listOffset = 0;
+					if (this.$refs.arrow){
+						this.$refs.arrow.style.transform = "rotate(0deg)"
+					}
 				}
 				this.$refs.list.style.transform = "translateX(" + this.listOffset + "px)";
 			}
@@ -97,5 +104,13 @@ export default {
 .list-title {
 	color: white;
 	line-height: var(--list-title-h);
+}
+
+.arrow{
+	position: absolute;
+	top: 150px;
+	right: 150px;
+	transition-duration: var(--transition);
+	margin: 0;
 }
 </style>

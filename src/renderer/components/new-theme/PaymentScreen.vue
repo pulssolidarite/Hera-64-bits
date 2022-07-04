@@ -51,6 +51,7 @@
 					</div>
 				</div>
 			</div>
+			<div class="outer-arrow"><img src="src/renderer/assets/img/exports/fleche-droite-80x80px.svg"></div>
 		</div>
 
 		<!-- campaing -->
@@ -101,6 +102,7 @@ export default {
 		};
 	},
 	mounted: function() {
+		console.log(this.session);
 		if (!this.session.position_asso) {
 			this.$emit("lastView");
 		}
@@ -356,5 +358,10 @@ export default {
 	}
 }
 
-
+.outer-arrow{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: -100px;
+}
 </style>

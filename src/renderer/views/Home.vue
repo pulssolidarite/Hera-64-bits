@@ -274,7 +274,7 @@ export default {
       terminal: {},
       campaigns: [],
       games: [],
-      viewIndex: 4, // Starting index
+      viewIndex: 1, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,

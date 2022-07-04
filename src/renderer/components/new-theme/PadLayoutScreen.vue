@@ -272,7 +272,7 @@ export default {
 }
 
 .undefined {
-	filter: grayscale(90%);
+	filter: brightness(10%);
 }
 
 .instructions{

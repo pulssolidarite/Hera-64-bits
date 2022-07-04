@@ -8,7 +8,7 @@
 		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_x="simulate_x" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
 	</div>
 </template>
@@ -31,7 +31,11 @@ export default {
 	},
 	mounted: function() {
 		this.listOffsetFactor = this.getListOffsetFactor();
-		this.listOffset = this.getCenteringOffset();
+		if (this.content % 2) {
+			this.listOffset = this.getCenteringOffset() / 2;
+		} else {
+			this.listOffset = (this.getCenteringOffset() - this.listOffsetFactor) / 2;
+		}
 	},
 	components: {
 		HelpGamepad,
@@ -48,6 +52,10 @@ export default {
 		},
 		simulate_a() {},
 		simulate_b() {},
+		simulate_x() {
+			var randomElement = this.content[Math.floor(Math.random()*this.content.length)];
+			this.chose(randomElement);
+		},
 		simulate_left() {
 			this.moveSelection(-1);
 		},
@@ -82,7 +90,27 @@ export default {
 				parseInt(window.getComputedStyle(cards[0]).marginLeft));
 		},
 		getCenteringOffset() {
-			return (parseInt(document.body.clientWidth) - this.$refs.list.clientWidth) / 2;
+			// var smallCards = document.getElementsByClassName("inactive");
+			// var bigCards = document.getElementsByClassName("active");
+			// if (smallCards === undefined || smallCards.length == 0 ||
+			// 	bigCards === undefined || bigCards.length == 0)
+			// 	return
+
+			// var smallCardsWidth = (	parseInt(window.getComputedStyle(smallCards[0]).width) +
+			// 						parseInt(window.getComputedStyle(smallCards[0]).marginRight) +
+			// 						parseInt(window.getComputedStyle(smallCards[0]).marginLeft) *
+			// 						smallCards.length);
+			
+			// var bigCardsWidth = (	parseInt(window.getComputedStyle(bigCards[0]).width) +
+			// 						parseInt(window.getComputedStyle(bigCards[0]).marginRight) +
+			// 						parseInt(window.getComputedStyle(bigCards[0]).marginLeft) *
+			// 						bigCards.length);
+			
+			// return smallCardsWidth + bigCardsWidth;
+			console.log("parseInt(document.body.clientWidth)",(parseInt(document.body.clientWidth)));
+			console.log("(this.$refs.list.clientWidth)",(this.$refs.list.clientWidth));
+			console.log("diff",(parseInt(document.body.clientWidth) - this.$refs.list.clientWidth));
+			return (parseInt(document.body.clientWidth) - this.$refs.list.clientWidth);
 		},
 		moveSelection(direction) { // direction must be -1 or +1 for left or right
 			if (direction != 1 && direction != -1)
@@ -93,8 +121,7 @@ export default {
 				return;
 			} else {
 				this.activeIndex += direction;
-				if (this.content.length % 2)
-					this.listOffset += this.listOffsetFactor * -direction;
+				this.listOffset += this.listOffsetFactor * -direction;
 			}
 		},
 	},

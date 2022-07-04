@@ -98,7 +98,11 @@ body {
 		border: 3px solid var(--blue-color);
 	}
 /* utils */
-	
+
+.small-card{
+	overflow: hidden;
+}
+
 .card-border{
 	height: inherit;
 	width: inherit;
@@ -216,8 +220,6 @@ body {
 	height: var(--std-height);
 }
 
-	.inline-img{
-	}
 	.inline-img img{
 		margin: 0 var(--margin) 0 0;
 		height: var(--std-height);

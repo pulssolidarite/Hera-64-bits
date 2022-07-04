@@ -150,6 +150,9 @@ export default {
       } else if (k == "b" || k == "B") {
         // console.log("b");
         this.$emit("simulate_b");
+      }  else if (k == "x" || k == "X") {
+        // console.log("x");
+        this.$emit("simulate_x");
       } else if (c == 39) {
         // console.log("right");
         this.$emit("simulate_right");
