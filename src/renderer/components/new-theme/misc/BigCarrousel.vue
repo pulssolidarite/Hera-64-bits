@@ -6,7 +6,11 @@
 				</BigCard>
 			</div>
 		</div>
-	
+		<div v-if="content.length > 1">
+			<div class="arrow-left"><img src="src/renderer/assets/img/exports/fleche-gauche-80X80px.svg"></div>
+			<div class="arrow-right"><img src="src/renderer/assets/img/exports/fleche-droite-80x80px.svg"></div>
+		</div>
+
 		<!-- GAMEPAD -->
 		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_x="simulate_x" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
@@ -31,7 +35,7 @@ export default {
 	},
 	mounted: function() {
 		this.listOffsetFactor = this.getListOffsetFactor();
-		if (this.content % 2) {
+		if (this.content.length % 2) {
 			this.listOffset = this.getCenteringOffset() / 2;
 		} else {
 			this.listOffset = (this.getCenteringOffset() - this.listOffsetFactor) / 2;
@@ -90,26 +94,6 @@ export default {
 				parseInt(window.getComputedStyle(cards[0]).marginLeft));
 		},
 		getCenteringOffset() {
-			// var smallCards = document.getElementsByClassName("inactive");
-			// var bigCards = document.getElementsByClassName("active");
-			// if (smallCards === undefined || smallCards.length == 0 ||
-			// 	bigCards === undefined || bigCards.length == 0)
-			// 	return
-
-			// var smallCardsWidth = (	parseInt(window.getComputedStyle(smallCards[0]).width) +
-			// 						parseInt(window.getComputedStyle(smallCards[0]).marginRight) +
-			// 						parseInt(window.getComputedStyle(smallCards[0]).marginLeft) *
-			// 						smallCards.length);
-			
-			// var bigCardsWidth = (	parseInt(window.getComputedStyle(bigCards[0]).width) +
-			// 						parseInt(window.getComputedStyle(bigCards[0]).marginRight) +
-			// 						parseInt(window.getComputedStyle(bigCards[0]).marginLeft) *
-			// 						bigCards.length);
-			
-			// return smallCardsWidth + bigCardsWidth;
-			console.log("parseInt(document.body.clientWidth)",(parseInt(document.body.clientWidth)));
-			console.log("(this.$refs.list.clientWidth)",(this.$refs.list.clientWidth));
-			console.log("diff",(parseInt(document.body.clientWidth) - this.$refs.list.clientWidth));
 			return (parseInt(document.body.clientWidth) - this.$refs.list.clientWidth);
 		},
 		moveSelection(direction) { // direction must be -1 or +1 for left or right
@@ -150,4 +134,32 @@ export default {
 	align-items: center;
 }
 
+.arrow-left,
+.arrow-right{
+	position: absolute;
+	top: 48%;
+	margin: 0;
+}
+
+.arrow-left{
+	left: 150px;
+	animation: leftArrow 1s ease-in-out infinite;
+}
+
+.arrow-right{
+	right: 150px;
+	animation: rightArrow 1s ease-in-out infinite;
+}
+
+@keyframes leftArrow {
+	50% {
+		transform: translateX(-10px);
+	}
+}
+
+@keyframes rightArrow {
+	50% {
+		transform: translateX(10px);
+	}
+}
 </style>

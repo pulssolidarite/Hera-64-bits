@@ -64,7 +64,7 @@ export default {
 			if (this.session.amount) {
 				setTimeout(() => this.pay(this.session.amount), 1000);
 			} else {
-				// this.$emit("lastView");
+				this.$emit("lastView");
 			}
 		}
 	},
@@ -122,18 +122,25 @@ export default {
 					/\n|\r|(\n\r)/g,
 					""
 				);
+				// if (TPEip == ""){
+				// 	this.$emit("error", {
+				// 	visible: true,
+				// 	title: "Adresse de TPE introuvable",
+				// 	errors: ["Un problème inconnu est survenu. Veuillez réessayer ou contacter le support."]
+				// 	});
+				// }
 				var TPEbin = process.env.HOME + "/Payter/PayterPay.exe";
 
 				//console.log(TPEip)
 
 				// make transaction (amount in cents)
 				shellCmd = "mono " + TPEbin + " -u " + TPEip + " -a " + amount * 100;
-				//console.log(shellCmd)
+				// console.log(shellCmd)
 				var transaction = execSync(shellCmd)
 					.toString()
 					.replace(/\n|\r|(\n\r)/g, "");
 
-				//console.log(transaction);
+				// console.log(transaction);
 
 				return transaction;
 			} catch (e) {

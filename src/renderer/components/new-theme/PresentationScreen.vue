@@ -39,9 +39,11 @@ import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import SmallCarrousel from "@/components/new-theme/misc/SmallCarrousel.vue";
 import Favorite from "@/components/new-theme/misc/Favorite.vue";
 
+// action macros
 const select = "select";
 const more = "more";
 const back = "back";
+const present = "present";
 
 export default {
 	watch: {
@@ -91,7 +93,7 @@ export default {
 	],
 	created: function() {
 		if (this.games) {
-			this.activeComponent = { content: this.games[0], action: "present", buttons: this.gameButtons, select: this.selectGame, more: this.moreGame, back: this.backGame };
+			this.activeComponent = { content: this.games[0], action: present, buttons: this.gameButtons, select: this.selectGame, more: this.moreGame, back: this.backGame };
 		}
 		// console.log(this.activeComponent);
 	},
@@ -115,7 +117,7 @@ export default {
 		selectGame: function(game) {
 			// console.log("select game", game.content.name);
 			this.activeComponent.content = this.campaigns[0];
-			this.activeComponent.action = "present";
+			this.activeComponent.action = present;
 			this.activeComponent.buttons = this.campaignButtons;
 			this.activeComponent.select = this.selectCampaign;
 			this.activeComponent.more = this.moreCampaign;
@@ -135,19 +137,19 @@ export default {
 			this.selectedCampaign = campaign.content;
 		},
 		moreGame: function(element) {
-			this.activeComponent.action = "more";
+			this.activeComponent.action = more;
 			this.activeComponent.buttons = this.gameButtonsMore
 		},
 		moreCampaign: function(element) {
-			this.activeComponent.action = "more";
+			this.activeComponent.action = more;
 			this.activeComponent.buttons = this.campaignButtonsMore;
 		},
 		backGame: function(element) {
-			this.activeComponent.action = "present";
+			this.activeComponent.action = present;
 			this.activeComponent.buttons = this.gameButtons;
 		},
 		backCampaign: function(element) {
-			this.activeComponent.action = "present";
+			this.activeComponent.action = present;
 			this.activeComponent.buttons = this.campaignButtons;
 		},
 		simulate_a: function() {},

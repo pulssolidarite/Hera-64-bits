@@ -27,6 +27,7 @@ body {
 #home {
 	height: var(--max-h);
 	width: var(--max-w);
+	background-color: var(--bg-color);
 }
 
 #aside {
@@ -35,6 +36,11 @@ body {
 	width: var(--aside-w);
 	top: 0;
 	left: 0;
+}
+
+.blurred-screen{
+	filter: blur(5px) brightness(20%);
+	background-color: var(--bg-color);
 }
 
 #logo.big-logo{

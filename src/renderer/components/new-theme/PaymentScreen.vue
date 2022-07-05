@@ -19,7 +19,7 @@
 		<div class="infos">
 			<div v-if="!session.terminal.is_free" class="title very-big-font bold-font">votre don pour :</div>
 			<div v-if="!session.terminal.is_free" class="subtitle very-big-font bold-font">
-				<div>{{ session.campaign.campaign.name }}</div>
+				<div>{{ session.campaign.name }}</div>
 			</div>
 			<div class="freeModeMessage very-big-font bold-font" v-if="session.terminal.is_free">
 				Si tu sélectionnes 0€, c'est ton entreprise qui s'engage à faire un don à ta place
@@ -102,7 +102,6 @@ export default {
 		};
 	},
 	mounted: function() {
-		console.log(this.session);
 		if (!this.session.position_asso) {
 			this.$emit("lastView");
 		}
@@ -111,7 +110,7 @@ export default {
 
 		this.boxes = document.getElementsByClassName("number-box");
 		this.arrows = document.getElementById("arrows");
-
+		
 		this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
 		setTimeout(() => this.$emit("home"), 1000 * 60);
 	},

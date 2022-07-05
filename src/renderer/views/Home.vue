@@ -3,13 +3,12 @@
     <!-- overflow for transition -->
 
     <Error
-      class="w-100 h-100 position-absolute"
-      style="z-index: 999;"
-      :visible="errors.visible"
-      :title="errors.title"
-      :errors="errors.errors"
-      @homeView="homeView"
-      @lastView="lastView"
+		style="z-index: 999;"
+		:visible="errors.visible"
+		:title="errors.title"
+		:errors="errors.errors"
+		@homeView="homeView"
+		@lastView="lastView"
     ></Error>
 
     <!-- <transition name="step-tr">
@@ -17,7 +16,7 @@
     </transition> -->
 
     <vue-element-loading :active="loading" is-full-screen />
-    <div v-if="!loading">
+    <div :class="errors.visible ? 'blurred-screen' : ''" v-if="!loading">
       <transition name="mytr" mode="out-in">
 
 		<!-- NEW SCREENS -->
@@ -71,6 +70,7 @@
 		<PaymentInstruction
 			:session="session"
 			@nextView="nextView"
+			@error="handleError"
 			@lastView="lastView"
 			@savePayment="savePayment"
 			v-if="viewIndex == 4"
@@ -207,7 +207,6 @@
 import VueElementLoading from "vue-element-loading";
 import Welcome from "@/components/Interface/Welcome.vue";
 
-import Error from "@/components/Interface/ErrorsPayement.vue";
 import Stepping from "@/components/stepping.vue";
 import Start from "@/components/Interface/Start.vue";
 import CampaignChoice from "@/components/Interface/CampaignChoice.vue";
@@ -222,6 +221,7 @@ import requestTicket from "@/components/Interface/requestTicket.vue";
 import about from "@/components/Interface/about.vue";
 
 // NEW THEME :
+import Error from "@/components/new-theme/misc/ErrorModal.vue";
 import IntroVideo from "@/components/new-theme/IntroVideo.vue";
 import PresentationScreen from "@/components/new-theme/PresentationScreen.vue";
 import GameSelection from "@/components/new-theme/GameSelection.vue";
@@ -232,6 +232,7 @@ import PlayGame from "@/components/new-theme/PlayGame.vue";
 import PadLayoutScreen from "@/components/new-theme/PadLayoutScreen.vue";
 
 import axios from "axios";
+import { log } from 'console';
 
 const fs = require("fs");
 const request = require("request");
@@ -240,7 +241,6 @@ export default {
   name: "Home",
   components: {
     VueElementLoading,
-    Error,
     Stepping,
     Welcome,
     Start,
@@ -254,6 +254,7 @@ export default {
     End,
     requestTicket,
     about,
+    Error,
 	IntroVideo,
 	PresentationScreen,
 	GameSelection,
@@ -274,7 +275,7 @@ export default {
       terminal: {},
       campaigns: [],
       games: [],
-      viewIndex: 1, // Starting index
+      viewIndex: 0, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,
@@ -420,13 +421,11 @@ export default {
     // CHOICE METHODS
     saveGame: function(game) {
       this.session.game = game;
-      this.session.position_game = 1 + this.games.indexOf(game);//game.indexOf;
-	  console.log(this.session.game.name);
+      this.session.position_game = 1 + this.games.indexOf(game);
     },
     saveCampaign: function(campaign) {
       this.session.campaign = campaign;
-      this.session.position_asso = 1 + this.campaigns.indexOf(campaign);//campaign.indexOf;
-	  console.log(this.session.campaign.name);
+      this.session.position_asso = 1 + this.campaigns.indexOf(campaign);
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;
@@ -559,7 +558,7 @@ export default {
       this.viewIndex = 6;
     },
     homeView() {
-      this.viewIndex = -1;
+      this.viewIndex = 0;
       this.errors = {
         visible: false,
         title: "",
