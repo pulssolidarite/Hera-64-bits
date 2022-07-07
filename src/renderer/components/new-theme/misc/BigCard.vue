@@ -24,12 +24,16 @@
 		<!-- </div> -->
 	
 		<!-- GAMEPAD -->
-		<helpGamepad v-if="active" :gpio_help="2" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_up="simulate_up" @simulate_down="simulate_down" />
+		<!-- <helpGamepad v-if="active" :gpio_help="2" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_up="simulate_up" @simulate_down="simulate_down" /> -->
+		<div class="gamepadControls" v-if="active">
+			<div v-gamepad:button-b="simulate_a"></div>
+			<span v-gamepad:left-analog-down="simulate_down"></span>
+		</div>
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
+// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
   watch: {
@@ -56,8 +60,6 @@ export default {
 				this.$emit("chose", this.content);
 			}
 		},
-		simulate_b() {},
-		simulate_up() {},
 		simulate_down() {
 			if (this.type == 'campaign')
 			{	console.log('flip');
@@ -69,7 +71,7 @@ export default {
 		}
 	},
 	components: {
-		HelpGamepad,
+		// HelpGamepad,
 	},
 	data() {
 		return {

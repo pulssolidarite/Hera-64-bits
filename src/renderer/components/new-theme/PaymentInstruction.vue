@@ -31,13 +31,15 @@
 		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_right="simulate_right" @simulate_left="simulate_left" />
-	
+		<!-- <helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_right="simulate_right" @simulate_left="simulate_left" /> -->
+		<div class="gamepadControls">
+			<div v-gamepad:button-x="simulate_b"></div>
+		</div>
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
+// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import Step from "@/components/new-theme/misc/Step.vue";
 import BigCarrousel from "@/components/new-theme/misc/BigCarrousel.vue"
@@ -50,7 +52,7 @@ export default {
 		}
 	},
 	components: {
-		HelpGamepad,
+		// HelpGamepad,
 		AsideBot,
 		Step,
 		BigCarrousel,
@@ -69,12 +71,9 @@ export default {
 		}
 	},
 	methods: {
-		simulate_a: function() {},
 		simulate_b: function() {
 			this.$emit("lastView");
 		},
-		simulate_left: function() {},
-		simulate_right: function() {},
 		skipPayment: function(amount) {
 			this.payment = {
 				donator: this.session.donator.id,

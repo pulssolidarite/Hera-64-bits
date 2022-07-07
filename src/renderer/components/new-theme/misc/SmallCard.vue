@@ -9,13 +9,15 @@
 			<p>{{ content.name }}</p>
 		</div>
 	
-		<!-- GAMEPAD -->
-		<helpGamepad v-if="active" @simulate_a="simulate_a"/>
+		<!-- <helpGamepad v-if="active" @simulate_a="simulate_a"/> -->
+		<div class="gamepadControls" v-if="active">
+			<div v-gamepad:button-b="simulate_a"></div>
+		</div>
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
+// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
 	methods: {
@@ -27,7 +29,7 @@ export default {
 		}
 	},
 	components: {
-		HelpGamepad,
+		// HelpGamepad,
 	},
 	data() {
 		return {

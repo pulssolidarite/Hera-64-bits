@@ -27,13 +27,18 @@
 				</div>
 			</div>
 		</div>
-		<!-- GAMEPAD -->
-		<helpGamepad @simulate_up="simulate_up" @simulate_down="simulate_down"/>
+
+		<!-- <helpGamepad @simulate_up="simulate_up" @simulate_down="simulate_down"/> -->
+		<div class="gamepadControls">
+			<span v-gamepad:left-analog-up="simulate_up"></span>
+			<span v-gamepad:left-analog-down="simulate_down"></span>
+		</div>
+
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
+// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideTop from "@/components/new-theme/misc/aside/AsideTop.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import SmallCarrousel from "@/components/new-theme/misc/SmallCarrousel.vue";
@@ -82,7 +87,7 @@ export default {
 	components: {
 		AsideTop,
 		AsideBot,
-		HelpGamepad,
+		// HelpGamepad,
 		SmallCarrousel,
 		Favorite,
 	},

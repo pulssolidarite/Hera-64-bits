@@ -66,12 +66,22 @@
 		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="3" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" @simulate_up="simulate_up" @simulate_down="simulate_down" />
+		<!-- <helpGamepad :gpio_help="3" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" @simulate_up="simulate_up" @simulate_down="simulate_down" /> -->
+		<div class="gamepadControls">
+			<span v-gamepad:left-analog-left="simulate_left"></span>
+			<span v-gamepad:left-analog-right="simulate_right"></span>
+			<span v-gamepad:left-analog-up="simulate_up"></span>
+			<span v-gamepad:left-analog-down="simulate_down"></span>
+		
+			<div v-gamepad:button-b="simulate_a"></div>
+			<div v-gamepad:button-x="simulate_b"></div>
+		
+		</div>
 	</div>
 </template>
 
 <script>
-import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
+// import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AnimatedNumber from "animated-number-vue";
 import Step from "@/components/new-theme/misc/Step.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
@@ -79,7 +89,7 @@ import DonationInfos from "@/components/new-theme/misc/DonationInfos.vue";
 export default {
 	name: "AmountChoice",
 	components: {
-		helpGamepad,
+		// helpGamepad,
 		AnimatedNumber,
 		Step,
 		AsideBot,

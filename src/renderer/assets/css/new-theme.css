@@ -43,6 +43,10 @@ body {
 	background-color: var(--bg-color);
 }
 
+.gamepadControls{
+	display: none;
+}
+
 #logo.big-logo{
 	--logo-size:300px;
 }

@@ -1,12 +1,12 @@
 <template>
-	<div id="help-gamepad">
+	<div class="gamepadControls" v-if="active">
 	
 		<div @keydown="keyboardEventListener"></div>
 	
-		<span v-gamepad:left-analog-left="simulate_left" v-gamepad:right-analog-left="simulate_left"></span>
-		<span v-gamepad:right-analog-up="simulate_up" v-gamepad:left-analog-up="simulate_up"></span>
-		<span v-gamepad:left-analog-down="simulate_down" v-gamepad:right-analog-down="simulate_down"></span>
-		<span v-gamepad:left-analog-right="simulate_right" v-gamepad:right-analog-right="simulate_right"></span>
+		<span v-gamepad:left-analog-left="simulate_left"></span>
+		<span v-gamepad:left-analog-right="simulate_right"></span>
+		<span v-gamepad:left-analog-up="simulate_up"></span>
+		<span v-gamepad:left-analog-down="simulate_down"></span>
 	
 		<div v-gamepad:button-b="simulate_a"></div>
 		<div v-gamepad:button-x="simulate_b"></div>

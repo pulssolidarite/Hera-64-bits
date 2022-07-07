@@ -12,13 +12,17 @@
 		</div>
 
 		<!-- GAMEPAD -->
-		<helpGamepad @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_x="simulate_x" @simulate_left="simulate_left" @simulate_right="simulate_right" />
-	
+		<!-- <helpGamepad @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_x="simulate_x" @simulate_left="simulate_left" @simulate_right="simulate_right" /> -->
+		<div class="gamepadControls">
+			<span v-gamepad:left-analog-left="simulate_left"></span>
+			<span v-gamepad:left-analog-right="simulate_right"></span>
+			<!-- <div v-gamepad:button-square="simulate_x"></div> TODO --> 
+		</div>
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
+// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import BigCard from "@/components/new-theme/misc/BigCard.vue";
 
 export default {
@@ -42,7 +46,7 @@ export default {
 		}
 	},
 	components: {
-		HelpGamepad,
+		// HelpGamepad,
 		BigCard,
 	},
 	props: [
@@ -54,8 +58,6 @@ export default {
 		chose: function(data) {
 			this.$emit("chose", data)
 		},
-		simulate_a() {},
-		simulate_b() {},
 		simulate_x() {
 			var randomElement;
 			var randomIndex;
