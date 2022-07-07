@@ -51,11 +51,16 @@
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import Step from "@/components/new-theme/misc/Step.vue";
 import BigCarrousel from "@/components/new-theme/misc/BigCarrousel.vue"
 export default {
+	mounted: function() {
+		setTimeout(() => {
+			this.$emit("home")
+		}, 1000 * 60 * 3);
+	},
 	data() {
 		return {
 			stepSize: "80",

@@ -28,12 +28,12 @@
 			</div>
 		</div>
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="2" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_up="simulate_up" @simulate_down="simulate_down" />
+		<helpGamepad @simulate_up="simulate_up" @simulate_down="simulate_down"/>
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideTop from "@/components/new-theme/misc/aside/AsideTop.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import SmallCarrousel from "@/components/new-theme/misc/SmallCarrousel.vue";
@@ -98,7 +98,6 @@ export default {
 		// console.log(this.activeComponent);
 	},
 	mounted: function() {
-		// setTimeout(() => this.$emit("home"), 1000 * 60);
 		this.translateY = this.getSmallCarrouselHeight();
 		this.carrouselHeight = this.translateY;
 	},
@@ -133,7 +132,6 @@ export default {
 			this.isFavActive = true;
 		},
 		selectCampaign: function(campaign) {
-			// console.log("select campaign", campaign.content.name);
 			this.selectedCampaign = campaign.content;
 		},
 		moreGame: function(element) {
@@ -152,13 +150,13 @@ export default {
 			this.activeComponent.action = present;
 			this.activeComponent.buttons = this.campaignButtons;
 		},
-		simulate_a: function() {},
-		simulate_b: function() {},
 		simulate_up: function() {
 			this.moveSelection(-1);
+			console.log("select up");
 		},
 		simulate_down: function() {
 			this.moveSelection(1);
+			console.log("select down");
 		},
 		getSmallCarrouselHeight() {
 			var carrousel = document.getElementById("small-carrousels");

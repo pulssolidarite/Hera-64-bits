@@ -56,12 +56,12 @@
 				</div>
 				<!-- Lb and Rb need to be defined in Seth API -->
 				<div class="btn btn-lb">
-					<div class="txt-btn">{{ session.game.btn_l }}</div>
+					<div class="txt-btn">{{ session.game.btn_lb }}</div>
 					<div class="circle" :class="session.game.btn_lb ? 'defined' : 'undefined'">Lb</div>
 				</div>
 				<div class="btn btn-rb">
-					<div class="txt-btn">{{ session.game.btn_r }}</div>
-					<div class="circle" :class="session.game.btn_lr ? 'defined' : 'undefined'">Rb</div>
+					<div class="txt-btn">{{ session.game.btn_rb }}</div>
+					<div class="circle" :class="session.game.btn_rb ? 'defined' : 'undefined'">Rb</div>
 				</div>
 			</div>
 		</div>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import helpGamepad from "@/components/helpGamepad.vue";
+import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 
 export default {
@@ -102,7 +102,9 @@ export default {
 		};
 	},
 	mounted: function() {
-		setTimeout(() => this.$emit("home"), 1000 * 60);
+		setTimeout(() => {
+			this.$emit("home")
+		}, 1000 * 60);
 	},
 	methods: {
 		simulate_a() {

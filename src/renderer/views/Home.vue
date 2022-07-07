@@ -7,7 +7,7 @@
 		:visible="errors.visible"
 		:title="errors.title"
 		:errors="errors.errors"
-		@homeView="homeView"
+		@home="homeView"
 		@lastView="lastView"
     ></Error>
 
@@ -64,6 +64,7 @@
 			@error="handleError"
 			@nextView="nextView"
 			@lastView="lastView"
+			@home="homeView"
 			v-if="viewIndex == 3"
         ></PaymentScreen>
 
@@ -73,6 +74,7 @@
 			@error="handleError"
 			@lastView="lastView"
 			@savePayment="savePayment"
+			@home="homeView"
 			v-if="viewIndex == 4"
         ></PaymentInstruction>
 
@@ -87,6 +89,7 @@
 			@error="handleError"
 			@nextView="nextView"
 			@lastView="lastView"
+			@home="homeView"
 			v-if="viewIndex == 6"
         ></PlayGame>
 
@@ -422,10 +425,12 @@ export default {
     saveGame: function(game) {
       this.session.game = game;
       this.session.position_game = 1 + this.games.indexOf(game);
+	  console.log(game.name);
     },
     saveCampaign: function(campaign) {
       this.session.campaign = campaign;
       this.session.position_asso = 1 + this.campaigns.indexOf(campaign);
+	  console.log(campaign.name);
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
   watch: {

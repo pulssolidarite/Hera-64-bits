@@ -2,25 +2,22 @@
 	<div id="small-carrousel">
 		<div class="list-title bold-font big-font">{{ title }}</div>
 		<div class="small-list" ref="list">
-			<SmallCard
-				:active="isActiveCard(i)"
-				v-for="(card, i) in content"
-				:key="i"
-				:content="card"
-				@chose="chose">
+			<SmallCard :active="isActiveCard(i)" v-for="(card, i) in content" :key="i" :content="card" @chose="chose">
 			</SmallCard>
 		</div>
-
-		<div class="arrow" ref="arrow" v-if="content.length > 4"><img src="src/renderer/assets/img/exports/fleche-droite-80x80px.svg"></div>
+	
+		<div class="carrousel-arrow" v-if="content.length > 4">
+			<img ref="arrow" src="src/renderer/assets/img/exports/fleche-droite-80x80px.svg">
+		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad v-if="active" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import SmallCard from "@/components/new-theme/misc/SmallCard.vue";
 
 export default {
@@ -28,7 +25,8 @@ export default {
 		return {
 			activeIndex: 0,
 			listOffsetFactor: 0,
-			listOffset: 0,		}
+			listOffset: 0,
+		}
 	},
 	mounted: function() {
 		this.listOffsetFactor = this.getListOffsetFactor();
@@ -43,16 +41,14 @@ export default {
 		"title",
 	],
 	methods: {
-		chose(data){
-			console.log("chose: ",data.name);
-			if(this.active)
+		chose(data) {
+			console.log("chose: ", data.name);
+			if (this.active)
 				this.$emit("carrouselChose", data)
 		},
 		isActiveCard: function(i) {
-			return (i == this.activeIndex && this.active ? true: false);
+			return (i == this.activeIndex && this.active ? true : false);
 		},
-		simulate_a() {},
-		simulate_b() {},
 		simulate_left() {
 			this.moveSelection(-1);
 		},
@@ -76,12 +72,12 @@ export default {
 				this.activeIndex += direction;
 				if (this.activeIndex >= 4) { // slide game list (left/right) when selected card index is >=4
 					this.listOffset += this.listOffsetFactor * -direction;
-					if (this.$refs.arrow){
+					if (this.$refs.arrow) {
 						this.$refs.arrow.style.transform = "rotate(180deg)"
 					}
 				} else {
 					this.listOffset = 0;
-					if (this.$refs.arrow){
+					if (this.$refs.arrow) {
 						this.$refs.arrow.style.transform = "rotate(0deg)"
 					}
 				}
@@ -106,11 +102,13 @@ export default {
 	line-height: var(--list-title-h);
 }
 
-.arrow{
+.carrousel-arrow {
 	position: absolute;
-	top: 150px;
-	right: 150px;
+	left: 1300px;
+	transform: translateY(-220%);
+}
+
+.carrousel-arrow img {
 	transition-duration: var(--transition);
-	margin: 0;
 }
 </style>

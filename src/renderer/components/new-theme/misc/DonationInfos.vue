@@ -49,7 +49,6 @@ export default {
 	width: 200px;
 	height: 100px;
 	border-radius: var(--radius);
-	background: red;
 }
 
 .asso-steps{

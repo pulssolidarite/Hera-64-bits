@@ -170,27 +170,27 @@ export default {
     },
     simulate_a: function() {
       this.$emit("simulate_a");
-      // console.log("a");
+      console.log("a");
     },
     simulate_b: function() {
       this.$emit("simulate_b");
-      // console.log("b");
+      console.log("b");
     },
     simulate_left: function() {
       this.$emit("simulate_left");
-      // console.log("left");
+      console.log("left");
     },
     simulate_right: function() {
       this.$emit("simulate_right");
-      // console.log("right");
+      console.log("right");
     },
     simulate_up: function() {
       this.$emit("simulate_up");
-      // console.log("up");
+      console.log("up");
     },
     simulate_down: function() {
       this.$emit("simulate_down");
-      // console.log("down");
+      console.log("down");
     },
     select_ath(gpio_help, A_but, B_but) {
       let gpio1 = document.getElementById("gpio1"); // 1 : gpio left-right

@@ -10,13 +10,12 @@
 
 		<div class="btn"><p class="big-font">sortir</p><img src="@/assets/img/exports/fleche-noire.svg"><img src="@/assets/img/exports/bouton-A-noir.svg"></div>
 		
-		<helpGamepad :gpio_help="2" v-gamepad:button-a="simulate_a" v-gamepad:button-b="simulate_b" v-gamepad:button-dpad-up="simulate_up" v-gamepad:button-dpad-down="simulate_down" v-gamepad:left-analog-down="simulate_down" v-gamepad:left-analog-up="simulate_up"
-			v-gamepad:right-analog-down="simulate_down" v-gamepad:right-analog-up="simulate_up" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_up="simulate_up" @simulate_down="simulate_down" />
+		<helpGamepad @simulate_a="simulate_a"/>
 	</div>
 </template>
 
 <script>
-import helpGamepad from "@/components/helpGamepad.vue";
+import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
 	name: "Error",
@@ -27,18 +26,17 @@ export default {
 		};
 	},
 	mounted: function() {
-		setTimeout(() => this.$emit("home"), 1000 * 60);
+		if (this.visible){
+			setTimeout(() => {
+				this.simulate_a();
+			}, 1000 * 60);
+		}
 	},
 	methods: {
-		simulate_up() {
-		},
-		simulate_down() {
-		},
 		simulate_a() {
 			this.$emit("error", {visible:false, title:null, errors:[]})
-			this.$emit("lastView");
+			this.$emit("home");
 		},
-		simulate_b() {},
 	},
 };
 </script>
@@ -71,7 +69,7 @@ export default {
 	line-height: 200px;
 }
 
-.btn{
+#error-modal .btn{
 	position: absolute;
 	bottom: 50px;
 	right: 50px;
@@ -79,11 +77,11 @@ export default {
 	flex-flow: row nowrap;
 	justify-content: center;
 }
-.btn p{
+#error-modal .btn p{
 	display: inline-block;
 	line-height: 50px;
 }
-.btn img{
+#error-modal .btn img{
 	transform: scale(0.7);
 }
 </style>

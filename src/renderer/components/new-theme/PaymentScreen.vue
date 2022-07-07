@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import helpGamepad from "@/components/helpGamepad.vue";
+import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AnimatedNumber from "animated-number-vue";
 import Step from "@/components/new-theme/misc/Step.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
@@ -102,6 +102,8 @@ export default {
 		};
 	},
 	mounted: function() {
+console.log(this.session);
+
 		if (!this.session.position_asso) {
 			this.$emit("lastView");
 		}

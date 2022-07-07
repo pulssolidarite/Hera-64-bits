@@ -1,16 +1,15 @@
 <template>
-	<div class="bold-font fav-button big-font" :class="isActiveButton()">
+	<div class="bold-font fav-button big-font" :class="this.active ? 'active-button' : 'inactive-button'">
 		
 		{{ button.text }}
 
-		<!-- GAMEPAD -->
-		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad v-if="active" @simulate_a="simulate_a"/>
 	
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
 	components: {
@@ -19,24 +18,14 @@ export default {
 	methods: {
 		simulate_a() {
 			if (this.active){
-				// console.log("btn:",this.button.action);
+				console.log("btn:",this.button.action);
 				this.$emit("selection", this.button.action);
 			}
-		},
-		simulate_b() {},
-		simulate_left() {
-		},
-		simulate_right() {
-		},
-
-		isActiveButton: function() {
-			return this.active ? "active-button" : "inactive-button";
 		},
 	},
 	props: [
 		"button",
 		"active",
-		
 	]
 }
 </script>

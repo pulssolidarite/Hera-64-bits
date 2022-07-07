@@ -12,13 +12,13 @@
 		</div>
 
 		<!-- GAMEPAD -->
-		<helpGamepad :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_x="simulate_x" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_x="simulate_x" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import BigCard from "@/components/new-theme/misc/BigCard.vue";
 
 export default {
@@ -57,8 +57,23 @@ export default {
 		simulate_a() {},
 		simulate_b() {},
 		simulate_x() {
-			var randomElement = this.content[Math.floor(Math.random()*this.content.length)];
-			this.chose(randomElement);
+			var randomElement;
+			var randomIndex;
+			const toIndex = this.activeIndex;
+			do {
+				randomElement = this.content[Math.floor(Math.random()*this.content.length)];
+				randomIndex = this.content.indexOf(randomElement);
+			} while (toIndex == randomIndex);
+
+			const diff = toIndex - randomIndex;
+			for (let i = 0; i < Math.abs(diff); i++) {
+				if (diff > 0){
+					this.moveSelection(-1);
+				}
+				if (diff < 0){
+					this.moveSelection(1);
+				}
+			}
 		},
 		simulate_left() {
 			this.moveSelection(-1);

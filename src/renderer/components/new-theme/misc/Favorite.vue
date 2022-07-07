@@ -25,14 +25,13 @@
 			</div>
 		</div>
 
-		<!-- GAMEPAD -->
-		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad v-if="active" @simulate_left="simulate_left" @simulate_right="simulate_right" />
 	</div>
 </template>
 
 <script>
 import FavButton from "@/components/new-theme/misc/FavButton.vue";
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 export default {
 	components: {
 		FavButton,
@@ -83,12 +82,12 @@ export default {
 		isActiveButton(i) {
 			return i == this.activeButtonIndex && this.active ? true : false;
 		},
-		simulate_a() {},
-		simulate_b() {},
 		simulate_left() {
+			console.log("move left");
 			this.moveSelection(-1);
 		},
 		simulate_right() {
+			console.log("move right");
 			this.moveSelection(1);
 		},
 

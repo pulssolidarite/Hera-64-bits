@@ -10,12 +10,12 @@
 		</div>
 	
 		<!-- GAMEPAD -->
-		<helpGamepad v-if="active" :gpio_help="1" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_left="simulate_left" @simulate_right="simulate_right" />
+		<helpGamepad v-if="active" @simulate_a="simulate_a"/>
 	</div>
 </template>
 
 <script>
-import HelpGamepad from "@/components/helpGamepad.vue";
+import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
 	methods: {
@@ -24,10 +24,7 @@ export default {
 				// console.log(this.content);
 				this.$emit("chose", this.content);
 			}
-		},
-		simulate_b() {},
-		simulate_left() {},
-		simulate_right() {},
+		}
 	},
 	components: {
 		HelpGamepad,

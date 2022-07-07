@@ -1,7 +1,7 @@
 <template>
 	<div id="play-game">
 		<!-- https://github.com/SnosMe/electron-overlay-window/blob/master/src/demo/electron-demo.ts -->
-		<div class="overlay bold-font">
+		<!-- <div class="overlay bold-font">
 			<div class="phrase">
 				<div class="over very-big-font">arcade</div>
 				<div class="under">for good</div>
@@ -11,7 +11,7 @@
 				<div class="separator"></div>
 				<div class="home"><img src="@/assets/img/exports/icone-maison.svg"></div>
 			</div>
-		</div>
+		</div> -->
 		<!-- <vue-element-loading :active="loading" is-full-screen /> -->
 	</div>
 </template>
@@ -34,6 +34,7 @@ export default {
 		VueElementLoading,
 	},
 	mounted: function() {
+		
 		// This View is used to launch the game
 		this.loading = true;
 
@@ -46,7 +47,7 @@ export default {
 		const pathToGame = process.env.HOME + "/games/roms/" + this.session.game.path;
 
 		let command = 'retroarch -f -L "' + pathToCore + '" "' + pathToGame + '"';
-		console.log(command);
+		// console.log(command);
 		this.startShell(command);
 		
 		// window.webContents.openDevTools({ mode: 'detach', activate: false });
@@ -58,7 +59,7 @@ export default {
 			var exec = require("child_process").exec;
 			var shell = exec(command, (error, stdout, stderr) => {
 				if (error) {
-					console.log(error);
+					// console.log(error);
 					this.status = error;
 					this.loading = false;
 					this.endGame();
@@ -83,7 +84,7 @@ export default {
 		},
 		endGame: function() {
 			this.loading = false;
-			this.$emit("nextView");
+			this.$emit("home");
 		},
 	},
 };
