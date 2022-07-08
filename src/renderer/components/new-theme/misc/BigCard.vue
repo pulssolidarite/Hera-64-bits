@@ -1,30 +1,26 @@
 <template>
 	<div v-if="content && content.logo && content.name" class="big-card flipX" :class="active ? 'active' : 'inactive'">
-		<!-- <div class="flipX"> -->
-			<div class="flip-inner" :class="isFliped ? 'fliped' : ''">
-				<div class="flip-front">
-					<div class="card-img" :style="image">
-						<div v-if="content.description" class="card-desc transparent-box">
-							<p>
-								{{ content.description }}
-							</p>
-						</div>
-						<div class="card-border"></div>
+		<div class="flip-inner" :class="isFliped ? 'fliped' : ''">
+			<div class="flip-front">
+				<div class="card-img" :style="image">
+					<div v-if="content.description" class="card-desc transparent-box">
+						<p>
+							{{ content.description }}
+						</p>
 					</div>
-					<div class="title transparent-box  bold-font" :class="active ? 'very-big-font' : 'big-font'">
-						<p>{{ content.name }}</p>
-					</div>
+					<div class="card-border"></div>
 				</div>
-				<div class="flip-back">
-					<div class="video" v-if="type == 'campaign' && isFliped && active">
-						<youtube :video-id="content.video" :player-vars="playerVars" :fitParent="true" ref="youtube" @ready="playVideo" style="width: 100%;"></youtube>
-					</div>
+				<div class="title transparent-box  bold-font" :class="active ? 'very-big-font' : 'big-font'">
+					<p>{{ content.name }}</p>
 				</div>
 			</div>
-		<!-- </div> -->
+			<div class="flip-back">
+				<div class="video" v-if="type == 'campaign' && isFliped && active">
+					<youtube :video-id="content.video" :player-vars="playerVars" :fitParent="true" ref="youtube" @ready="playVideo" style="width: 100%;"></youtube>
+				</div>
+			</div>
+		</div>
 	
-		<!-- GAMEPAD -->
-		<!-- <helpGamepad v-if="active" :gpio_help="2" @simulate_a="simulate_a" @simulate_b="simulate_b" @simulate_up="simulate_up" @simulate_down="simulate_down" /> -->
 		<div class="gamepadControls" v-if="active">
 			<div v-gamepad:button-b="simulate_a"></div>
 			<span v-gamepad:left-analog-down="simulate_down"></span>
@@ -33,16 +29,15 @@
 </template>
 
 <script>
-// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
-  watch: {
-	active: function (newVal, oldVal){
-		if (newVal == false){
-			this.isFliped = false;
+	watch: {
+		active: function(newVal, oldVal) {
+			if (newVal == false) {
+				this.isFliped = false;
+			}
 		}
-	}
-  },
+	},
 	created() {
 		if (this.content !== undefined)
 			this.image = "background-image: url('" + this.content.logo + "');" +
@@ -61,17 +56,13 @@ export default {
 			}
 		},
 		simulate_down() {
-			if (this.type == 'campaign')
-			{	console.log('flip');
+			if (this.type == 'campaign') {
 				this.toggleFlip();
 			}
 		},
 		playVideo: function() {
 			this.$refs.youtube.player.playVideo();
 		}
-	},
-	components: {
-		// HelpGamepad,
 	},
 	data() {
 		return {
@@ -169,7 +160,7 @@ export default {
 	align-items: center;
 }
 
-.video{
+.video {
 	width: 100%;
 }
 </style>

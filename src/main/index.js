@@ -2,7 +2,6 @@
 
 import { app, BrowserWindow, ipcMain } from "electron";
 import { autoUpdater } from "electron-updater";
-// import { overlayWindow } from '../'
 
 const log = require("electron-log");
 autoUpdater.logger = log;
@@ -29,17 +28,18 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 1080,
+    width: 1920,
     useContentSize: true,
-    width: 1000,
     frame: false,
     fullscreen: true,
     webPreferences: {
-    	nodeIntegration: true,
-		enableRemoteModule: true
+      nodeIntegration: true,
+      enableRemoteModule: true,
     },
-	// ...overlayWindow.WINDOW_OPTS
   });
+
+  mainWindow.setAlwaysOnTop(true, "screen");
 
   mainWindow.loadURL(winURL);
 
@@ -48,12 +48,10 @@ function createWindow() {
   });
 }
 
-// app.disableHardwareAcceleration();
-
 app.on("ready", () => {
-  createWindow();
-  autoUpdater.checkForUpdates();
-});
+	createWindow();
+	autoUpdater.checkForUpdates();
+  });
 
 app.on("window-all-closed", () => {
   console.log(process.platform);
@@ -76,8 +74,7 @@ app.on("activate", () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-
-ipcMain.on("app_version", event => {
+ipcMain.on("app_version", (event) => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
 

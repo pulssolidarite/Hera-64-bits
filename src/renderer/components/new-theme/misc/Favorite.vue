@@ -25,7 +25,6 @@
 			</div>
 		</div>
 
-		<!-- <helpGamepad v-if="active" @simulate_left="simulate_left" @simulate_right="simulate_right" /> -->
 		<div class="gamepadControls" v-if="active">
 			<span v-gamepad:left-analog-left="simulate_left"></span>
 			<span v-gamepad:left-analog-right="simulate_right"></span>
@@ -35,11 +34,9 @@
 
 <script>
 import FavButton from "@/components/new-theme/misc/FavButton.vue";
-// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 export default {
 	components: {
 		FavButton,
-		// HelpGamepad,
 	},
 	data() {
 		return {
@@ -87,11 +84,11 @@ export default {
 			return i == this.activeButtonIndex && this.active ? true : false;
 		},
 		simulate_left() {
-			console.log("move left");
+			// console.log("move left");
 			this.moveSelection(-1);
 		},
 		simulate_right() {
-			console.log("move right");
+			// console.log("move right");
 			this.moveSelection(1);
 		},
 

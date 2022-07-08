@@ -82,7 +82,6 @@
 			</div>
 		</div>
 
-		<!-- <helpGamepad :gpio_help="4" :B_but="false" @simulate_a="simulate_a" /> -->
 		<div class="gamepadControls">
 			<div v-gamepad:button-b="simulate_a"></div>
 		</div>
@@ -90,12 +89,10 @@
 </template>
 
 <script>
-// import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 
 export default {
 	components: {
-		// helpGamepad,
 		AsideBot,
 	},
 	props: ["session"],

@@ -1,26 +1,28 @@
 <template>
 	<div id="play-game">
 		<!-- https://github.com/SnosMe/electron-overlay-window/blob/master/src/demo/electron-demo.ts -->
-		<!-- <div class="overlay bold-font">
+		<div class="overlay bold-font">
 			<div class="phrase">
 				<div class="over very-big-font">arcade</div>
 				<div class="under">for good</div>
 			</div>
 			<div class="end">
-				<div class="timer very-big-font">5:00</div>
+				<div class="timer very-big-font">{{ timeLeft }}</div>
 				<div class="separator"></div>
 				<div class="home"><img src="@/assets/img/exports/icone-maison.svg"></div>
 			</div>
-		</div> -->
-		<!-- <vue-element-loading :active="loading" is-full-screen /> -->
+		</div>
 	</div>
 </template>
 
 <script>
-import VueElementLoading from "vue-element-loading";
-// import { overlayWindow } from '../../../../';
-
+const { remote } = require("electron")
+var intervalTimer;
 export default {
+	created() {
+		remote.getCurrentWindow().setFullScreen(false);
+		remote.getCurrentWindow().setBounds({ x: 0, y: 0, height: 80 })
+	},
 	name: "Play",
 	props: ["session"],
 	data: function() {
@@ -28,13 +30,13 @@ export default {
 			currentGame: this.$store.state.currentGame,
 			loading: false,
 			status: "",
+			selectedTime: 0,
+			timeLeft: '00:00',
+			endTime: '0',
 		};
 	},
-	components: {
-		VueElementLoading,
-	},
 	mounted: function() {
-		
+		// console.log(this.session.terminal.play_timer);
 		// This View is used to launch the game
 		this.loading = true;
 
@@ -49,11 +51,59 @@ export default {
 		let command = 'retroarch -f -L "' + pathToCore + '" "' + pathToGame + '"';
 		// console.log(command);
 		this.startShell(command);
-		
+
 		// window.webContents.openDevTools({ mode: 'detach', activate: false });
 		// overlayWindow.attachTo(window, 'retroarch');
+		this.setTime(this.session.terminal.play_timer * 60)
 	},
 	methods: {
+		setTime(seconds) {
+			clearInterval(intervalTimer);
+			this.timer(seconds);
+		},
+		timer(seconds) {
+			const now = Date.now();
+			const end = now + seconds * 1000;
+			this.displayTimeLeft(seconds);
+
+			this.selectedTime = seconds;
+			this.displayEndTime(end);
+			this.countdown(end);
+		},
+		countdown(end) {
+			intervalTimer = setInterval(() => {
+				const secondsLeft = Math.round((end - Date.now()) / 1000);
+
+				if (secondsLeft === 0) {
+					this.endTime = 0;
+				}
+
+				if (secondsLeft < 0) {
+					clearInterval(intervalTimer);
+					return;
+				}
+				this.displayTimeLeft(secondsLeft)
+			}, 1000);
+		},
+		displayTimeLeft(secondsLeft) {
+			const minutes = Math.floor((secondsLeft % 3600) / 60);
+			const seconds = secondsLeft % 60;
+
+			this.timeLeft = `${this.zeroPadded(minutes)}:${this.zeroPadded(seconds)}`;
+		},
+		displayEndTime(timestamp) {
+			const end = new Date(timestamp);
+			const hour = end.getHours();
+			const minutes = end.getMinutes();
+
+			this.endTime = `${this.hourConvert(hour)}:${this.zeroPadded(minutes)}`
+		},
+		zeroPadded(num) {
+			return num < 10 ? `0${num}` : num;
+		},
+		hourConvert(hour) {
+			return (hour % 12) || 12;
+		},
 		startShell: function(command) {
 			// We launch a child process containing a Retroarch session
 			var exec = require("child_process").exec;
@@ -69,22 +119,16 @@ export default {
 					this.endGame();
 				}
 			});
-			// We use a global timer to kill the game after 10 minutes
-			// TO-DO : maybe add a message that the time is out
-			var timer;
 			if (this.session.terminal.play_timer) {
-				timer = setTimeout(function() {
+				setTimeout(function() {
 					exec('killall "retroarch"');
 				}, 1000 * 60 * this.session.terminal.play_timer); // milisecond*second*minute
-			} else {
-				timer = setTimeout(function() {
-					exec('killall "retroarch"');
-				}, 1000 * 60 * 10); // milisecond*second*minute
 			}
 		},
 		endGame: function() {
 			this.loading = false;
 			this.$emit("home");
+			remote.getCurrentWindow().setFullScreen(true);
 		},
 	},
 };
@@ -97,7 +141,8 @@ export default {
 
 .overlay {
 	width: 100%;
-	opacity: .7;
+	height: 80px;
+	/* opacity: .7; */
 	background: var(--white-color);
 	display: flex;
 	flex-flow: row nowrap;
@@ -105,7 +150,7 @@ export default {
 	align-items: center;
 	position: absolute;
 	top: 0;
-	padding: var(--margin);
+	padding-left: var(--margin);
 	color: var(--blue-color);
 }
 
@@ -116,32 +161,33 @@ export default {
 	align-items: center;
 	margin-right: var(--margin);
 }
-.end>*:not(.separator){
+
+.end>*:not(.separator) {
 	padding-left: var(--margin);
 	padding-right: var(--margin);
 }
 
-.separator{
+.separator {
 	background: rgb(124, 124, 124);
 	height: 50px;
 	width: 1px;
 }
 
-.phrase{
+.phrase {
 	text-align: center;
 	height: min-content;
 }
 
-.over, .under{
+.over,
+.under {
 	line-height: 80%;
 }
 
-.under{
+.under {
 	font-size: 31px;
 }
 
-.home img{
+.home img {
 	width: 40px;
 }
-
 </style>

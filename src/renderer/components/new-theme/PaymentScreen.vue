@@ -81,7 +81,6 @@
 </template>
 
 <script>
-// import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AnimatedNumber from "animated-number-vue";
 import Step from "@/components/new-theme/misc/Step.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
@@ -89,7 +88,6 @@ import DonationInfos from "@/components/new-theme/misc/DonationInfos.vue";
 export default {
 	name: "AmountChoice",
 	components: {
-		// helpGamepad,
 		AnimatedNumber,
 		Step,
 		AsideBot,
@@ -112,8 +110,6 @@ export default {
 		};
 	},
 	mounted: function() {
-console.log(this.session);
-
 		if (!this.session.position_asso) {
 			this.$emit("lastView");
 		}
@@ -159,8 +155,6 @@ console.log(this.session);
 			}
 		},
 		nextBox(direction = 1) {
-			// direction = 1 or -1
-
 			if (
 				(direction != 1 && direction != -1) ||
 				(this.active_box <= 0 && direction == -1) ||

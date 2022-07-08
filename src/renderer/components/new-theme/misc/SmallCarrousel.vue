@@ -10,7 +10,6 @@
 			<img ref="arrow" src="src/renderer/assets/img/exports/fleche-droite-80x80px.svg">
 		</div>
 	
-		<!-- <helpGamepad v-if="active" @simulate_left="simulate_left" @simulate_right="simulate_right" /> -->
 		<div class="gamepadControls" v-if="active">
 			<span v-gamepad:left-analog-left="simulate_left"></span>
 			<span v-gamepad:left-analog-right="simulate_right"></span>
@@ -19,7 +18,6 @@
 </template>
 
 <script>
-// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import SmallCard from "@/components/new-theme/misc/SmallCard.vue";
 
 export default {
@@ -34,7 +32,6 @@ export default {
 		this.listOffsetFactor = this.getListOffsetFactor();
 	},
 	components: {
-		// HelpGamepad,
 		SmallCard,
 	},
 	props: [
@@ -44,7 +41,7 @@ export default {
 	],
 	methods: {
 		chose(data) {
-			console.log("chose: ", data.name);
+			// console.log("chose: ", data.name);
 			if (this.active)
 				this.$emit("carrouselChose", data)
 		},

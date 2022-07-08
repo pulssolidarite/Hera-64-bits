@@ -28,7 +28,6 @@
 			</div>
 		</div>
 
-		<!-- <helpGamepad @simulate_up="simulate_up" @simulate_down="simulate_down"/> -->
 		<div class="gamepadControls">
 			<span v-gamepad:left-analog-up="simulate_up"></span>
 			<span v-gamepad:left-analog-down="simulate_down"></span>
@@ -38,7 +37,6 @@
 </template>
 
 <script>
-// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 import AsideTop from "@/components/new-theme/misc/aside/AsideTop.vue";
 import AsideBot from "@/components/new-theme/misc/aside/AsideBot.vue";
 import SmallCarrousel from "@/components/new-theme/misc/SmallCarrousel.vue";
@@ -87,7 +85,6 @@ export default {
 	components: {
 		AsideTop,
 		AsideBot,
-		// HelpGamepad,
 		SmallCarrousel,
 		Favorite,
 	},
@@ -111,11 +108,11 @@ export default {
 			this.isFliped = !this.isFliped;
 		},
 		choseGame: function(game) {
-			console.log("chose game", game.name);
+			// console.log("chose game", game.name);
 			this.selectGame({content: game});
 		},
 		choseCampaign: function(campaign) {
-			console.log("chose camp", campaign.name);
+			// console.log("chose camp", campaign.name);
 			this.selectCampaign({content: campaign});
 		},
 		selectGame: function(game) {
@@ -157,11 +154,11 @@ export default {
 		},
 		simulate_up: function() {
 			this.moveSelection(-1);
-			console.log("select up");
+			// console.log("select up");
 		},
 		simulate_down: function() {
 			this.moveSelection(1);
-			console.log("select down");
+			// console.log("select down");
 		},
 		getSmallCarrouselHeight() {
 			var carrousel = document.getElementById("small-carrousels");

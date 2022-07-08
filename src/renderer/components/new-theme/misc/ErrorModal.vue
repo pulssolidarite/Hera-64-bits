@@ -10,7 +10,6 @@
 
 		<div class="btn"><p class="big-font">sortir</p><img src="@/assets/img/exports/fleche-noire.svg"><img src="@/assets/img/exports/bouton-A-noir.svg"></div>
 		
-		<!-- <helpGamepad @simulate_a="simulate_a"/> -->
 		<div class="gamepadControls" v-if="active">		
 			<div v-gamepad:button-b="simulate_a"></div>		
 		</div>
@@ -18,11 +17,9 @@
 </template>
 
 <script>
-// import helpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
 	name: "Error",
-	// components: { helpGamepad },
 	props: ["visible", "title", "errors"],
 	data: function() {
 		return {

@@ -3,7 +3,6 @@
 		
 		{{ button.text }}
 
-		<!-- <helpGamepad v-if="active" @simulate_a="simulate_a"/> -->
 		<div class="gamepadControls" v-if="active">
 			<div v-gamepad:button-b="simulate_a"></div>
 		</div>
@@ -11,16 +10,12 @@
 </template>
 
 <script>
-// import HelpGamepad from "@/components/new-theme/misc/helpGamepad.vue";
 
 export default {
-	components: {
-		// HelpGamepad,
-	},
 	methods: {
 		simulate_a() {
 			if (this.active){
-				console.log("btn:",this.button.action);
+				// console.log("btn:",this.button.action);
 				this.$emit("selection", this.button.action);
 			}
 		},
