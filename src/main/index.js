@@ -39,7 +39,7 @@ function createWindow() {
     },
   });
 
-  mainWindow.setAlwaysOnTop(true, "screen");
+//   mainWindow.setAlwaysOnTop(true, "screen");
 
   mainWindow.loadURL(winURL);
 

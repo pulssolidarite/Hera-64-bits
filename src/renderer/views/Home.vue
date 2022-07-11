@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-    <!-- overflow for transition -->
 
     <Error
 		style="z-index: 999;"
@@ -11,15 +10,9 @@
 		@lastView="lastView"
     ></Error>
 
-    <!-- <transition name="step-tr">
-      <stepping :n_step="viewIndex" v-if="viewIndex >= 0 && viewIndex < 5" />
-    </transition> -->
-
-    <vue-element-loading :active="loading" is-full-screen />
     <div :class="errors.visible ? 'blurred-screen' : ''" v-if="!loading">
       <transition name="mytr" mode="out-in">
 
-		<!-- NEW SCREENS -->
 		<IntroVideo
 			v-if="viewIndex == -1"
 			@nextView="nextView">
@@ -92,150 +85,21 @@
 			@home="homeView"
 			v-if="viewIndex == 6"
         ></PlayGame>
-
-
-        <!-- SCREENSAVER -->
-        <!-- <Welcome
-          @error="handleError"
-          @nextView="nextView"
-          v-if="viewIndex == -1"
-        ></Welcome> -->
-
-        <!-- FIRST VIEW -->
-        <!-- <Start
-          :games="games"
-          :session="session"
-          @saveGame="saveGame"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 0"
-        ></Start> -->
-
-        <!-- SECOND VIEW -->
-        <!-- <CampaignChoice
-          :campaigns="campaigns"
-          :session="session"
-          @startSession="startSession"
-          @saveCampaign="saveCampaign"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 1"
-        ></CampaignChoice> -->
-
-        <!-- THIRD VIEW -->
-        <!-- <AmountChoice
-          :session="session"
-          @saveAmount="saveAmount"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 2"
-        ></AmountChoice> -->
-
-        <!-- 4TH VIEW -->
-        <!-- <Payment
-          :session="session"
-          @savePayment="savePayment"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 3"
-        ></Payment> -->
-
-        <!-- 4TH VIEW -->
-        <!-- <CampaignDetail
-          :session="session"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 4"
-        ></CampaignDetail> -->
-
-        <!-- <didactitiel
-          :session="session"
-          @nextView="nextView"
-          v-if="viewIndex == 4"
-        ></didactitiel> -->
-
-        <!-- 5TH VIEW -->
-        <!-- <Play
-          :session="session"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 5"
-        ></Play> -->
-
-        <!-- <ticketProposition
-          @error="handleError"
-          @requestTicket="ticket_request"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 6"
-        ></ticketProposition> -->
-
-        <!-- 6TH VIEW -->
-        <!-- <End
-          :session="session"
-          @error="handleError"
-          @home="homeView"
-          @lastView="lastView"
-          @replay="replay"
-          @moreInfo="moreInfo"
-          @ticket_request="ticket_request"
-          v-if="viewIndex == 6"
-        ></End>
-
-        <requestTicket
-          :session="session"
-          @error="handleError"
-          @lastView="endedView"
-          @nextView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 7"
-        ></requestTicket> -->
-
-        <!-- <about @lastView="endedView" v-if="viewIndex == 8"></about> -->
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import VueElementLoading from "vue-element-loading";
-import Welcome from "@/components/Interface/Welcome.vue";
-
-import Stepping from "@/components/stepping.vue";
-import Start from "@/components/Interface/Start.vue";
-import CampaignChoice from "@/components/Interface/CampaignChoice.vue";
-import AmountChoice from "@/components/Interface/AmountChoice.vue";
-import Payment from "@/components/Interface/Payment.vue";
-import didactitiel from "@/components/Interface/didactitiel.vue";
-import CampaignDetail from "@/components/Interface/CampaignDetail.vue";
-import Play from "@/components/Interface/Play.vue";
-import ticketProposition from "@/components/Interface/ticketProposition.vue";
-import End from "@/components/Interface/End.vue";
-import requestTicket from "@/components/Interface/requestTicket.vue";
-import about from "@/components/Interface/about.vue";
-
-// NEW THEME :
-import Error from "@/components/new-theme/misc/ErrorModal.vue";
-import IntroVideo from "@/components/new-theme/IntroVideo.vue";
-import PresentationScreen from "@/components/new-theme/PresentationScreen.vue";
-import GameSelection from "@/components/new-theme/GameSelection.vue";
-import CampaignSelection from "@/components/new-theme/CampaignSelection.vue";
-import PaymentInstruction from "@/components/new-theme/PaymentInstruction.vue";
-import PaymentScreen from "@/components/new-theme/PaymentScreen.vue";
-import PlayGame from "@/components/new-theme/PlayGame.vue";
-import PadLayoutScreen from "@/components/new-theme/PadLayoutScreen.vue";
-
-import axios from "axios";
-import { log } from 'console';
+import Error from "@/components/misc/ErrorModal.vue";
+import IntroVideo from "@/components/IntroVideo.vue";
+import PresentationScreen from "@/components/PresentationScreen.vue";
+import GameSelection from "@/components/GameSelection.vue";
+import CampaignSelection from "@/components/CampaignSelection.vue";
+import PaymentInstruction from "@/components/PaymentInstruction.vue";
+import PaymentScreen from "@/components/PaymentScreen.vue";
+import PlayGame from "@/components/PlayGame.vue";
+import PadLayoutScreen from "@/components/PadLayoutScreen.vue";
 
 const fs = require("fs");
 const request = require("request");
@@ -243,20 +107,6 @@ const request = require("request");
 export default {
   name: "Home",
   components: {
-    VueElementLoading,
-    Stepping,
-    Welcome,
-    Start,
-    CampaignChoice,
-    AmountChoice,
-    Payment,
-    didactitiel,
-    CampaignDetail,
-    Play,
-    ticketProposition,
-    End,
-    requestTicket,
-    about,
     Error,
 	IntroVideo,
 	PresentationScreen,
@@ -295,8 +145,6 @@ export default {
         position_asso: null,
         position_game: null,
       },
-    //   campaigns: {},
-    //   games: null,
     };
   },
   mounted: function() {
@@ -318,9 +166,6 @@ export default {
     if (!this.isLoggedIn) {
       this.$router.push("/login");
     }
-
-    // Start timer for return to home
-    // var timeoutHandle = window.setTimeout(() => this.goBackHome(), 10000);
 
     // Loading all the data from API
     this.loading = true;
@@ -539,19 +384,6 @@ export default {
         errors: [],
       };
     },
-    // goBackHome() {
-    //     if(this.viewIndex == 5) { // in Game
-    //         clearTimeout(10000);
-    //     } else {
-    //       console.log("timourend 10sec");
-    //     }
-    // },
-    // resetTimer(){
-    //   console.log("reset");
-    //   window.clearTimeout(timeoutHandle);
-    //   timeoutHandle = window.setTimeout(() => this.goBackHome(), 10000);
-
-    // },
     replay: function() {
       this.startSession();
       this.viewIndex = 2; // 2 if you want to replay from amount choice
