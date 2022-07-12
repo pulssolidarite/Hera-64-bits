@@ -1,5 +1,5 @@
 <template>
-	<div class="step-desc" :style="'--size: '+getSize()+'px;'">
+	<div class="step-desc uppercase" :style="'--size: '+getSize()+'px;'">
 		<div class="circle">
 			<div class="num" :style="'color: '+getColor()+';'">{{ num }}</div>
 		</div>

@@ -17,7 +17,7 @@
 
 		<!-- title -->
 		<div class="infos">
-			<div v-if="!session.terminal.is_free" class="title very-big-font bold-font">votre don pour :</div>
+			<div v-if="!session.terminal.is_free" class="title very-big-font bold-font uppercase">votre don pour :</div>
 			<div v-if="!session.terminal.is_free" class="subtitle very-big-font bold-font">
 				<div>{{ session.campaign.name }}</div>
 			</div>

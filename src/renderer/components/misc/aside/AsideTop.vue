@@ -1,5 +1,5 @@
 <template>
-	<div id="aside-top">
+	<div id="aside-top" class="uppercase">
 		<div id="logo" class="big-logo">
 			<img src="@/assets/img/logo-arcadeforgood-fondblanc-260X305.svg">
 		</div>

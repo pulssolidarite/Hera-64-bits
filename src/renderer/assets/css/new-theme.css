@@ -19,7 +19,6 @@ body {
 	background-color: var(--bg-color);
 	margin: 0;
 	padding: 0;
-	text-transform: uppercase;
 	overflow: hidden;
 	font-family: "Silka-Medium";
 }
@@ -48,14 +47,14 @@ body {
 }
 
 #logo.big-logo{
-	--logo-size:300px;
+	--logo-size: 300px;
 }
 
 #logo {
 	--logo-size: 150px;
 	height: var(--logo-size);
 	width: var(--logo-size);
-	margin: 0 auto;
+	margin: 50px;
 	margin-top: 50px;
 }
 	#logo img{
@@ -77,7 +76,8 @@ body {
 	height: var(--inline-stepping-h);
 	width: var(--inline-stepping-w);
 	top: 0;
-	left: var(--aside-w);
+	left: 50%;
+	transform: translateX(-50%);
 	display: flex;
 	flex-flow: row;
 	justify-content: space-between;
@@ -172,12 +172,38 @@ body {
 	height: 100%;
 }
 
+.meta-infos{
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	gap: 10px;
+}
+
+.badge{
+	padding: 5px;
+	background-color: var(--blue-color);
+	border-radius: 18px;
+	color: var(--white-color);
+}
+
+.capitalize{
+	text-transform: capitalize;
+}
+
+.uppercase{
+	text-transform: uppercase;
+}
+
 .brown {
 	color: var(--light-brown-color);
 }
 
 .blue {
 	color: var(--blue-color);
+}
+
+.very-small-font {
+	font-size: 10px;
 }
 
 .small-font {

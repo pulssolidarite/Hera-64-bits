@@ -6,7 +6,7 @@
 	--blue-color: #5DC3E4;
 	--green-color: #6C972F;
 	--white-color: #ffffff;
-	--std-opacity: rgba(0, 0, 0, 0.5);
+	--std-opacity: rgba(0, 0, 0, 0.6);
 	--grayscale: grayscale(70%);
 	--transition: 500ms;
 	--max-h: 100vh;
@@ -24,7 +24,7 @@
 	--card-h: calc(var(--list-h) - var(--list-title-h));
 	--card-w: var(--card-h);
 	--inline-stepping-h: 18%;
-	--inline-stepping-w: calc(var(--max-w) - var(--aside-w) - 100px);
+	--inline-stepping-w: calc(var(--max-w) - var(--aside-w));
 	--big-carrousel-h: calc((var(--max-h) - var(--inline-stepping-h) - 4 * var(--margin)) / 2);
 }
 

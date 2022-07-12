@@ -13,13 +13,13 @@
 		
 		<div class="fav-wrapper">
 			<div class="transparent-box">
-				<p class="bold-font very-big-font">{{type == 'game' ? "le jeu du moment" : "l'asso du moment"}}</p>
+				<p class="bold-font big-font uppercase">{{type == 'game' ? "le jeu du moment" : "l'asso du moment"}}</p>
 			</div>
 	
 			<div class="campaign-name bold-font">{{ content.name }}</div>
 	
 	
-			<div class="buttons">
+			<div class="buttons uppercase">
 				<FavButton :button="favoriteButtons[i]" :active="isActiveButton(i)" v-for="(button, i) in favoriteButtons" :key="i" @selection="selection">
 				</FavButton>
 			</div>
@@ -159,4 +159,5 @@ export default {
 	top: 50%;
 	transform: translateY(-50%);
 }
+
 </style>

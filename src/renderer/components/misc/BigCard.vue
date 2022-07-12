@@ -4,9 +4,19 @@
 			<div class="flip-front">
 				<div class="card-img" :style="image">
 					<div v-if="content.description" class="card-desc transparent-box">
-						<p>
-							{{ content.description }}
-						</p>
+						<div class="padded">
+							<div class="text">
+								{{ content.description }}
+							</div>
+							<div v-if="type=='game'" class="meta-infos very-small-font">
+								<div class="badge" style="background-color:var(--light-brown-color); color: black;">
+									{{content.nb_players}} joueurs
+								</div>
+								<div class="badge">
+									# {{content.type}}
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="card-border"></div>
 				</div>
@@ -118,11 +128,14 @@ export default {
 	margin: 0;
 }
 
-.card-desc p {
+.card-desc .padded{
+	padding: 20px 10% 50px 10%;
+}
+
+.card-desc .text {
 	line-height: initial;
 	color: var(--light-brown-color);
-	padding: 10%;
-	padding-top: var(--margin);
+	padding-bottom: 20px;
 }
 
 .big-card.inactive .card-img {

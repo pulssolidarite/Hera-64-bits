@@ -7,8 +7,8 @@
 			</div>
 		</div>
 		<div v-if="content.length > 1">
-			<div class="arrow-left"><img src="@/assets/img/fleche-gauche-80X80px.svg"></div>
-			<div class="arrow-right"><img src="@/assets/img/fleche-droite-80x80px.svg"></div>
+			<div v-if="activeIndex != 0" class="arrow-left"><img src="@/assets/img/fleche-gauche-80X80px.svg"></div>
+			<div v-if="activeIndex != content.length - 1" class="arrow-right"><img src="@/assets/img/fleche-droite-80x80px.svg"></div>
 		</div>
 
 		<div class="gamepadControls">

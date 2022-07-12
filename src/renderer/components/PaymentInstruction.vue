@@ -7,32 +7,26 @@
 			<Step class="step active-step" num="3" big="réaliser" small="un don" color="var(--bg-color)" :size="stepSize"></Step>
 		</div>
 	
-			<!-- <BigCarrousel	:content="[{name: 'paiement sans contact',
-										logo: '../../static/illustration-paiement-sans-contact-325X310.svg',
-										description:'Placer un moyen de paiement sans contact sur le terminal.'}]" 
-							:selectedElement="null"></BigCarrousel> -->
-			<div id="big-carrousel">
-				<div class="big-list" ref="list" :style="'transform: translateX('+ listOffset +'px);'">
-					<div class="list-wrapper">
-						<!-- <BigCard v-for="(card, i) in content" :key="i" :active="i == activeIndex" :content="card" :type="type" @chose="chose">
-						</BigCard> -->
-							<div class="big-card active">
-										<div class="card-img">
-											<div class="card-border">
-											<img src="@/assets/img/illustration-paiement-sans-contact-325X310.svg" alt="">
-											<div class="card-desc transparent-box">
-												<p>Placer un moyen de paiement sans contact sur le terminal.</p>
-											</div>
-
-											</div>
-										</div>
-										<div class="title transparent-box  bold-font very-big-font">
-											<p>paiement sans contact</p>
-										</div>
+		<div id="big-carrousel">
+			<div class="big-list" ref="list" :style="'transform: translateX('+ listOffset +'px);'">
+				<div class="list-wrapper">
+					<div class="big-card active">
+						<div class="card-img">
+							<div class="card-border">
+								<img src="@/assets/img/illustration-paiement-sans-contact-325X310.svg" alt="">
+								<div class="card-desc transparent-box">
+									<p>Placer un moyen de paiement sans contact sur le terminal.</p>
+								</div>
+	
 							</div>
+						</div>
+						<div class="title transparent-box  bold-font very-big-font">
+							<p>paiement sans contact</p>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 	
 		<div class="instructions">
 			<div class="inline-txt-img center-items">
@@ -80,7 +74,7 @@ export default {
 	mounted: function() {
 		this.listOffsetFactor = this.getListOffsetFactor();
 		this.listOffset = this.getCenteringOffset() / 2;
-		
+
 		if (this.session.terminal.is_free && this.session.amount == 0) {
 			setTimeout(() => this.skipPayment(this.session.amount), 1000);
 		} else {
@@ -239,22 +233,24 @@ export default {
 	height: var(--max-h);
 }
 
-#payment-instruction #inline-stepping{
+#payment-instruction #inline-stepping {
 	width: 38%;
-	justify-content: left;
+	transform: translateX(-80%);
 }
-#payment-instruction #inline-stepping hr{
+
+#payment-instruction #inline-stepping hr {
 	border-style: dashed;
 }
 
 #payment-instruction .transparent-box p {
 	color: var(--blue-color);
-    -webkit-text-stroke: 0;
+	-webkit-text-stroke: 0;
 }
 
 #payment-instruction .card-desc {
 	background: transparent;
 }
+
 #payment-instruction .card-desc p {
 	font-weight: bold;
 	text-align: center;
@@ -263,7 +259,7 @@ export default {
 	padding-right: calc(10 * var(--margin));
 }
 
-#payment-instruction .card-img img{
+#payment-instruction .card-img img {
 	height: 100%;
 	width: 100%;
 	border-radius: 13px;
@@ -283,8 +279,6 @@ export default {
 	justify-content: flex-start;
 	align-items: center;
 }
-
-
 
 .big-card.active {
 	--size: calc(var(--card-h) * 2);
@@ -346,6 +340,4 @@ export default {
 	-webkit-text-stroke: 1px grey;
 	color: var(--white-color);
 }
-
-
 </style>

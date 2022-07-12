@@ -1,5 +1,5 @@
 <template>
-	<div id="aside-bot" class="bold-font">
+	<div id="aside-bot" class="bold-font uppercase">
 
 		<div class="brown inline-txt-img center-items">
 			<div class="inline-img"><img class="inline-img" src="@/assets/img/picto-partieofferte-80x80px.svg"></div>
@@ -18,7 +18,7 @@
 		<div id="infos" class="inline-txt-img center-items">
 			<div class="inline-img"><img src="@/assets/img/picto-info-60X60px.svg"></div>
 			<div class="inline-txt">
-				<div class="over small-font"><u>info@arcade-for-good.com</u></div>
+				<div class="over small-font"><u>contact@puls-impact.fr</u></div>
 				<div class="under brown small-font">made in 2022 by Puls-Impact</div>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 }
 
 .inline-txt-img{
-	--std-height: 70px;
+	--std-height: 60px;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: flex-start;
@@ -75,8 +75,9 @@
 
 .block-txt-img{
 	text-align: center;
-
+	line-height: var(--std-height);
 }
+
 .block-txt-img img {
 	margin: 0 var(--margin) 0 var(--margin);
 	height: var(--std-height);
