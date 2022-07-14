@@ -14,13 +14,13 @@
 						<div class="card-img">
 							<div class="card-border">
 								<img src="@/assets/img/illustration-paiement-sans-contact-325X310.svg" alt="">
-								<div class="card-desc transparent-box">
+								<div class="card-desc transparent-box big-font">
 									<p>Placer un moyen de paiement sans contact sur le terminal.</p>
 								</div>
 	
 							</div>
 						</div>
-						<div class="title transparent-box  bold-font very-big-font">
+						<div class="title transparent-box  bold-font very-big-font uppercase">
 							<p>paiement sans contact</p>
 						</div>
 					</div>
@@ -313,7 +313,7 @@ export default {
 	line-height: initial;
 	color: var(--light-brown-color);
 	padding: 10%;
-	padding-top: var(--margin);
+	padding-bottom: 20px;
 }
 
 .big-card.inactive .card-desc.transparent-box {
@@ -329,7 +329,8 @@ export default {
 
 .title.transparent-box {
 	position: absolute;
-	top: 0;
+	top: -20px;
+	background: var(--white-color);
 }
 
 .title.transparent-box p {

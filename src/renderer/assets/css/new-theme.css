@@ -180,10 +180,13 @@ body {
 }
 
 .badge{
-	padding: 5px;
+	padding: 5px 15px 5px 15px;
 	background-color: var(--blue-color);
-	border-radius: 18px;
+	border-radius: 15px;
 	color: var(--white-color);
+	line-height: 15px;
+	height: 15px;
+	text-transform: capitalize;
 }
 
 .capitalize{
