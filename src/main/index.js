@@ -28,15 +28,18 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 1080,
+    width: 1920,
     useContentSize: true,
-    width: 1000,
     frame: false,
     fullscreen: true,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
   });
+
+//   mainWindow.setAlwaysOnTop(true, "screen");
 
   mainWindow.loadURL(winURL);
 
@@ -46,9 +49,9 @@ function createWindow() {
 }
 
 app.on("ready", () => {
-  createWindow();
-  autoUpdater.checkForUpdatesAndNotify();
-});
+	createWindow();
+	autoUpdater.checkForUpdates();
+  });
 
 app.on("window-all-closed", () => {
   console.log(process.platform);
@@ -71,20 +74,19 @@ app.on("activate", () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
-ipcMain.on("app_version", event => {
+ipcMain.on("app_version", (event) => {
   event.sender.send("app_version", { version: app.getVersion() });
 });
 
 autoUpdater.on("update-available", () => {
   mainWindow.webContents.send("update_available");
 });
+
 autoUpdater.on("update-downloaded", () => {
   mainWindow.webContents.send("update_downloaded");
+  autoUpdater.quitAndInstall();
 });
 
 ipcMain.on("restart_app", () => {
   autoUpdater.quitAndInstall();
 });
-
-*/

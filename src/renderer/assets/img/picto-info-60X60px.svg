@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g id="Composant_5_2" data-name="Composant 5 – 2" transform="translate(2 2)">
+    <g id="Groupe_4" data-name="Groupe 4">
+      <circle id="Ellipse_8" data-name="Ellipse 8" cx="30" cy="30" r="30" transform="translate(0 0)" fill="none" stroke="#b3aa99" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+      <circle id="Ellipse_9" data-name="Ellipse 9" cx="7.241" cy="7.241" r="7.241" transform="translate(22.759 6.207)" fill="none" stroke="#5dc3e4" stroke-linejoin="round" stroke-width="4"/>
+      <rect id="Rectangle_11" data-name="Rectangle 11" width="14.483" height="26.755" rx="5.475" transform="translate(22.759 26.897)" fill="none" stroke="#5dc3e4" stroke-linejoin="round" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

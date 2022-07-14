@@ -3,10 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "vueperslides/dist/vueperslides.css";
-import "./assets/css/theme.css";
+// import "bootstrap";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "vueperslides/dist/vueperslides.css";
+// import "./assets/css/theme.css";
+import "./assets/css/new-theme.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faUserSecret,

@@ -41,12 +41,12 @@ export default {
     if (this.$store.getters.isLoggedIn) {
       this.$router.push("/start");
     } else {
-      for (let i = 0; i < 5; i++) {
-        setTimeout(function(){
+    //   for (let i = 0; i < 5; i++) {
+    //     setTimeout(function(){
           // console.log("login attempt");
           this.login();
-        }.bind(this), 5000 * i);
-      }
+        // }.bind(this), 5000 * i);
+    //   }
     }
   },
   methods: {

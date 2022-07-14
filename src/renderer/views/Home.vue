@@ -1,177 +1,121 @@
 <template>
-  <div class="w-100 h-100 bg-gradient" style="overflow :hidden;">
-    <!-- overflow for transition -->
+  <div id="home">
 
     <Error
-      class="w-100 h-100 position-absolute"
-      style="z-index: 999;"
-      :visible="errors.visible"
-      :title="errors.title"
-      :errors="errors.errors"
-      @homeView="homeView"
-      @lastView="lastView"
+		style="z-index: 999;"
+		:visible="errors.visible"
+		:title="errors.title"
+		:errors="errors.errors"
+		@home="homeView"
+		@lastView="lastView"
     ></Error>
 
-    <transition name="step-tr">
-      <stepping :n_step="viewIndex" v-if="viewIndex >= 0 && viewIndex < 5" />
-    </transition>
-
-    <vue-element-loading :active="loading" is-full-screen />
-    <div class="w-100 h-100" v-if="!loading">
+    <div :class="errors.visible ? 'blurred-screen' : ''" v-if="!loading">
       <transition name="mytr" mode="out-in">
 
-        <!-- SCREENSAVER -->
-        <Welcome
-          @error="handleError"
-          @nextView="nextView"
-          v-if="viewIndex == -1"
-        ></Welcome>
+		<IntroVideo
+			v-if="viewIndex == -1"
+			@nextView="nextView">
+		</IntroVideo>
 
-        <!-- FIRST VIEW -->
-        <Start
-          :games="games"
-          :session="session"
-          @saveGame="saveGame"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 0"
-        ></Start>
+		<PresentationScreen
+			:games="games"
+			:campaigns="campaigns"
+			@saveGame="saveGame"
+			@saveCampaign="saveCampaign"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			v-if="viewIndex == 0">
+		</PresentationScreen>
 
-        <!-- SECOND VIEW -->
-        <CampaignChoice
-          :campaigns="campaigns"
-          :session="session"
-          @startSession="startSession"
-          @saveCampaign="saveCampaign"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 1"
-        ></CampaignChoice>
+		<GameSelection
+			:content="games"
+			:selectedGame="session.game"
+			@saveGame="saveGame"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == 1">
+		</GameSelection>
 
-        <!-- THIRD VIEW -->
-        <AmountChoice
-          :session="session"
-          @saveAmount="saveAmount"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 2"
-        ></AmountChoice>
+		<CampaignSelection
+			:content="campaigns"
+			:selectedCampaign="session.campaign"
+			@saveCampaign="saveCampaign"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == 2">
+		</CampaignSelection>
 
-        <!-- 4TH VIEW -->
-        <Payment
-          :session="session"
-          @savePayment="savePayment"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 3"
-        ></Payment>
+		<PaymentScreen
+			:session="session"
+			@saveAmount="saveAmount"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == 3"
+        ></PaymentScreen>
 
-        <!-- 4TH VIEW -->
-        <!-- <CampaignDetail
-          :session="session"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 4"
-        ></CampaignDetail> -->
+		<PaymentInstruction
+			:session="session"
+			@nextView="nextView"
+			@error="handleError"
+			@lastView="lastView"
+			@savePayment="savePayment"
+			@home="homeView"
+			v-if="viewIndex == 4"
+        ></PaymentInstruction>
 
-        <didactitiel
-          :session="session"
-          @nextView="nextView"
-          v-if="viewIndex == 4"
-        ></didactitiel>
+		<PadLayoutScreen
+			:session="session"
+			@nextView="nextView"
+			v-if="viewIndex == 5">
+		</PadLayoutScreen>
 
-        <!-- 5TH VIEW -->
-        <Play
-          :session="session"
-          @error="handleError"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 5"
-        ></Play>
-
-        <!-- <ticketProposition
-          @error="handleError"
-          @requestTicket="ticket_request"
-          @nextView="nextView"
-          @lastView="lastView"
-          v-if="viewIndex == 6"
-        ></ticketProposition> -->
-
-        <!-- 6TH VIEW -->
-        <End
-          :session="session"
-          @error="handleError"
-          @home="homeView"
-          @lastView="lastView"
-          @replay="replay"
-          @moreInfo="moreInfo"
-          @ticket_request="ticket_request"
-          v-if="viewIndex == 6"
-        ></End>
-
-        <requestTicket
-          :session="session"
-          @error="handleError"
-          @lastView="endedView"
-          @nextView="lastView"
-          @home="homeView"
-          v-if="viewIndex == 7"
-        ></requestTicket>
-
-        <about @lastView="endedView" v-if="viewIndex == 8"></about>
+		<PlayGame
+			:session="session"
+			@error="handleError"
+			@nextView="nextView"
+			@lastView="lastView"
+			@home="homeView"
+			v-if="viewIndex == 6"
+        ></PlayGame>
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import VueElementLoading from "vue-element-loading";
-import Welcome from "@/components/Interface/Welcome.vue";
+import Error from "@/components/misc/ErrorModal.vue";
+import IntroVideo from "@/components/IntroVideo.vue";
+import PresentationScreen from "@/components/PresentationScreen.vue";
+import GameSelection from "@/components/GameSelection.vue";
+import CampaignSelection from "@/components/CampaignSelection.vue";
+import PaymentInstruction from "@/components/PaymentInstruction.vue";
+import PaymentScreen from "@/components/PaymentScreen.vue";
+import PlayGame from "@/components/PlayGame.vue";
+import PadLayoutScreen from "@/components/PadLayoutScreen.vue";
 
-import Error from "@/components/Interface/ErrorsPayement.vue";
-import Stepping from "@/components/stepping.vue";
-import Start from "@/components/Interface/Start.vue";
-import CampaignChoice from "@/components/Interface/CampaignChoice.vue";
-import AmountChoice from "@/components/Interface/AmountChoice.vue";
-import Payment from "@/components/Interface/Payment.vue";
-import didactitiel from "@/components/Interface/didactitiel.vue";
-import CampaignDetail from "@/components/Interface/CampaignDetail.vue";
-import Play from "@/components/Interface/Play.vue";
-import ticketProposition from "@/components/Interface/ticketProposition.vue";
-import End from "@/components/Interface/End.vue";
-import requestTicket from "@/components/Interface/requestTicket.vue";
-import about from "@/components/Interface/about.vue";
 const fs = require("fs");
-import axios from "axios";
-
 const request = require("request");
 
 export default {
   name: "Home",
   components: {
-    VueElementLoading,
     Error,
-    Stepping,
-    Welcome,
-    Start,
-    CampaignChoice,
-    AmountChoice,
-    Payment,
-    didactitiel,
-    CampaignDetail,
-    Play,
-    ticketProposition,
-    End,
-    requestTicket,
-    about,
+	IntroVideo,
+	PresentationScreen,
+	GameSelection,
+	CampaignSelection,
+	PaymentInstruction,
+	PaymentScreen,
+	PlayGame,
+	PadLayoutScreen,
   },
   data: function() {
     return {
@@ -201,8 +145,6 @@ export default {
         position_asso: null,
         position_game: null,
       },
-      campaigns: {},
-      games: {},
     };
   },
   mounted: function() {
@@ -224,9 +166,6 @@ export default {
     if (!this.isLoggedIn) {
       this.$router.push("/login");
     }
-
-    // Start timer for return to home
-    // var timeoutHandle = window.setTimeout(() => this.goBackHome(), 10000);
 
     // Loading all the data from API
     this.loading = true;
@@ -276,7 +215,7 @@ export default {
               request(game.file.file).pipe(fs.createWriteStream(currentPath));
             }
           } catch (err) {
-            console.error("Catched error on try : " + err);
+            console.error("Cought error on try : " + err);
           }
 
           // Checking if the Core exists
@@ -328,13 +267,15 @@ export default {
   },
   methods: {
     // CHOICE METHODS
-    saveGame: function(payload) {
-      this.session.game = payload.game;
-      this.session.position_game = payload.indexOf;
+    saveGame: function(game) {
+      this.session.game = game;
+      this.session.position_game = 1 + this.games.indexOf(game);
+	//   console.log(game.name);
     },
-    saveCampaign: function(payload) {
-      this.session.campaign = payload.campaign;
-      this.session.position_asso = payload.indexOf;
+    saveCampaign: function(campaign) {
+      this.session.campaign = campaign;
+      this.session.position_asso = 1 + this.campaigns.indexOf(campaign);
+	//   console.log(campaign.name);
     },
     saveAmount: function(payload) {
       this.session.amount = payload.amount;
@@ -443,19 +384,6 @@ export default {
         errors: [],
       };
     },
-    // goBackHome() {
-    //     if(this.viewIndex == 5) { // in Game
-    //         clearTimeout(10000);
-    //     } else {
-    //       console.log("timourend 10sec");
-    //     }
-    // },
-    // resetTimer(){
-    //   console.log("reset");
-    //   window.clearTimeout(timeoutHandle);
-    //   timeoutHandle = window.setTimeout(() => this.goBackHome(), 10000);
-
-    // },
     replay: function() {
       this.startSession();
       this.viewIndex = 2; // 2 if you want to replay from amount choice
@@ -467,7 +395,7 @@ export default {
       this.viewIndex = 6;
     },
     homeView() {
-      this.viewIndex = -1;
+      this.viewIndex = 0;
       this.errors = {
         visible: false,
         title: "",
