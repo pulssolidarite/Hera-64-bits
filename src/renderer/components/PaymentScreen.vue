@@ -18,11 +18,10 @@
 		<!-- title -->
 		<div class="infos">
 			<div v-if="!session.terminal.is_free" class="title very-big-font bold-font uppercase">votre don pour :</div>
+			<div  v-if="session.terminal.is_free" class="title very-big-font bold-font uppercase">partie offerte</div>
+			
 			<div v-if="!session.terminal.is_free" class="subtitle very-big-font bold-font">
 				<div>{{ session.campaign.name }}</div>
-			</div>
-			<div class="freeModeMessage very-big-font bold-font" v-if="session.terminal.is_free">
-				Si tu sélectionnes 0€, c'est ton entreprise qui s'engage à faire un don à ta place
 			</div>
 		</div>
 	

@@ -13,7 +13,7 @@
 		
 		<div class="fav-wrapper">
 			<div class="transparent-box">
-				<p class="bold-font big-font uppercase">{{type == 'game' ? "le jeu du moment" : "l'asso du moment"}}</p>
+				<p class="bold-font big-font uppercase">{{type == 'game' ? "le jeu du moment" : "l'association du moment"}}</p>
 			</div>
 	
 			<div class="campaign-name bold-font">{{ content.name }}</div>
