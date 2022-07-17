@@ -129,7 +129,7 @@ export default {
 		this.arrows = document.getElementById("arrows");
 		
 		this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
-		// setTimeout(() => this.$emit("home"), 1000 * 60);
+		setTimeout(() => this.$emit("home"), 1000 * 60);
 	},
 	methods: {
 		defineFreeMode: function() {
