@@ -36,6 +36,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,
+      webSecurity: false, // avoid CORS errors on google requests (refresh wifi)
     },
   });
 
