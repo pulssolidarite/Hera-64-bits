@@ -75,8 +75,8 @@ export default {
 		this.listOffsetFactor = this.getListOffsetFactor();
 		this.listOffset = this.getCenteringOffset() / 2;
 
-		if (this.session.terminal.is_free && this.session.amount == 0) {
-			setTimeout(() => this.skipPayment(this.session.amount), 1000);
+		if (this.session.terminal.donation_formula == 'Gratuit') {
+			setTimeout(() => this.skipPayment(0), 1000);
 		} else {
 			if (this.session.amount) {
 				setTimeout(() => this.pay(this.session.amount), 1000);

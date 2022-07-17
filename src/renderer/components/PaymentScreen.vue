@@ -133,7 +133,7 @@ export default {
 	},
 	methods: {
 		defineFreeMode: function() {
-			if (this.session.terminal.is_free) {
+			if (this.session.terminal.donation_formula == 'Gratuit') {
 				this.min_amount = 0;
 				this.amount[1].n = 0;
 			}
