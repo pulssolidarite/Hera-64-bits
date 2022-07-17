@@ -15,12 +15,22 @@
 		</div>
 	
 
-		<!-- title -->
-		<div class="infos">
-			<div v-if="!session.terminal.is_free" class="title very-big-font bold-font uppercase">votre don pour :</div>
-			<div  v-if="session.terminal.is_free" class="title very-big-font bold-font uppercase">partie offerte</div>
-			
-			<div v-if="!session.terminal.is_free" class="subtitle very-big-font bold-font">
+		<!-- side text -->
+		<div v-if="session.terminal.donation_formula == 'Gratuit'" class="infos">
+			<div class="title very-big-font bold-font uppercase">partie offerte</div>
+			<div class="subtitle very-big-font bold-font">
+				<div>{{ session.campaign.free_mode_text }}</div>
+			</div>
+		</div>
+		<div v-else-if="session.terminal.donation_formula == 'Partage'" class="infos">
+			<div class="title very-big-font bold-font uppercase">votre don pour :</div>			
+			<div class="subtitle very-big-font bold-font">
+				<div>{{ session.campaign.name }}<br>et<br>{{ session.terminal.owner.company }}</div>
+			</div>
+		</div>
+		<div v-else class="infos">
+			<div class="title very-big-font bold-font uppercase">votre don pour :</div>			
+			<div class="subtitle very-big-font bold-font">
 				<div>{{ session.campaign.name }}</div>
 			</div>
 		</div>
@@ -54,7 +64,7 @@
 		</div>
 
 		<!-- campaing -->
-		<DonationInfos :campaign="session.campaign"></DonationInfos>
+		<DonationInfos v-if="session.terminal.donation_formula != 'Gratuit'" :campaign="session.campaign" :owner="session.terminal.owner" :donation_formula="session.terminal.donation_formula"></DonationInfos>
 
 		<!-- aside -->
 		<div id="aside">
@@ -119,7 +129,7 @@ export default {
 		this.arrows = document.getElementById("arrows");
 		
 		this.arrows.style.left = this.boxes[this.active_box].offsetLeft + "px";
-		setTimeout(() => this.$emit("home"), 1000 * 60);
+		// setTimeout(() => this.$emit("home"), 1000 * 60);
 	},
 	methods: {
 		defineFreeMode: function() {
