@@ -128,7 +128,7 @@ export default {
       terminal: {},
       campaigns: [],
       games: [],
-      viewIndex: -1, // Starting index
+      viewIndex: 2, // Starting index
       maxViewIndex: 6,
       isAdmin: this.$store.getters.isAdmin,
       isLoggedIn: this.$store.getters.isLoggedIn,
@@ -180,6 +180,13 @@ export default {
         // console.log(resp.data.campaigns);
         
         this.games = resp.data.games;
+
+	// console.log(`user/${this.session.terminal.owner}`);
+		this.$http
+		.get(`customer/user/${this.session.terminal.owner}`)
+		.then((resp) => {
+			this.session.terminal.owner = resp.data;
+		});
 
         // TEST-ONLY : we get the subscription type here
         // console.log("Type d'offre : " + this.terminal.subscription_type);
