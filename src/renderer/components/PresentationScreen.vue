@@ -1,0 +1,221 @@
+<template>
+	<div id="campaign-presentation-screen">
+		<div id="aside">
+			<AsideTop></AsideTop>
+			<AsideBot></AsideBot>
+		</div>
+	
+		<div id="small-carrousels" ref="smallCarrousel">
+			<div class="wrapper" :style="smallCarrouselTranslate">
+				<SmallCarrousel id="game-carrousel" :active="isActiveGamesCarrousel" :content="games" title="tous nos jeux" @carrouselChose="choseGame">
+				</SmallCarrousel>
+	
+				<SmallCarrousel id="campaign-carrousel" :active="isActiveCampaignsCarrousel" :content="campaigns" title="toutes nos associations" @carrouselChose="choseCampaign">
+				</SmallCarrousel>
+			</div>
+		</div>
+	
+		<div class="flipX" id="favorite">
+			<div class="flip-inner" :class="isFliped ? 'fliped' : ''">
+				<div class="flip-front">
+					<Favorite v-if="activeComponent.content && !isFliped" :type="favType" :action="activeComponent.action" :content="activeComponent.content" :active="!isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
+					    @more="activeComponent.more" @back="activeComponent.back"></Favorite>
+				</div>
+				<div class="flip-back">
+					<Favorite v-if="activeComponent.content && isFliped" :type="favType" :action="activeComponent.action" :content="activeComponent.content" :active="isFliped && isFavActive" :favoriteButtons="activeComponent.buttons" @select="activeComponent.select"
+					    @more="activeComponent.more" @back="activeComponent.back"></Favorite>
+				</div>
+			</div>
+		</div>
+
+		<div class="gamepadControls">
+			<span v-gamepad:left-analog-up="simulate_up"></span>
+			<span v-gamepad:left-analog-down="simulate_down"></span>
+		</div>
+
+	</div>
+</template>
+
+<script>
+import AsideTop from "@/components/misc/aside/AsideTop.vue";
+import AsideBot from "@/components/misc/aside/AsideBot.vue";
+import SmallCarrousel from "@/components/misc/SmallCarrousel.vue";
+import Favorite from "@/components/misc/Favorite.vue";
+
+// action macros
+const select = "select";
+const more = "more";
+const back = "back";
+const present = "present";
+
+export default {
+	watch: {
+		selectedGame: function(newVal, oldVal) {
+			this.$emit("saveGame", newVal);
+			if (newVal && this.selectedCampaign) {
+				this.$emit("nextView");
+			}
+		},
+		selectedCampaign: function(newVal, oldVal) {
+			this.$emit("saveCampaign", newVal);
+			if (newVal && this.selectedGame) {
+				this.$emit("nextView");
+			}
+		}
+	},
+	data() {
+		return {
+			gameButtons: [{ text: "jouer", action: select }, { text: "+ d'infos", action: more }],
+			campaignButtons: [{ text: "choisir", action: select }, { text: "découvrir", action: more }],
+			gameButtonsMore: [{ text: "jouer", action: select }, { text: "retour", action: back }],
+			campaignButtonsMore: [{ text: "choisir", action: select }, { text: "retour", action: back }],
+			activeComponent: {},
+			selectedGame: null,
+			selectedCampaign: null,
+			activeItemIndex: 0,
+			translateY: 0,
+			carrouselHeight: 0, //don't change value after mounted()
+			isFliped: false,
+			isFavActive: true,
+			isActiveGamesCarrousel: false,
+			isActiveCampaignsCarrousel: false,
+			smallCarrouselTranslate: "",
+			favType: "game",
+		}
+	},
+	components: {
+		AsideTop,
+		AsideBot,
+		SmallCarrousel,
+		Favorite,
+	},
+	props: [
+		"games",
+		"campaigns",
+		"favoriteButtons",
+	],
+	created: function() {
+		if (this.games) {
+			this.activeComponent = { content: this.games[0], action: present, buttons: this.gameButtons, select: this.selectGame, more: this.moreGame, back: this.backGame };
+		}
+		// console.log(this.activeComponent);
+	},
+	mounted: function() {
+		this.translateY = this.getSmallCarrouselHeight();
+		this.carrouselHeight = this.translateY;
+	},
+	methods: {
+		toggleFlip: function() {
+			this.isFliped = !this.isFliped;
+		},
+		choseGame: function(game) {
+			// console.log("chose game", game.name);
+			this.selectGame({content: game});
+		},
+		choseCampaign: function(campaign) {
+			// console.log("chose camp", campaign.name);
+			this.selectCampaign({content: campaign});
+		},
+		selectGame: function(game) {
+			// console.log("select game", game.content.name);
+			this.favType = "campaign";
+			this.activeComponent.content = this.campaigns[0];
+			this.activeComponent.action = present;
+			this.activeComponent.buttons = this.campaignButtons;
+			this.activeComponent.select = this.selectCampaign;
+			this.activeComponent.more = this.moreCampaign;
+			this.activeComponent.back = this.backCampaign;
+
+			this.toggleFlip();
+			this.selectedGame = game.content;
+			this.moveSelection(1);
+			this.moveSelection(1);
+			this.activeItemIndex = 0;
+			this.isActiveGamesCarrousel = false;
+			this.isActiveCampaignsCarrousel = false;
+			this.isFavActive = true;
+		},
+		selectCampaign: function(campaign) {
+			this.favType = "game";
+			this.selectedCampaign = campaign.content;
+		},
+		moreGame: function(element) {
+			this.activeComponent.action = more;
+			this.activeComponent.buttons = this.gameButtonsMore
+		},
+		moreCampaign: function(element) {
+			this.activeComponent.action = more;
+			this.activeComponent.buttons = this.campaignButtonsMore;
+		},
+		backGame: function(element) {
+			this.activeComponent.action = present;
+			this.activeComponent.buttons = this.gameButtons;
+		},
+		backCampaign: function(element) {
+			this.activeComponent.action = present;
+			this.activeComponent.buttons = this.campaignButtons;
+		},
+		simulate_up: function() {
+			this.moveSelection(-1);
+			// console.log("select up");
+		},
+		simulate_down: function() {
+			this.moveSelection(1);
+			// console.log("select down");
+		},
+		getSmallCarrouselHeight() {
+			var carrousel = document.getElementById("small-carrousels");
+			if (carrousel === undefined)
+				return 0;
+			return (parseInt(window.getComputedStyle(carrousel).height) + parseInt(window.getComputedStyle(carrousel).paddingBottom));
+		},
+		setSmallCarrouselHeightStyle() {
+			if (this.isActiveCampaignsCarrousel)
+				this.smallCarrouselTranslate = "transform: translateY(" + -this.translateY + "px);";
+			else
+				this.smallCarrouselTranslate = "transform: translateY(0px);";
+		},
+		moveSelection: function(direction) {
+			if (direction != 1 && direction != -1)
+				return;
+			else {
+				var limit = (direction == 1 ? 3 : -1);
+				if (this.activeItemIndex + direction == limit)
+					return;
+				else
+					this.activeItemIndex += direction;
+
+				this.isFavActive = this.activeItemIndex == 0;
+				this.isActiveGamesCarrousel = this.activeItemIndex == 1;
+				this.isActiveCampaignsCarrousel = this.activeItemIndex == 2;
+
+				this.setSmallCarrouselHeightStyle();
+			}
+		},
+	},
+
+}
+</script>
+
+<style scoped>
+#campaign-presentation-screen{
+	height: var(--max-h);
+}
+
+#small-carrousels {
+	position: absolute;
+	left: calc(var(--aside-w) + var(--margin));
+	overflow: hidden;
+	height: calc(2 * var(--margin) + var(--list-h));
+	bottom: 0;
+}
+
+#game-carrousel,
+#campaign-carrousel {
+	padding-bottom: calc(2 * var(--margin));
+}
+
+.wrapper {
+	transition-duration: var(--transition);
+}
+</style>

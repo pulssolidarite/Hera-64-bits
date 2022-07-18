@@ -3,10 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "vueperslides/dist/vueperslides.css";
-import "./assets/css/theme.css";
+// import "bootstrap";
+// import "bootstrap/dist/css/bootstrap.min.css";
+// import "vueperslides/dist/vueperslides.css";
+// import "./assets/css/theme.css";
+import "./assets/css/new-theme.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faUserSecret,
@@ -59,8 +60,8 @@ Vue.prototype.$http = axios;
 
 // Comment one of these lines depending on needs
 // Vue.prototype.$http.defaults.baseURL = "http://127.0.0.1:8000/";
-// Vue.prototype.$http.defaults.baseURL = "https://puls-back-preprod.herokuapp.com/";
-Vue.prototype.$http.defaults.baseURL = "https://puls-back-prod.herokuapp.com/";
+Vue.prototype.$http.defaults.baseURL = "https://puls-back-preprod.herokuapp.com/";
+// Vue.prototype.$http.defaults.baseURL = "https://puls-back-prod.herokuapp.com/";
 const token = localStorage.getItem("accessToken");
 
 if (token) {

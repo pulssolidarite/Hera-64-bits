@@ -19,6 +19,7 @@
 
 <script>
 import VueElementLoading from "vue-element-loading";
+import axios from "axios";
 
 export default {
   name: "Auth",
@@ -35,18 +36,20 @@ export default {
       error: "",
     };
   },
-  mounted: function() {
+  mounted: async function() {
     this.loading = true;
     this.$store.dispatch("logout");
     if (this.$store.getters.isLoggedIn) {
       this.$router.push("/start");
     } else {
-      for (let i = 0; i < 5; i++) {
-        setTimeout(function(){
-          // console.log("login attempt");
-          this.login();
-        }.bind(this), 5000 * i);
+      try {
+        await this.checkInternetConn();
+      } catch(err) {
+        throw err;
       }
+
+      // internet connection is ok so proceed to login
+      this.login();
     }
   },
   methods: {
@@ -59,6 +62,23 @@ export default {
           this.error = err.response;
         });
     },
+
+    checkInternetConn: async function() {
+      return new Promise(async (resolve, reject) => {
+        while (true) {
+          try {
+            console.log("Checking internet connection");
+            await axios.get("https://google.com/");
+            break;
+          } catch(err) {
+            console.error(err);
+          }
+        }
+
+        console.log("Internet connection ok");
+        resolve(true);
+      });
+    }
   },
 };
 </script>
