@@ -127,6 +127,8 @@ export default {
 		},
 		endGame: function() {
 			// this.loading = false;
+			this.$emit("endGameSession");
+    		this.$emit("endSession");
 			this.$emit("home");
 			// remote.getCurrentWindow().setFullScreen(true);
 		},
