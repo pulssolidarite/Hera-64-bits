@@ -49,11 +49,16 @@ export default {
 		}
 	},
 	created() {
-		if (this.content !== undefined)
-			this.image = "background-image: url('" + this.content.logo + "');" +
-			"background-position: center;" +
-			"background-size: cover;" +
-			"background-repeat: no-repeat;";
+		if (this.content !== undefined){
+			if (this.type == "game"){
+				this.image = "background-image: url('" + this.content.logo + "');"
+			} else {
+				this.image = "background-image: url('" + this.content.squared_image + "');"
+			}
+			this.image +=	"background-position: center;" +
+							"background-size: cover;" +
+							"background-repeat: no-repeat;";
+		}
 	},
 	methods: {
 		toggleFlip: function() {
