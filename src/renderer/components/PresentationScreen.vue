@@ -7,10 +7,10 @@
 	
 		<div id="small-carrousels" ref="smallCarrousel">
 			<div class="wrapper" :style="smallCarrouselTranslate">
-				<SmallCarrousel id="game-carrousel" :active="isActiveGamesCarrousel" :content="games" title="tous nos jeux" @carrouselChose="choseGame">
+				<SmallCarrousel id="game-carrousel" type="game" :active="isActiveGamesCarrousel" :content="games" title="tous nos jeux" @carrouselChose="choseGame">
 				</SmallCarrousel>
 	
-				<SmallCarrousel id="campaign-carrousel" :active="isActiveCampaignsCarrousel" :content="campaigns" title="toutes nos associations" @carrouselChose="choseCampaign">
+				<SmallCarrousel id="campaign-carrousel" type="campaign" :active="isActiveCampaignsCarrousel" :content="campaigns" title="toutes nos associations" @carrouselChose="choseCampaign">
 				</SmallCarrousel>
 			</div>
 		</div>
