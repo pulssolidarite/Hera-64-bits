@@ -2,7 +2,7 @@
 	<div id="small-carrousel">
 		<div class="list-title bold-font big-font">{{ title }}</div>
 		<div class="small-list" ref="list">
-			<SmallCard :active="isActiveCard(i)" v-for="(card, i) in content" :key="i" :content="card" @chose="chose">
+			<SmallCard :type="type" :active="isActiveCard(i)" v-for="(card, i) in content" :key="i" :content="card" @chose="chose">
 			</SmallCard>
 		</div>
 	
@@ -38,6 +38,7 @@ export default {
 		"content",
 		"active",
 		"title",
+		"type",
 	],
 	methods: {
 		chose(data) {

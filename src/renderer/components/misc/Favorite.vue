@@ -35,6 +35,9 @@
 <script>
 import FavButton from "@/components/misc/FavButton.vue";
 export default {
+  created () {
+	console.log(this.content);
+  },
 	components: {
 		FavButton,
 	},
@@ -53,7 +56,7 @@ export default {
 	],
 	methods: {
 		getImageStyle: function() {
-			return "background-image: url('" + this.content.logo + "');" +
+			return "background-image: url('" + this.content.cover + "');" +
 				"background-position: center;" +
 				"background-size: cover;" +
 				"background-repeat: no-repeat;";
